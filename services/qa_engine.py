@@ -12,11 +12,21 @@ class QAEngine:
         logger.info(f"API key starts with: {settings.openai_api_key[:10]}...")
         logger.info(f"Using model: {settings.openai_model}")
         
-        # Configure OpenAI client for OpenRouter
-        self.client = openai.OpenAI(
-            base_url=settings.openai_base_url,
-            api_key=settings.openai_api_key
-        )
+        # Configure OpenAI client for OpenRouter with error handling
+        try:
+            self.client = openai.OpenAI(
+                base_url=settings.openai_base_url,
+                api_key=settings.openai_api_key
+            )
+        except TypeError as e:
+            # Fallback for older OpenAI versions
+            logger.warning(f"OpenAI client initialization failed: {e}")
+            self.client = openai.OpenAI(
+                api_key=settings.openai_api_key
+            )
+            # Manually set base_url if needed
+            if hasattr(self.client, '_base_url'):
+                self.client._base_url = settings.openai_base_url
     
     async def generate_answer(self, question: str, context_chunks: List[str]) -> str:
         """Generate answer using DeepSeek model via OpenRouter based on context chunks"""
