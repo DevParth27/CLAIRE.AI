@@ -19,12 +19,13 @@ class QAEngine:
                 api_key=settings.openai_api_key
             )
         except TypeError as e:
-            # Fallback for older OpenAI versions
-            logger.warning(f"OpenAI client initialization failed: {e}")
+            # Fallback for older OpenAI versions or compatibility issues
+            logger.warning(f"OpenAI client initialization failed with TypeError: {e}")
+            logger.info("Attempting fallback initialization...")
             self.client = openai.OpenAI(
                 api_key=settings.openai_api_key
             )
-            # Manually set base_url if needed
+            # Set base_url manually if the client supports it
             if hasattr(self.client, '_base_url'):
                 self.client._base_url = settings.openai_base_url
     
