@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "app.py"
+    }
+  ],
+  "env": {
+    "GEMINI_API_KEY": "AIzaSyD3IRaOpreoDV2lFgLGzEstRTU9RtBQTYU",
+    "PINECONE_API_KEY": "pcsk_Ufnns_QYbAMxRR2Vz8yE8UxaSy8Q6aPWLTz4HdcyYfVMGJSYjrEUUqsp2W4gd6R8NZ9P2"
+  }
+}
