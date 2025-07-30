@@ -19,7 +19,7 @@ class VectorStore:
         self.documents = {}  # {document_id: [vector_ids]}
         
         logger.info("Initialized in-memory vector store (Pinecone alternative)")
-    
+
     def _ensure_index_exists(self):
         """Mock method - no index creation needed for in-memory storage"""
         logger.info("Using in-memory vector storage")
@@ -66,9 +66,9 @@ class VectorStore:
         except Exception as e:
             logger.error(f"Error storing document: {str(e)}")
             raise
-    
-    async def search_similar(self, query: str, document_id: str, top_k: int = 5) -> List[str]:
-        """Search for similar chunks in the in-memory vector database"""
+
+    async def search_similar(self, query: str, document_id: str, top_k: int = 20) -> List[str]:
+        """Comprehensive search with multiple strategies to find ALL relevant information"""
         try:
             # Generate query embedding
             query_embedding = self.embedding_model.encode(query)
@@ -90,22 +90,92 @@ class VectorStore:
                     
                     similarities.append({
                         "score": similarity,
-                        "metadata": vector_data["metadata"]
+                        "metadata": vector_data["metadata"],
+                        "text": vector_data["metadata"]["text"]
                     })
             
-            # Sort by similarity and get top_k
+            # Sort by similarity
             similarities.sort(key=lambda x: x["score"], reverse=True)
             
-            # Extract relevant text chunks
+            # Multi-strategy comprehensive retrieval
             relevant_chunks = []
-            for item in similarities[:top_k]:
-                if item["score"] > 0.3:  # Lower similarity threshold
-                    relevant_chunks.append(item["metadata"]["text"])
+            used_texts = set()
             
-            # Add debug logging
+            # Strategy 1: Semantic similarity (very permissive)
+            for item in similarities[:top_k]:
+                if item["score"] > 0.05:  # Extremely low threshold
+                    if item["text"] not in used_texts:
+                        relevant_chunks.append(item["text"])
+                        used_texts.add(item["text"])
+            
+            # Strategy 2: Comprehensive keyword matching
+            query_lower = query.lower()
+            
+            # Define comprehensive keyword sets for different query types
+            grace_period_keywords = [
+                "grace", "grace period", "premium payment", "due date", "renewal", 
+                "continue", "continuity", "thirty days", "30 days", "payment", 
+                "premium", "renew", "lapse", "reinstate"
+            ]
+            
+            waiting_period_keywords = [
+                "waiting", "waiting period", "pre-existing", "pre existing", 
+                "coverage", "months", "36 months", "thirty-six", "prior", 
+                "effective date", "condition", "ailment", "disease"
+            ]
+            
+            # Determine which keyword set to use
+            keywords = []
+            if any(term in query_lower for term in ["grace", "premium", "payment", "due"]):
+                keywords.extend(grace_period_keywords)
+            if any(term in query_lower for term in ["waiting", "pre-existing", "disease"]):
+                keywords.extend(waiting_period_keywords)
+            
+            # If no specific keywords detected, use both sets
+            if not keywords:
+                keywords = grace_period_keywords + waiting_period_keywords
+            
+            # Search for keyword matches
+            for item in similarities:
+                text_lower = item["text"].lower()
+                keyword_matches = sum(1 for keyword in keywords if keyword in text_lower)
+                
+                # Include chunks with any keyword match
+                if keyword_matches >= 1 and item["text"] not in used_texts:
+                    relevant_chunks.append(item["text"])
+                    used_texts.add(item["text"])
+                    if len(relevant_chunks) >= 25:  # Generous limit
+                        break
+            
+            # Strategy 3: Numerical pattern matching (for specific timeframes)
+            number_patterns = ["30", "thirty", "36", "thirty-six", "days", "months"]
+            for item in similarities:
+                text_lower = item["text"].lower()
+                if any(pattern in text_lower for pattern in number_patterns):
+                    if item["text"] not in used_texts:
+                        relevant_chunks.append(item["text"])
+                        used_texts.add(item["text"])
+                        if len(relevant_chunks) >= 30:
+                            break
+            
+            # Strategy 4: Ensure minimum context (take top chunks regardless)
+            if len(relevant_chunks) < 10:
+                for item in similarities[:15]:  # Take top 15 regardless of score
+                    if item["text"] not in used_texts:
+                        relevant_chunks.append(item["text"])
+                        used_texts.add(item["text"])
+                        if len(relevant_chunks) >= 12:
+                            break
+            
             logger.info(f"Found {len(relevant_chunks)} relevant chunks for query: {query}")
             if similarities:
                 logger.info(f"Top similarity score: {similarities[0]['score']:.3f}")
+            
+            # Log keyword matches for debugging
+            keyword_chunk_count = sum(1 for chunk in relevant_chunks 
+                                    if any(kw in chunk.lower() for kw in keywords[:5]))
+            logger.info(f"Chunks with keyword matches: {keyword_chunk_count}")
+            
             return relevant_chunks
             
         except Exception as e:

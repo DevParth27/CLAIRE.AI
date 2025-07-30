@@ -46,13 +46,15 @@ class QuestionRequest(BaseModel):
 
 class QuestionResponse(BaseModel):
     answers: List[str]
+    processing_time: float
+    timeout_occurred: bool = False
 
 # Initialize services
 pdf_processor = PDFProcessor()
 vector_store = VectorStore()
 qa_engine = QAEngine()
 
-# Authentication
+# Authentication - moved before endpoint definition
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     expected_token = "433c9562217435ac71d779508405bfa9b20d0f58ff2aeb482c16c0e251f9f85f"
     if credentials.credentials != expected_token:
@@ -62,6 +64,90 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
             headers={"WWW-Authenticate": "Bearer"},
         )
     return credentials.credentials
+
+# Timeout settings
+API_TIMEOUT = 25  # Reduced from 30
+PER_QUESTION_TIMEOUT = 2  # Reduced from 5
+PDF_TIMEOUT = 8  # Reduced from 15
+VECTOR_TIMEOUT = 5  # Reduced from 10
+
+@app.post("/hackrx/run", response_model=QuestionResponse)
+async def process_questions(
+    request: QuestionRequest,
+    token: str = Depends(verify_token)
+):
+    start_time = datetime.now()
+    timeout_occurred = False
+    
+    try:
+        logger.info(f"Processing {len(request.questions)} questions with speed optimization")
+        
+        # Step 1: PDF processing with reduced timeout
+        pdf_content = await process_with_timeout(
+            pdf_processor.process_pdf_from_url(str(request.documents)), 
+            timeout_seconds=PDF_TIMEOUT,
+            fallback_result=None
+        )
+        
+        if pdf_content is None:
+            return QuestionResponse(
+                answers=["PDF processing timed out."] * len(request.questions),
+                processing_time=(datetime.now() - start_time).total_seconds(),
+                timeout_occurred=True
+            )
+        
+        # Step 2: Vector storage with reduced timeout
+        document_id = await process_with_timeout(
+            vector_store.store_document(pdf_content, str(request.documents)),
+            timeout_seconds=VECTOR_TIMEOUT,
+            fallback_result=None
+        )
+        
+        if document_id is None:
+            return QuestionResponse(
+                answers=["Document indexing timed out."] * len(request.questions),
+                processing_time=(datetime.now() - start_time).total_seconds(),
+                timeout_occurred=True
+            )
+        
+        # Step 3: Process questions with strict timeouts
+        answers = []
+        for question in request.questions:
+            elapsed = (datetime.now() - start_time).total_seconds()
+            if elapsed >= API_TIMEOUT - 3:  # Leave 3 seconds buffer
+                answers.append("Request timed out.")
+                timeout_occurred = True
+                continue
+                
+            try:
+                async def process_single_question():
+                    chunks = await vector_store.search_similar(question, document_id)
+                    return await qa_engine.generate_answer(question, chunks)
+                
+                answer = await process_with_timeout(
+                    process_single_question(),
+                    timeout_seconds=PER_QUESTION_TIMEOUT,
+                    fallback_result="Answer timed out."
+                )
+                
+                answers.append(answer)
+                
+            except Exception as e:
+                answers.append("Error processing question.")
+        
+        processing_time = (datetime.now() - start_time).total_seconds()
+        
+        return QuestionResponse(
+            answers=answers,
+            processing_time=processing_time,
+            timeout_occurred=timeout_occurred
+        )
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Processing error"
+        )
 
 @app.on_event("startup")
 async def startup_event():
@@ -77,49 +163,20 @@ async def root():
 async def health_check():
     return {"status": "healthy", "timestamp": datetime.now()}
 
-@app.post("/hackrx/run", response_model=QuestionResponse)
-async def process_questions(
-    request: QuestionRequest,
-    token: str = Depends(verify_token)
-):
-    """Main endpoint for processing questions against policy documents"""
+async def process_with_timeout(coro, timeout_seconds: float, fallback_result=None):
+    """Execute coroutine with timeout and return fallback on timeout"""
     try:
-        start_time = datetime.now()
-        logger.info(f"Processing request with {len(request.questions)} questions")
-        
-        # Step 1: Download and process PDF
-        pdf_content = await pdf_processor.process_pdf_from_url(str(request.documents))
-        
-        # Step 2: Create embeddings and store in vector database
-        document_id = await vector_store.store_document(pdf_content, str(request.documents))
-        
-        # Step 3: Process each question
-        answers = []
-        for question in request.questions:
-            try:
-                # Retrieve relevant context
-                relevant_chunks = await vector_store.search_similar(question, document_id)
-                
-                # Generate answer using Gemini
-                answer = await qa_engine.generate_answer(question, relevant_chunks)
-                answers.append(answer)
-                
-            except Exception as e:
-                logger.error(f"Error processing question '{question}': {str(e)}")
-                answers.append("Information not available in the document.")
-        
-        processing_time = (datetime.now() - start_time).total_seconds()
-        logger.info(f"Request processed in {processing_time:.2f} seconds")
-        
-        return QuestionResponse(answers=answers)
-        
-    except Exception as e:
-        logger.error(f"Error processing request: {str(e)}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Internal server error while processing request"
-        )
+        return await asyncio.wait_for(coro, timeout=timeout_seconds)
+    except asyncio.TimeoutError:
+        logger.warning(f"Operation timed out after {timeout_seconds} seconds")
+        return fallback_result
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(
+        app, 
+        host="0.0.0.0", 
+        port=8000,
+        timeout_keep_alive=35,  # Slightly longer than API timeout
+        timeout_graceful_shutdown=5
+    )
