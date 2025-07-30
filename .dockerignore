@@ -1,0 +1,41 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypothesis
+
+# Development files
+debug_test.py
+test_api.py
+*.md
+README*
+.env
+.gitignore
+docker-compose.yml
+vercel.json
+requirements-vercel.txt
+
+# Database files (will be recreated)
+hackrx_db.db
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+*~
