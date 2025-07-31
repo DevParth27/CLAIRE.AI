@@ -13,7 +13,7 @@ from services.pdf_processor import PDFProcessor
 from services.vector_store_lite import LightweightVectorStore
 from services.qa_engine import QAEngine
 from database.models import init_db
-from config import settings
+from config_railway import settings  # Changed from 'config' to 'config_railway'
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
