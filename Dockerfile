@@ -26,5 +26,5 @@ RUN rm -rf __pycache__ \
 # Expose port
 EXPOSE $PORT
 
-# Run with memory limits
-CMD uvicorn app:app --host 0.0.0.0 --port $PORT --workers 1 --max-requests 100
+# Run with memory limits - Fixed uvicorn options
+CMD uvicorn app:app --host 0.0.0.0 --port $PORT --workers 1 --limit-max-requests 100
