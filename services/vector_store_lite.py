@@ -34,17 +34,22 @@ class LightweightVectorStore:
         logger.info(f"Stored {len(chunks)} chunks with lightweight vectors")
         return document_id
     
-    async def search_similar(self, query: str, document_id: str, top_k: int = 5) -> List[str]:
+    async def search_similar(self, query: str, document_id: str, top_k: int = 3) -> List[str]:  # Reduced from 5
+        """Fast similarity search with reduced results"""
         if document_id not in self.documents:
             return []
             
         # Transform query
-        query_vector = self.vectorizer.transform([query])
+        try:
+            query_vector = self.vectorizer.transform([query])
+        except:
+            # If vectorizer not fitted, return first few chunks
+            return [chunk["text"] for chunk in self.documents[document_id][:top_k]]
         
         # Calculate similarities
         similarities = cosine_similarity(query_vector, self.document_vectors[document_id])
         
-        # Get top results
+        # Get top results (reduced number)
         top_indices = similarities[0].argsort()[-top_k:][::-1]
         
-        return [self.documents[document_id][i]["text"] for i in top_indices]
+        return [self.documents[document_id][i]["text"][:500] for i in top_indices]  # Truncate chunks

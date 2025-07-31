@@ -212,6 +212,107 @@ Answer (10 words max):"""
         return final_context
 
     async def generate_answer(self, question: str, context_chunks: List[str]) -> str:
+        """Generate ultra-fast, concise answers"""
+        max_retries = 1  # Reduced retries for speed
+        
+        for attempt in range(max_retries):
+            try:
+                if not context_chunks:
+                    return "Information not found in document."
+                
+                # Use minimal context for speed - only top 2 chunks
+                context = "\n\n".join(context_chunks[:2])[:1000]  # Limit context size
+                
+                # Ultra-fast prompt for quick answers
+                system_prompt = "Answer in 5-10 words only. Be direct and factual."
+                
+                user_prompt = f"Document: {context}\n\nQuestion: {question}\n\nAnswer:"
+                
+                # Make API call with reduced token limits
+                response = self.client.chat.completions.create(
+                    model=settings.openai_model,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    max_tokens=50,  # Very small for speed
+                    temperature=0.1,  # Low temperature for consistency
+                    timeout=5  # 5 second timeout
+                )
+                
+                answer = response.choices[0].message.content.strip()
+                return self._format_concise_answer(answer)
+                
+            except Exception as e:
+                logger.error(f"Error generating answer (attempt {attempt + 1}): {str(e)}")
+                if attempt == max_retries - 1:
+                    return "Processing error occurred."
+                await asyncio.sleep(0.5)  # Brief pause before retry
+        
+        return "Unable to process question."
+    
+    def _format_concise_answer(self, answer: str) -> str:
+        """Format answer to be concise"""
+        # Remove common prefixes
+        prefixes_to_remove = [
+            "According to the document, ",
+            "Based on the policy, ",
+            "The document states that ",
+            "As per the policy, "
+        ]
+        
+        for prefix in prefixes_to_remove:
+            if answer.startswith(prefix):
+                answer = answer[len(prefix):]
+        
+        # Ensure it's concise
+        if len(answer) > 100:
+            answer = answer[:97] + "..."
+            
+        return answer.strip()
+
+    def _organize_context_by_relevance(self, context_chunks: List[str], max_context_tokens: int = 6000) -> str:
+        """Organize context to maximize information density and relevance"""
+        if not context_chunks:
+            return ""
+        
+        # Create organized sections with clear demarcation
+        organized_sections = []
+        current_tokens = 0
+        
+        for i, chunk in enumerate(context_chunks, 1):
+            # Add section header for clarity
+            section_header = f"\n=== POLICY SECTION {i} ===\n"
+            section_content = f"{section_header}{chunk}"
+            section_tokens = self._estimate_tokens(section_content)
+            
+            if current_tokens + section_tokens <= max_context_tokens:
+                organized_sections.append(section_content)
+                current_tokens += section_tokens
+            else:
+                # Try to fit a truncated version
+                remaining_tokens = max_context_tokens - current_tokens
+                if remaining_tokens > 400:  # Only if meaningful space
+                    # Truncate at sentence boundaries
+                    sentences = chunk.split('. ')
+                    truncated_content = ""
+                    
+                    for sentence in sentences:
+                        test_content = f"{section_header}{truncated_content}{sentence}. "
+                        if self._estimate_tokens(test_content) <= remaining_tokens:
+                            truncated_content += sentence + ". "
+                        else:
+                            break
+                    
+                    if truncated_content.strip():
+                        organized_sections.append(f"{section_header}{truncated_content.strip()}...")
+                break
+        
+        final_context = "".join(organized_sections)
+        logger.info(f"Organized context: ~{self._estimate_tokens(final_context)} tokens from {len(organized_sections)} sections")
+        return final_context
+
+    async def generate_answer(self, question: str, context_chunks: List[str]) -> str:
         """Generate concise, one-line answers"""
         max_retries = 3
         base_delay = 1

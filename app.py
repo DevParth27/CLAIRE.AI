@@ -49,6 +49,9 @@ class QuestionResponse(BaseModel):
     processing_time: float
     timeout_occurred: bool = False
 
+# Import the lightweight vector store
+from services.vector_store_lite import LightweightVectorStore
+
 # Initialize services with memory optimization
 pdf_processor = PDFProcessor()
 vector_store = LightweightVectorStore()  # Use lightweight version
@@ -65,11 +68,11 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
         )
     return credentials.credentials
 
-# Timeout settings
-API_TIMEOUT = 25  # Reduced from 30
-PER_QUESTION_TIMEOUT = 2  # Reduced from 5
-PDF_TIMEOUT = 8  # Reduced from 15
-VECTOR_TIMEOUT = 5  # Reduced from 10
+# Timeout settings - Optimized for Render
+API_TIMEOUT = 18  # Reduced from 25 to stay under Render's 30s limit
+PER_QUESTION_TIMEOUT = 8  # Increased from 2 for better success rate
+PDF_TIMEOUT = 6   # Reduced from 8
+VECTOR_TIMEOUT = 3  # Reduced from 5
 
 @app.post("/hackrx/run", response_model=QuestionResponse)
 async def process_questions(
