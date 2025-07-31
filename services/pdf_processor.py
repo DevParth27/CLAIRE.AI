@@ -1,7 +1,7 @@
 import aiohttp
 import aiofiles
 import PyPDF2
-import pdfplumber
+# import pdfplumber  # Comment out or remove this line
 import io
 import logging
 from typing import List, Dict
@@ -39,26 +39,11 @@ class PDFProcessor:
             raise
     
     async def _extract_text_from_pdf(self, pdf_content: bytes) -> str:
-        """Extract text from PDF content using multiple methods"""
+        """Extract text from PDF content using PyPDF2 only"""
         text = ""
         
         try:
-            # Method 1: Try with pdfplumber (better for complex layouts)
-            with io.BytesIO(pdf_content) as pdf_file:
-                with pdfplumber.open(pdf_file) as pdf:
-                    for page in pdf.pages:
-                        page_text = page.extract_text()
-                        if page_text:
-                            text += page_text + "\n\n"
-            
-            if text.strip():
-                return text
-                
-        except Exception as e:
-            logger.warning(f"pdfplumber extraction failed: {str(e)}")
-        
-        try:
-            # Method 2: Fallback to PyPDF2
+            # Use only PyPDF2 for memory efficiency
             with io.BytesIO(pdf_content) as pdf_file:
                 pdf_reader = PyPDF2.PdfReader(pdf_file)
                 for page in pdf_reader.pages:
