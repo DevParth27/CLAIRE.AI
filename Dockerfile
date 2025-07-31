@@ -52,4 +52,9 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:$PORT/health || exit 1
 
 # Use a shell script to properly expand environment variables
-CMD ["sh", "-c", "python -m uvicorn app:app --host 0.0.0.0 --port $PORT --workers 1"]
+# Copy startup script
+COPY start.sh .
+RUN chmod +x start.sh
+
+# Use the startup script
+CMD ["./start.sh"]
