@@ -3,7 +3,7 @@ nixPkgs = ['python311']
 
 [phases.install]
 cmds = [
-    'pip install -r requirements.txt'
+    'pip install -r requirements-railway.txt'
 ]
 
 [phases.build]
@@ -12,4 +12,4 @@ cmds = [
 ]
 
 [start]
-cmd = 'uvicorn app:app --host 0.0.0.0 --port $PORT'
+cmd = 'uvicorn app_railway:app --host 0.0.0.0 --port $PORT'
