@@ -1,4 +1,5 @@
 fastapi==0.104.1
+starlette==0.27.0
 uvicorn[standard]==0.24.0
 pydantic==2.5.0
 pydantic-settings==2.1.0
@@ -6,9 +7,12 @@ aiohttp==3.9.1
 aiofiles==23.2.1
 python-multipart==0.0.6
 
-# Essential uvicorn dependencies
+# Essential uvicorn and FastAPI dependencies
 click>=7.0
 h11>=0.8
+anyio>=3.4.0
+sniffio>=1.1
+typing-extensions>=4.0.0
 
 # PDF processing - lighter alternatives
 PyPDF2==3.0.1

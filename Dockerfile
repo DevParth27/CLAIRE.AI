@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
 
 # Copy requirements and install with memory optimizations
 COPY requirements-render.txt requirements.txt
-RUN pip install --no-cache-dir --no-deps -r requirements.txt \
+RUN pip install --no-cache-dir -r requirements.txt \
     && pip cache purge \
     && rm -rf ~/.cache/pip
 
