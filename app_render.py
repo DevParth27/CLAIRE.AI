@@ -8,12 +8,12 @@ import asyncio
 import logging
 from datetime import datetime
 
-# Import our custom modules
+# Import render-optimized modules
 from services.pdf_processor import PDFProcessor
 from services.vector_store_lite import LightweightVectorStore
-from services.qa_engine import QAEngine
+from services.qa_engine_render import QAEngineRender
 from database.models import init_db
-from config import settings
+from config_render import settings
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -21,9 +21,9 @@ logger = logging.getLogger(__name__)
 
 # Initialize FastAPI app
 app = FastAPI(
-    title="HackRx AI QA System",
-    description="AI-powered question-answering system for policy documents",
-    version="1.0.0"
+    title="HackRx AI QA System - Render",
+    description="AI-powered question-answering system optimized for Render deployment",
+    version="1.0.0-render"
 )
 
 # CORS middleware
@@ -48,10 +48,10 @@ class QuestionResponse(BaseModel):
     processing_time: float
     timeout_occurred: bool = False
 
-# Initialize services
+# Initialize services with render optimizations
 pdf_processor = PDFProcessor()
 vector_store = LightweightVectorStore()
-qa_engine = QAEngine()
+qa_engine = QAEngineRender()  # Use render-optimized version
 
 # Authentication
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
@@ -64,11 +64,11 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
         )
     return credentials.credentials
 
-# Original timeout settings (more generous)
-API_TIMEOUT = 30  # 30 seconds total
-PER_QUESTION_TIMEOUT = 15  # 15 seconds per question
-PDF_TIMEOUT = 10   # 10 seconds for PDF
-VECTOR_TIMEOUT = 5  # 5 seconds for vector operations
+# ULTRA-AGGRESSIVE timeout settings for Render
+API_TIMEOUT = 12
+PER_QUESTION_TIMEOUT = 4
+PDF_TIMEOUT = 3
+VECTOR_TIMEOUT = 2
 
 @app.post("/hackrx/run", response_model=QuestionResponse)
 async def process_questions(
@@ -78,45 +78,34 @@ async def process_questions(
     start_time = datetime.now()
     
     try:
-        logger.info(f"Processing {len(request.questions)} questions")
+        logger.info(f"Render: Processing {len(request.questions)} questions")
         
-        # Step 1: PDF processing
-        try:
-            pdf_content = await asyncio.wait_for(
-                pdf_processor.process_pdf_from_url(str(request.documents)),
-                timeout=PDF_TIMEOUT
-            )
-        except asyncio.TimeoutError:
-            logger.error("PDF processing timeout")
-            raise HTTPException(status_code=408, detail="PDF processing timeout")
+        # Step 1: PDF processing with timeout
+        pdf_content = await asyncio.wait_for(
+            pdf_processor.process_pdf_from_url(str(request.documents)),
+            timeout=PDF_TIMEOUT
+        )
         
-        # Step 2: Vector storage
-        try:
-            document_id = await asyncio.wait_for(
-                vector_store.store_document(pdf_content, str(request.documents)),
-                timeout=VECTOR_TIMEOUT
-            )
-        except asyncio.TimeoutError:
-            logger.error("Vector storage timeout")
-            raise HTTPException(status_code=408, detail="Vector storage timeout")
+        # Step 2: Vector storage with timeout
+        document_id = await asyncio.wait_for(
+            vector_store.store_document(pdf_content, str(request.documents)),
+            timeout=VECTOR_TIMEOUT
+        )
         
-        # Step 3: Process questions
+        # Step 3: Process questions with strict limits
         answers = []
         for question in request.questions:
             try:
-                # Check remaining time
                 elapsed = (datetime.now() - start_time).total_seconds()
-                if elapsed >= API_TIMEOUT - 5:
-                    answers.append("Processing timeout - please try with fewer questions")
+                if elapsed >= API_TIMEOUT - 2:
+                    answers.append("Timeout")
                     continue
                 
-                # Search for relevant chunks
                 chunks = await asyncio.wait_for(
                     vector_store.search_similar(question, document_id),
-                    timeout=3.0
+                    timeout=1.0
                 )
                 
-                # Generate answer
                 answer = await asyncio.wait_for(
                     qa_engine.generate_answer(question, chunks),
                     timeout=PER_QUESTION_TIMEOUT
@@ -125,36 +114,40 @@ async def process_questions(
                 answers.append(answer)
                 
             except asyncio.TimeoutError:
-                answers.append("Question processing timeout - please try a simpler question")
-            except Exception as e:
-                logger.error(f"Error processing question: {e}")
-                answers.append("Error processing question - please try again")
+                answers.append("Timeout")
+            except Exception:
+                answers.append("Error")
         
         processing_time = (datetime.now() - start_time).total_seconds()
         
         return QuestionResponse(
             answers=answers,
             processing_time=processing_time,
-            timeout_occurred=any("timeout" in ans.lower() for ans in answers)
+            timeout_occurred=any("Timeout" in ans for ans in answers)
         )
         
+    except asyncio.TimeoutError:
+        return QuestionResponse(
+            answers=["Processing timeout"] * len(request.questions),
+            processing_time=(datetime.now() - start_time).total_seconds(),
+            timeout_occurred=True
+        )
     except Exception as e:
-        logger.error(f"Processing error: {e}")
-        raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")
+        logger.error(f"Render processing error: {e}")
+        raise HTTPException(status_code=500, detail="Processing failed")
 
 @app.on_event("startup")
 async def startup_event():
-    """Initialize database and services on startup"""
     await init_db()
-    logger.info("Application started successfully")
+    logger.info("Render application started successfully")
 
 @app.get("/")
 async def root():
-    return {"message": "HackRx AI QA System is running", "timestamp": datetime.now()}
+    return {"message": "HackRx AI QA System - Render Optimized", "timestamp": datetime.now()}
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "timestamp": datetime.now()}
+    return {"status": "healthy", "environment": "render", "timestamp": datetime.now()}
 
 if __name__ == "__main__":
     import uvicorn
@@ -162,6 +155,6 @@ if __name__ == "__main__":
         app, 
         host="0.0.0.0", 
         port=int(os.getenv("PORT", 8000)),
-        timeout_keep_alive=60,
-        timeout_graceful_shutdown=10
+        timeout_keep_alive=35,
+        timeout_graceful_shutdown=5
     )

@@ -1,11 +1,17 @@
 import os
 from pydantic_settings import BaseSettings
+from typing import Optional
 
 class Settings(BaseSettings):
     # API Keys
     openai_api_key: str = "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"
     openai_base_url: str = "https://api.openai.com/v1"
     openai_model: str = "gpt-3.5-turbo"
+    
+    # Pinecone (Optional since you might not always use it)
+    pinecone_api_key: Optional[str] = None
+    pinecone_environment: Optional[str] = None
+    pinecone_index_name: Optional[str] = None
     
     # Database
     database_url: str = os.getenv("DATABASE_URL", "sqlite:///./hackrx_db.db")
@@ -21,5 +27,7 @@ class Settings(BaseSettings):
     
     class Config:
         env_file = ".env"
+        # Allow extra fields to prevent validation errors
+        extra = "ignore"  # This will ignore any extra environment variables
 
 settings = Settings()
