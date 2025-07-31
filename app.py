@@ -70,7 +70,7 @@ PER_QUESTION_TIMEOUT = 15  # 15 seconds per question
 PDF_TIMEOUT = 10   # 10 seconds for PDF
 VECTOR_TIMEOUT = 5  # 5 seconds for vector operations
 
-@app.post("/hackrx/run", response_model=QuestionResponse)
+@app.post("/api/v1/hackrx/run", response_model=QuestionResponse)
 async def process_questions(
     request: QuestionRequest,
     token: str = Depends(verify_token)
