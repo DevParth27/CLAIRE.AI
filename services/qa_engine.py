@@ -87,31 +87,30 @@ class QAEngine:
                 context = "\n\n".join(context_chunks[:3])  # Only top 3 chunks
                 
                 # Ultra-concise prompt for one-line answers
-                system_prompt = """Extract ONLY the specific factual answer in ONE sentence. Rules:
-1. Maximum 20 words
-2. Include exact numbers/timeframes when available
-3. No explanations or elaborations
-4. If not found, say "Not specified in document"
-5. Be direct and factual only"""
+                system_prompt = """Answer in EXACTLY 10 words or less. Rules:
+1. Only factual numbers/timeframes
+2. No explanations whatsoever
+3. Format: "X days" or "X months" or "Not specified"
+4. Nothing else"""
                 
-                user_prompt = f"""Document: {context[:2000]}  # Limit context size
+                user_prompt = f"""Document: {context[:1500]}
 
 Question: {question}
 
-One-line answer:"""
+Answer (10 words max):"""
                 
-                # Generate response with speed optimizations
+                # Generate response with even stricter limits
                 response = self.client.chat.completions.create(
-                    model=settings.openai_model,  # Now using gpt-3.5-turbo
+                    model=settings.openai_model,
                     messages=[
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_prompt}
                     ],
-                    max_tokens=50,  # Very small for one-line answers
+                    max_tokens=20,  # Reduced from 50
                     temperature=0.0,
                     top_p=0.9,
-                    frequency_penalty=0.0,
-                    presence_penalty=0.0
+                    frequency_penalty=0.5,  # Discourage repetition
+                    presence_penalty=0.5    # Encourage brevity
                 )
                 
                 if response and response.choices and response.choices[0].message:
@@ -137,7 +136,7 @@ One-line answer:"""
         return "Unable to process question."
     
     def _format_one_line_answer(self, answer: str) -> str:
-        """Ensure answer is exactly one line and concise"""
+        """Ensure answer is exactly one line and ultra-concise"""
         # Remove extra whitespace and newlines
         answer = ' '.join(answer.split())
         
@@ -145,9 +144,28 @@ One-line answer:"""
         sentences = answer.split('. ')
         answer = sentences[0]
         
+        # Remove common verbose phrases
+        verbose_phrases = [
+            "According to the policy document,",
+            "The policy states that",
+            "As mentioned in the document,",
+            "The document indicates that",
+            "Based on the information provided,"
+        ]
+        
+        for phrase in verbose_phrases:
+            answer = answer.replace(phrase, "").strip()
+        
         # Ensure proper punctuation
         if not answer.endswith(('.', '!', '?')):
             answer += '.'
+        
+        # Limit to 10 words maximum for ultra-brevity
+        words = answer.split()
+        if len(words) > 10:
+            answer = ' '.join(words[:10]) + '.'
+        
+        return answer
         
         # Limit to 25 words maximum
         words = answer.split()

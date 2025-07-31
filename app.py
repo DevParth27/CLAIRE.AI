@@ -11,7 +11,7 @@ from datetime import datetime
 
 # Import our custom modules
 from services.pdf_processor import PDFProcessor
-from services.vector_store import VectorStore
+from services.vector_store_lite import LightweightVectorStore
 from services.qa_engine import QAEngine
 from database.models import init_db
 from config import settings
@@ -49,9 +49,9 @@ class QuestionResponse(BaseModel):
     processing_time: float
     timeout_occurred: bool = False
 
-# Initialize services
+# Initialize services with memory optimization
 pdf_processor = PDFProcessor()
-vector_store = VectorStore()
+vector_store = LightweightVectorStore()  # Use lightweight version
 qa_engine = QAEngine()
 
 # Authentication - moved before endpoint definition
