@@ -1,0 +1,30 @@
+fastapi==0.104.1
+starlette==0.27.0
+uvicorn==0.24.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+aiohttp==3.9.1
+aiofiles==23.2.1
+python-multipart==0.0.6
+
+# Essential dependencies
+click>=7.0
+h11>=0.8
+anyio>=3.4.0
+sniffio>=1.1
+typing-extensions>=4.0.0
+httpx>=0.24.0
+
+# PDF processing - PyPDF2 only
+PyPDF2==3.0.1
+
+# AI/ML - stable versions
+openai==1.12.0
+tiktoken==0.5.1
+
+# Database
+sqlalchemy==2.0.23
+
+# Lightweight vector processing
+scikit-learn==1.3.2
+numpy==1.24.3

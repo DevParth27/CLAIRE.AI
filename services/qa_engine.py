@@ -14,20 +14,16 @@ class QAEngine:
         logger.info(f"API key starts with: {settings.openai_api_key[:10]}...")
         logger.info(f"Using model: {settings.openai_model}")
         
-        # Configure OpenAI client
+        # Configure OpenAI client with better error handling
         try:
-            self.client = openai.OpenAI(
-                base_url=settings.openai_base_url,
-                api_key=settings.openai_api_key
-            )
-        except TypeError as e:
-            logger.warning(f"OpenAI client initialization failed with TypeError: {e}")
-            logger.info("Attempting fallback initialization...")
+            # Simple initialization without problematic parameters
             self.client = openai.OpenAI(
                 api_key=settings.openai_api_key
             )
-            if hasattr(self.client, '_base_url'):
-                self.client._base_url = settings.openai_base_url
+            logger.info("OpenAI client initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize OpenAI client: {e}")
+            raise Exception(f"OpenAI initialization failed: {e}")
 
     def _estimate_tokens(self, text: str) -> int:
         """Accurate token estimation for GPT-4"""
@@ -379,79 +375,60 @@ Provide a concise, one-line answer with specific details if available:"""
         return final_context
 
     async def generate_answer(self, question: str, context_chunks: List[str]) -> str:
-        """Generate production-quality comprehensive answers"""
+        """Generate concise, one-line answers"""
         max_retries = 3
         base_delay = 1
         
         for attempt in range(max_retries):
             try:
                 if not context_chunks:
-                    return "I couldn't find relevant information in the document to answer your question."
+                    return "No relevant information found in the document."
                 
-                # Allocate maximum context for comprehensive analysis
-                max_context_tokens = 6000  # Generous allocation for detailed extraction
+                # Use maximum context for comprehensive analysis
+                max_context_tokens = 5500
                 
-                context = self._organize_context_by_relevance(context_chunks, max_context_tokens)
+                context = self._prepare_comprehensive_context(context_chunks, max_context_tokens)
                 
-                # Production-grade system prompt for insurance policy analysis
-                system_prompt = """You are an expert insurance policy analyst specializing in extracting precise, comprehensive information from policy documents. Your responses must be detailed, accurate, and include specific policy terms.
+                # Concise prompt for one-line answers
+                system_prompt = """You are an expert insurance policy analyzer. Extract precise factual information and provide ONLY concise, one-line answers.
 
-EXTRACTION REQUIREMENTS:
-1. Provide COMPLETE and SPECIFIC answers with exact timeframes, percentages, and conditions
-2. Include relevant policy language and definitions when applicable
-3. Extract ALL relevant details including sub-conditions, limits, and exceptions
-4. Use exact numbers, percentages, and timeframes from the policy
-5. Quote specific policy provisions when they directly answer the question
-6. Provide comprehensive coverage of the topic, not just basic information
-7. Include eligibility criteria, limitations, and special conditions
-
-FORMAT REQUIREMENTS:
-- Start with the direct answer
-- Include specific details, numbers, and conditions
-- Mention any relevant limitations or exceptions
-- Use clear, professional language
-- Ensure completeness and accuracy"""
+RULES:
+1. Answer in ONE sentence maximum
+2. Include specific numbers, timeframes, or amounts when available
+3. Be direct and factual
+4. No explanations or elaborations
+5. If information is not found, state "Not specified in the document"
+6. Focus on exact policy terms and conditions"""
                 
-                user_prompt = f"""INSURANCE POLICY DOCUMENT SECTIONS:
+                user_prompt = f"""INSURANCE POLICY DOCUMENT:
 {context}
 
 ---
 
 QUESTION: {question}
 
-INSTRUCTIONS:
-Analyze ALL policy sections above thoroughly. Extract comprehensive information related to this question including:
-- Specific timeframes (days, months, years)
-- Exact percentages, limits, and amounts
-- Eligibility criteria and conditions
-- Any exceptions or special provisions
-- Relevant policy definitions
-- Complete coverage details
-
-Provide a detailed, comprehensive answer that includes all relevant information found in the policy sections.
-
-COMPREHENSIVE ANSWER:"""
+Provide a concise, one-line answer with specific details if available:"""
                 
-                # Calculate token usage
+                # Estimate total tokens
                 estimated_tokens = (
                     self._estimate_tokens(system_prompt) +
                     self._estimate_tokens(user_prompt) +
-                    settings.max_tokens +
-                    300  # overhead
+                    200 +  # Reduced max_tokens for concise answers
+                    200  # overhead
                 )
                 
                 logger.info(f"Estimated total tokens: {estimated_tokens}")
                 
-                # Generate comprehensive response
+                # Generate response with settings optimized for concise answers
                 response = self.client.chat.completions.create(
                     model=settings.openai_model,
                     messages=[
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_prompt}
                     ],
-                    max_tokens=settings.max_tokens,
-                    temperature=0.0,  # Deterministic for accuracy
-                    top_p=0.95,
+                    max_tokens=200,  # Reduced for one-line answers
+                    temperature=0.0,  # Completely deterministic
+                    top_p=0.9,
                     frequency_penalty=0.0,
                     presence_penalty=0.0
                 )
@@ -459,17 +436,18 @@ COMPREHENSIVE ANSWER:"""
                 if response and response.choices and response.choices[0].message:
                     answer = response.choices[0].message.content.strip()
                     
-                    # Log answer quality metrics
-                    logger.info(f"Generated answer length: {len(answer)} characters")
+                    # Format answer to ensure it's concise
+                    answer = self._format_concise_answer(answer)
                     
-                    # Minimal validation - accept comprehensive answers
-                    if len(answer.strip()) > 20 and not self._is_generic_rejection(answer):
+                    # Log the answer for debugging
+                    logger.info(f"Generated answer: {answer}")
+                    
+                    if len(answer.strip()) > 5:
                         return answer
                     else:
-                        logger.warning(f"Answer may be too generic: {answer[:100]}...")
-                        return answer  # Return anyway for debugging
+                        return "Unable to find specific information in the document."
                 else:
-                    return "I couldn't generate a response. Please try again."
+                    return "Unable to generate response."
                     
             except openai.RateLimitError as e:
                 if attempt < max_retries - 1:
@@ -479,7 +457,7 @@ COMPREHENSIVE ANSWER:"""
                     continue
                 else:
                     logger.error(f"Rate limit exceeded after {max_retries} attempts")
-                    return "Service temporarily unavailable due to rate limits. Please try again later."
+                    return "Service temporarily unavailable. Please try again later."
                     
             except Exception as e:
                 if "context_length_exceeded" in str(e):

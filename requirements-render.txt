@@ -14,13 +14,14 @@ anyio>=3.4.0
 sniffio>=1.1
 typing-extensions>=4.0.0
 
-# PDF processing - both libraries needed
+# PDF processing
 PyPDF2==3.0.1
 pdfplumber==0.10.3
 
-# AI/ML - minimal versions
-openai==1.3.7
+# AI/ML - Updated OpenAI version for compatibility
+openai>=1.12.0
 tiktoken==0.5.1
+httpx>=0.24.0
 
 # Database
 sqlalchemy==2.0.23
