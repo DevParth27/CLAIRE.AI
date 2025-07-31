@@ -19,11 +19,10 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Production stage
 FROM python:3.11-slim
 
-# Install runtime dependencies including bash
+# Install only runtime dependencies
 RUN apt-get update && apt-get install -y \
     libmagic1 \
     curl \
-    bash \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
@@ -52,10 +51,5 @@ EXPOSE $PORT
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:$PORT/health || exit 1
 
-# Copy startup script
-COPY start.sh .
-RUN chmod +x start.sh
-
-# Use the startup script
 # Use shell to expand environment variables
 CMD ["sh", "-c", "python -m uvicorn app:app --host 0.0.0.0 --port ${PORT:-8000} --workers 1"]
