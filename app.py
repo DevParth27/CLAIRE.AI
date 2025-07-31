@@ -5,7 +5,6 @@ from pydantic import BaseModel, HttpUrl
 from typing import List
 import os
 import asyncio
-import aiohttp
 import logging
 from datetime import datetime
 
@@ -49,15 +48,12 @@ class QuestionResponse(BaseModel):
     processing_time: float
     timeout_occurred: bool = False
 
-# Import the lightweight vector store
-from services.vector_store_lite import LightweightVectorStore
-
-# Initialize services with memory optimization
+# Initialize services
 pdf_processor = PDFProcessor()
-vector_store = LightweightVectorStore()  # Use lightweight version
+vector_store = LightweightVectorStore()
 qa_engine = QAEngine()
 
-# Authentication - moved before endpoint definition
+# Authentication
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     expected_token = "433c9562217435ac71d779508405bfa9b20d0f58ff2aeb482c16c0e251f9f85f"
     if credentials.credentials != expected_token:
@@ -68,14 +64,8 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
         )
     return credentials.credentials
 
-# Timeout settings - Optimized for Render
-API_TIMEOUT = 18  # Reduced from 25 to stay under Render's 30s limit
-PER_QUESTION_TIMEOUT = 8  # Increased from 2 for better success rate
-PDF_TIMEOUT = 6   # Reduced from 8
-VECTOR_TIMEOUT = 3  # Reduced from 5
-
 # ULTRA-AGGRESSIVE timeout settings
-API_TIMEOUT = 12  # Reduced to 12 seconds total
+API_TIMEOUT = 12  # 12 seconds total
 PER_QUESTION_TIMEOUT = 4  # 4 seconds per question
 PDF_TIMEOUT = 3   # 3 seconds for PDF
 VECTOR_TIMEOUT = 2  # 2 seconds for vector operations
@@ -162,20 +152,12 @@ async def root():
 async def health_check():
     return {"status": "healthy", "timestamp": datetime.now()}
 
-async def process_with_timeout(coro, timeout_seconds: float, fallback_result=None):
-    """Execute coroutine with timeout and return fallback on timeout"""
-    try:
-        return await asyncio.wait_for(coro, timeout=timeout_seconds)
-    except asyncio.TimeoutError:
-        logger.warning(f"Operation timed out after {timeout_seconds} seconds")
-        return fallback_result
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
         app, 
         host="0.0.0.0", 
-        port=8000,
-        timeout_keep_alive=35,  # Slightly longer than API timeout
+        port=int(os.getenv("PORT", 8000)),
+        timeout_keep_alive=35,
         timeout_graceful_shutdown=5
     )
