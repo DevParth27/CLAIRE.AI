@@ -35,7 +35,7 @@ RUN mkdir -p database
 # Set default port
 ENV PORT=8000
 # Expose port
-EXPOSE $PORT
+EXPOSE 8000
 # Health check - update this to use the actual port
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:${PORT:-8000}/health || exit 1
