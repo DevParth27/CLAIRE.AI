@@ -74,83 +74,79 @@ PER_QUESTION_TIMEOUT = 8  # Increased from 2 for better success rate
 PDF_TIMEOUT = 6   # Reduced from 8
 VECTOR_TIMEOUT = 3  # Reduced from 5
 
+# ULTRA-AGGRESSIVE timeout settings
+API_TIMEOUT = 12  # Reduced to 12 seconds total
+PER_QUESTION_TIMEOUT = 4  # 4 seconds per question
+PDF_TIMEOUT = 3   # 3 seconds for PDF
+VECTOR_TIMEOUT = 2  # 2 seconds for vector operations
+
 @app.post("/hackrx/run", response_model=QuestionResponse)
 async def process_questions(
     request: QuestionRequest,
     token: str = Depends(verify_token)
 ):
     start_time = datetime.now()
-    timeout_occurred = False
     
     try:
-        logger.info(f"Processing {len(request.questions)} questions with speed optimization")
+        logger.info(f"Ultra-fast processing {len(request.questions)} questions")
         
-        # Step 1: PDF processing with reduced timeout
-        pdf_content = await process_with_timeout(
-            pdf_processor.process_pdf_from_url(str(request.documents)), 
-            timeout_seconds=PDF_TIMEOUT,
-            fallback_result=None
+        # Step 1: PDF processing (3s timeout)
+        pdf_content = await asyncio.wait_for(
+            pdf_processor.process_pdf_from_url(str(request.documents)),
+            timeout=PDF_TIMEOUT
         )
         
-        if pdf_content is None:
-            return QuestionResponse(
-                answers=["PDF processing timed out."] * len(request.questions),
-                processing_time=(datetime.now() - start_time).total_seconds(),
-                timeout_occurred=True
-            )
-        
-        # Step 2: Vector storage with reduced timeout
-        document_id = await process_with_timeout(
+        # Step 2: Vector storage (2s timeout)
+        document_id = await asyncio.wait_for(
             vector_store.store_document(pdf_content, str(request.documents)),
-            timeout_seconds=VECTOR_TIMEOUT,
-            fallback_result=None
+            timeout=VECTOR_TIMEOUT
         )
         
-        if document_id is None:
-            return QuestionResponse(
-                answers=["Document indexing timed out."] * len(request.questions),
-                processing_time=(datetime.now() - start_time).total_seconds(),
-                timeout_occurred=True
-            )
-        
-        # Step 3: Process questions with strict timeouts
+        # Step 3: Process questions with strict limits
         answers = []
         for question in request.questions:
-            elapsed = (datetime.now() - start_time).total_seconds()
-            if elapsed >= API_TIMEOUT - 3:  # Leave 3 seconds buffer
-                answers.append("Request timed out.")
-                timeout_occurred = True
-                continue
-                
             try:
-                async def process_single_question():
-                    chunks = await vector_store.search_similar(question, document_id)
-                    return await qa_engine.generate_answer(question, chunks)
+                # Check remaining time
+                elapsed = (datetime.now() - start_time).total_seconds()
+                if elapsed >= API_TIMEOUT - 2:
+                    answers.append("Timeout")
+                    continue
                 
-                answer = await process_with_timeout(
-                    process_single_question(),
-                    timeout_seconds=PER_QUESTION_TIMEOUT,
-                    fallback_result="Answer timed out."
+                # Ultra-fast question processing
+                chunks = await asyncio.wait_for(
+                    vector_store.search_similar(question, document_id),
+                    timeout=1.0  # 1 second for search
+                )
+                
+                answer = await asyncio.wait_for(
+                    qa_engine.generate_answer(question, chunks),
+                    timeout=PER_QUESTION_TIMEOUT
                 )
                 
                 answers.append(answer)
                 
-            except Exception as e:
-                answers.append("Error processing question.")
+            except asyncio.TimeoutError:
+                answers.append("Timeout")
+            except Exception:
+                answers.append("Error")
         
         processing_time = (datetime.now() - start_time).total_seconds()
         
         return QuestionResponse(
             answers=answers,
             processing_time=processing_time,
-            timeout_occurred=timeout_occurred
+            timeout_occurred=any("Timeout" in ans for ans in answers)
         )
         
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Processing error"
+    except asyncio.TimeoutError:
+        return QuestionResponse(
+            answers=["Processing timeout"] * len(request.questions),
+            processing_time=(datetime.now() - start_time).total_seconds(),
+            timeout_occurred=True
         )
+    except Exception as e:
+        logger.error(f"Processing error: {e}")
+        raise HTTPException(status_code=500, detail="Processing failed")
 
 @app.on_event("startup")
 async def startup_event():
