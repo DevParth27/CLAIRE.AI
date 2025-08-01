@@ -11,11 +11,11 @@ class Settings(BaseSettings):
     # Database
     database_url: str = os.getenv("DATABASE_URL", "sqlite:///./hackrx_db.db")
     
-    # Memory-optimized processing settings (even more aggressive)
-    max_chunk_size: int = 300  # Reduced from 500
-    chunk_overlap: int = 30    # Reduced from 50
-    max_tokens: int = 80       # Reduced from 100
-    max_context_chunks: int = 2 # Reduced from 3
+    # Balanced processing settings for accuracy
+    max_chunk_size: int = 800      # Increased for better context
+    chunk_overlap: int = 150       # Better overlap for continuity
+    max_tokens: int = 500          # Increased for detailed answers
+    max_context_chunks: int = 5    # More context for accuracy
     
     # Security
     bearer_token: str = os.getenv("BEARER_TOKEN", "")

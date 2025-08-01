@@ -10,11 +10,13 @@ logger = logging.getLogger(__name__)
 
 class LightweightVectorStore:
     def __init__(self):
-        # Use TF-IDF instead of sentence transformers (much lighter)
+        # Enhanced TF-IDF for better semantic matching
         self.vectorizer = TfidfVectorizer(
-            max_features=1000,  # Limit features for memory
+            max_features=3000,  # Increased for better coverage
             stop_words='english',
-            ngram_range=(1, 2)
+            ngram_range=(1, 3),  # Include trigrams
+            min_df=1,
+            max_df=0.95
         )
         self.documents = {}
         self.document_vectors = {}
@@ -25,17 +27,17 @@ class LightweightVectorStore:
         # Store chunks
         self.documents[document_id] = chunks
         
-        # Create TF-IDF vectors
+        # Create enhanced TF-IDF vectors
         texts = [chunk["text"] for chunk in chunks]
         if texts:
             vectors = self.vectorizer.fit_transform(texts)
             self.document_vectors[document_id] = vectors
             
-        logger.info(f"Stored {len(chunks)} chunks with lightweight vectors")
+        logger.info(f"Stored {len(chunks)} chunks with enhanced vectors")
         return document_id
     
-    async def search_similar(self, query: str, document_id: str, top_k: int = 3) -> List[str]:  # Reduced from 5
-        """Fast similarity search with reduced results"""
+    async def search_similar(self, query: str, document_id: str, top_k: int = 6) -> List[str]:
+        """Enhanced similarity search with more results"""
         if document_id not in self.documents:
             return []
             
@@ -43,13 +45,25 @@ class LightweightVectorStore:
         try:
             query_vector = self.vectorizer.transform([query])
         except:
-            # If vectorizer not fitted, return first few chunks
+            # Return more chunks if vectorizer not fitted
             return [chunk["text"] for chunk in self.documents[document_id][:top_k]]
         
         # Calculate similarities
         similarities = cosine_similarity(query_vector, self.document_vectors[document_id])
         
-        # Get top results (reduced number)
-        top_indices = similarities[0].argsort()[-top_k:][::-1]
+        # Get top results with higher threshold
+        similarity_scores = similarities[0]
+        top_indices = similarity_scores.argsort()[-top_k:][::-1]
         
-        return [self.documents[document_id][i]["text"][:500] for i in top_indices]  # Truncate chunks
+        # Filter by minimum similarity threshold
+        filtered_results = []
+        for idx in top_indices:
+            if similarity_scores[idx] > 0.1:  # Minimum relevance threshold
+                # Don't truncate chunks - preserve full context
+                filtered_results.append(self.documents[document_id][idx]["text"])
+        
+        # If no good matches, return top chunks anyway
+        if not filtered_results:
+            filtered_results = [self.documents[document_id][i]["text"] for i in top_indices[:3]]
+            
+        return filtered_results

@@ -14,14 +14,15 @@ class QAEngine:
 
     def estimate_tokens(self, text: str) -> int:
         """Estimate token count for text"""
-        return len(text.split()) * 1.3  # Rough estimation
+        return len(text.split()) * 1.3
 
-    def organize_context(self, chunks: List[str], max_tokens: int = 3000) -> str:
+    def organize_context(self, chunks: List[str], max_tokens: int = 4000) -> str:
         """Organize context chunks within token limit"""
         context_parts = []
         current_tokens = 0
         
-        for chunk in chunks[:5]:  # Use top 5 chunks
+        # Use more chunks for better context
+        for chunk in chunks[:8]:
             chunk_tokens = self.estimate_tokens(chunk)
             if current_tokens + chunk_tokens > max_tokens:
                 break
@@ -39,25 +40,27 @@ class QAEngine:
             if not context:
                 return "I couldn't find relevant information in the document to answer your question."
             
-            # Create comprehensive prompt
+            # Enhanced system prompt for policy documents
             system_prompt = """
-You are an expert AI assistant that analyzes policy documents and provides accurate, detailed answers.
+You are an expert insurance policy analyst. Analyze the provided policy document context and answer questions with precision.
 
-Instructions:
-1. Provide comprehensive and accurate answers based on the given context
-2. If the information is not in the context, clearly state that
-3. Use specific details and quotes from the context when relevant
-4. Structure your answer clearly with bullet points or paragraphs as appropriate
-5. Be concise but thorough
+CRITICAL INSTRUCTIONS:
+1. ONLY use information explicitly stated in the provided context
+2. For specific details (waiting periods, coverage limits, percentages), quote exact values from the document
+3. If information is not in the context, clearly state "This information is not mentioned in the provided document"
+4. For yes/no questions, provide definitive answers based on the context
+5. Include specific policy terms, conditions, and numerical values when available
+6. Structure answers clearly with bullet points for multiple details
+7. Be precise about coverage inclusions and exclusions
 """
             
             user_prompt = f"""
-Context from document:
+Policy Document Context:
 {context}
 
 Question: {question}
 
-Please provide a detailed answer based on the context above.
+Provide a precise answer based ONLY on the information in the context above. Include specific details, waiting periods, coverage limits, and conditions mentioned in the document.
 """
             
             # Make API call with retries
@@ -71,7 +74,7 @@ Please provide a detailed answer based on the context above.
                             {"role": "user", "content": user_prompt}
                         ],
                         max_tokens=settings.max_tokens,
-                        temperature=0.1,
+                        temperature=0.0,  # Zero temperature for consistency
                         timeout=30
                     )
                     
@@ -82,7 +85,7 @@ Please provide a detailed answer based on the context above.
                     logger.warning(f"API call attempt {attempt + 1} failed: {e}")
                     if attempt == self.max_retries - 1:
                         raise e
-                    await asyncio.sleep(1)  # Brief delay before retry
+                    await asyncio.sleep(1)
             
         except Exception as e:
             logger.error(f"Error generating answer: {e}")
@@ -93,11 +96,10 @@ Please provide a detailed answer based on the context above.
         if not answer:
             return "I couldn't generate an answer for your question."
         
-        # Clean up the answer
         answer = answer.strip()
         
-        # Ensure it's not too long
-        if len(answer) > 1000:
-            answer = answer[:997] + "..."
+        # Allow longer answers for detailed policy information
+        if len(answer) > 1500:
+            answer = answer[:1497] + "..."
         
         return answer
