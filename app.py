@@ -66,9 +66,9 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
 
 # Cost-optimized timeout settings
 API_TIMEOUT = 90   # 1.5 minutes total
-PER_QUESTION_TIMEOUT = 30  # 30 seconds per question
-PDF_TIMEOUT = 20   # 20 seconds for PDF
-VECTOR_TIMEOUT = 10  # 10 seconds for vector operations
+PER_QUESTION_TIMEOUT = 20  # Reduce from 30 to 20 seconds
+PDF_TIMEOUT = 15   # Reduce from 20 to 15 seconds
+VECTOR_TIMEOUT = 5  # Reduce from 10 to 5 seconds
 
 @app.post("/api/v1/hackrx/run", response_model=QuestionResponse)
 async def process_questions(

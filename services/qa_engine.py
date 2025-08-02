@@ -100,7 +100,8 @@ class QAEngine:
         """Cost-optimized answer generation with high accuracy"""
         try:
             # Organize context efficiently
-            context = self.organize_context(context_chunks, max_tokens=8000)
+            # In organize_context method, increase chunk limit:
+            context = self.organize_context(context_chunks, max_tokens=12000)  # Increase from 8000
             
             if not context:
                 return "I couldn't find relevant information in the document to answer your question."
@@ -125,7 +126,7 @@ class QAEngine:
                         max_tokens=600,         # Balanced for cost and detail
                         temperature=0.0,        # Consistency
                         top_p=0.1,             # Focus on best tokens
-                        timeout=45              # Reasonable timeout
+                        timeout=15              # Reduce from 45 to 15 seconds
                     )
                     
                     answer = response.choices[0].message.content.strip()
@@ -165,15 +166,18 @@ class QAEngine:
 
     def _create_cost_effective_system_prompt(self, question_analysis: Dict) -> str:
         """Concise system prompt for cost optimization"""
-        prompt = """
-You are an expert insurance document analyst. Provide accurate, concise answers based ONLY on the provided document context.
-
-RULES:
-1. Use ONLY information from the provided context
-2. If information is missing, state "Not available in document"
-3. Be precise with numbers, percentages, and time periods
-4. Provide clear, direct answers
-"""
+        # In _create_cost_effective_system_prompt method:
+        return f"""You are an expert insurance policy analyzer. Answer questions based on the provided policy document context.
+        
+        IMPORTANT INSTRUCTIONS:
+        1. Use ONLY the information from the provided context
+        2. If specific details aren't found, provide the closest relevant information available
+        3. Be specific with numbers, percentages, and conditions
+        4. If truly no relevant information exists, state clearly what information is missing
+        5. DO NOT default to 'Not available' unless absolutely no related content exists
+        
+        Question Type: {question_analysis['type']}
+        Expected Answer Style: {question_analysis.get('expected_style', 'detailed')}"""
         
         if question_analysis['type'] == 'yes_no':
             prompt += "\nFor YES/NO questions: Start with YES or NO, then explain briefly."
