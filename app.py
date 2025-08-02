@@ -108,22 +108,17 @@ async def process_questions(
             raise HTTPException(status_code=408, detail="Vector storage timeout")
         
         # Step 3: Process questions
+        # Process questions efficiently
         answers = []
-        for question in request.questions:
+        for i, question in enumerate(request.questions):
             try:
-                # Check remaining time
-                elapsed = (datetime.now() - start_time).total_seconds()
-                if elapsed >= API_TIMEOUT - 5:
-                    answers.append("Processing timeout - please try with fewer questions")
-                    continue
-                
-                # Search for relevant chunks
+                # Get optimal number of chunks (cost control)
                 chunks = await asyncio.wait_for(
-                    vector_store.search_similar(question, document_id),
-                    timeout=3.0
+                    vector_store.search_similar(question, document_id, top_k=8),
+                    timeout=5.0
                 )
                 
-                # Generate answer
+                # Generate cost-effective answer
                 answer = await asyncio.wait_for(
                     qa_engine.generate_answer(question, chunks),
                     timeout=PER_QUESTION_TIMEOUT
@@ -132,9 +127,9 @@ async def process_questions(
                 answers.append(answer)
                 
             except asyncio.TimeoutError:
-                answers.append("Question processing timeout - please try a simpler question")
+                answers.append("Processing timeout - please try a simpler question")
             except Exception as e:
-                logger.error(f"Error processing question: {e}")
+                logger.error(f"Error processing question {i+1}: {e}")
                 answers.append("Error processing question - please try again")
         
         processing_time = (datetime.now() - start_time).total_seconds()
