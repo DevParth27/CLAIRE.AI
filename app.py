@@ -64,11 +64,11 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
         )
     return credentials.credentials
 
-# Original timeout settings (more generous)
-API_TIMEOUT = 30  # 30 seconds total
-PER_QUESTION_TIMEOUT = 15  # 15 seconds per question
-PDF_TIMEOUT = 10   # 10 seconds for PDF
-VECTOR_TIMEOUT = 5  # 5 seconds for vector operations
+# Cost-optimized timeout settings
+API_TIMEOUT = 90   # 1.5 minutes total
+PER_QUESTION_TIMEOUT = 30  # 30 seconds per question
+PDF_TIMEOUT = 20   # 20 seconds for PDF
+VECTOR_TIMEOUT = 10  # 10 seconds for vector operations
 
 @app.post("/api/v1/hackrx/run", response_model=QuestionResponse)
 async def process_questions(
@@ -78,7 +78,14 @@ async def process_questions(
     start_time = datetime.now()
     
     try:
-        logger.info(f"Processing {len(request.questions)} questions")
+        # Optimal batch size for cost control
+        if len(request.questions) > 10:
+            raise HTTPException(
+                status_code=400, 
+                detail="Maximum 10 questions per batch for cost optimization"
+            )
+        
+        logger.info(f"Processing {len(request.questions)} questions (cost-optimized)")
         
         # Step 1: PDF processing
         try:
