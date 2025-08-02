@@ -5,165 +5,292 @@ import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+from collections import defaultdict
 
 logger = logging.getLogger(__name__)
 
 class LightweightVectorStore:
     def __init__(self):
-        # Enhanced TF-IDF with better parameters
+        # Enhanced TF-IDF with optimized parameters for policy documents
         self.vectorizer = TfidfVectorizer(
-            max_features=5000,  # Increased vocabulary
+            max_features=8000,  # Increased vocabulary for better coverage
             stop_words='english',
-            ngram_range=(1, 4),  # Include 4-grams for better phrase matching
+            ngram_range=(1, 4),  # Include up to 4-grams for phrase matching
             min_df=1,
-            max_df=0.9,
+            max_df=0.85,
             sublinear_tf=True,  # Better handling of term frequencies
-            norm='l2'  # L2 normalization
+            norm='l2',  # L2 normalization
+            token_pattern=r'\b[a-zA-Z][a-zA-Z0-9]*\b'  # Include alphanumeric tokens
         )
         self.documents = {}
         self.document_vectors = {}
         self.chunk_metadata = {}
+        self.term_importance = {}
         
     async def store_document(self, chunks: List[Dict[str, str]], document_url: str) -> str:
         document_id = hashlib.md5(document_url.encode()).hexdigest()
         
-        # Store chunks with metadata
+        # Store chunks with enhanced metadata
         self.documents[document_id] = chunks
         self.chunk_metadata[document_id] = {
             chunk['chunk_id']: {
                 'section_id': chunk.get('section_id', 0),
                 'word_count': chunk.get('word_count', 0),
-                'text_preview': chunk['text'][:100] + '...' if len(chunk['text']) > 100 else chunk['text']
+                'chunk_type': chunk.get('chunk_type', 'unknown'),
+                'text_preview': chunk['text'][:150] + '...' if len(chunk['text']) > 150 else chunk['text'],
+                'has_numbers': bool(re.search(r'\d+', chunk['text'])),
+                'has_percentages': bool(re.search(r'\d+%', chunk['text'])),
+                'has_time_periods': bool(re.search(r'\d+\s*(day|month|year)', chunk['text'], re.IGNORECASE))
             } for chunk in chunks
         }
         
-        # Create enhanced vectors with preprocessing
-        texts = [self._preprocess_text(chunk["text"]) for chunk in chunks]
-        if texts:
-            vectors = self.vectorizer.fit_transform(texts)
+        # Preprocess and create enhanced vectors
+        processed_texts = [self._preprocess_text(chunk["text"]) for chunk in chunks]
+        if processed_texts:
+            vectors = self.vectorizer.fit_transform(processed_texts)
             self.document_vectors[document_id] = vectors
             
-        logger.info(f"Stored {len(chunks)} chunks with enhanced semantic vectors")
+            # Build term importance mapping
+            self._build_term_importance(processed_texts)
+            
+        logger.info(f"Stored {len(chunks)} chunks with enhanced semantic vectors and metadata")
         return document_id
     
     def _preprocess_text(self, text: str) -> str:
-        """Preprocess text for better vectorization"""
-        # Normalize insurance/policy specific terms
-        text = re.sub(r'\b(premium|policy|coverage|benefit|claim)s?\b', 
-                     lambda m: m.group().lower(), text, flags=re.IGNORECASE)
+        """Advanced preprocessing for insurance policy documents"""
+        # Normalize insurance-specific terms
+        text = re.sub(r'\b(waiting|grace)\s+period', 'WAITING_PERIOD', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bpre-?existing\s+disease', 'PREEXISTING_DISEASE', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bno\s+claim\s+discount', 'NO_CLAIM_DISCOUNT', text, flags=re.IGNORECASE)
+        text = re.sub(r'\broom\s+rent', 'ROOM_RENT', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bicu\s+charges', 'ICU_CHARGES', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bmaternity\s+(expenses?|benefits?)', 'MATERNITY_COVERAGE', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bhealth\s+check-?up', 'HEALTH_CHECKUP', text, flags=re.IGNORECASE)
+        text = re.sub(r'\borgan\s+donor', 'ORGAN_DONOR', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bcataract\s+surgery', 'CATARACT_SURGERY', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bayush\s+treatment', 'AYUSH_TREATMENT', text, flags=re.IGNORECASE)
         
-        # Normalize numbers and percentages
-        text = re.sub(r'\b\d+%\b', 'PERCENTAGE', text)
-        text = re.sub(r'\b\d+\s*(days?|months?|years?)\b', 'TIMEPERIOD', text, flags=re.IGNORECASE)
-        text = re.sub(r'\b\d+\s*(rupees?|rs\.?|inr)\b', 'AMOUNT', text, flags=re.IGNORECASE)
+        # Normalize numerical patterns
+        text = re.sub(r'\b\d+\s*%', 'PERCENTAGE_VALUE', text)
+        text = re.sub(r'\b\d+\s*(days?)', 'DAYS_PERIOD', text, flags=re.IGNORECASE)
+        text = re.sub(r'\b\d+\s*(months?)', 'MONTHS_PERIOD', text, flags=re.IGNORECASE)
+        text = re.sub(r'\b\d+\s*(years?)', 'YEARS_PERIOD', text, flags=re.IGNORECASE)
+        text = re.sub(r'\b\d+\s*(rupees?|rs\.?|inr)', 'AMOUNT_VALUE', text, flags=re.IGNORECASE)
+        
+        # Preserve important policy structure
+        text = re.sub(r'\b(section|clause|article)\s+(\d+)', r'\1_\2', text, flags=re.IGNORECASE)
         
         return text
     
-    async def search_similar(self, query: str, document_id: str, top_k: int = 8) -> List[str]:
-        """Enhanced similarity search with multiple strategies"""
+    def _build_term_importance(self, texts: List[str]):
+        """Build term importance scores for better ranking"""
+        # Get feature names and their IDF scores
+        feature_names = self.vectorizer.get_feature_names_out()
+        idf_scores = self.vectorizer.idf_
+        
+        self.term_importance = dict(zip(feature_names, idf_scores))
+        
+        # Boost importance of policy-specific terms
+        policy_terms = [
+            'WAITING_PERIOD', 'PREEXISTING_DISEASE', 'NO_CLAIM_DISCOUNT',
+            'ROOM_RENT', 'ICU_CHARGES', 'MATERNITY_COVERAGE', 'HEALTH_CHECKUP',
+            'ORGAN_DONOR', 'CATARACT_SURGERY', 'AYUSH_TREATMENT',
+            'PERCENTAGE_VALUE', 'DAYS_PERIOD', 'MONTHS_PERIOD', 'YEARS_PERIOD'
+        ]
+        
+        for term in policy_terms:
+            if term in self.term_importance:
+                self.term_importance[term] *= 1.5  # Boost policy-specific terms
+    
+    async def search_similar(self, query: str, document_id: str, top_k: int = 10) -> List[str]:
+        """Advanced multi-strategy similarity search"""
         if document_id not in self.documents:
             return []
         
         try:
-            # Preprocess query
+            # Preprocess query with same transformations
             processed_query = self._preprocess_text(query)
             query_vector = self.vectorizer.transform([processed_query])
-        except:
-            # Fallback: return chunks based on keyword matching
+        except Exception as e:
+            logger.warning(f"Vectorization failed: {e}, using keyword fallback")
             return self._keyword_fallback_search(query, document_id, top_k)
         
-        # Calculate similarities
-        similarities = cosine_similarity(query_vector, self.document_vectors[document_id])
-        similarity_scores = similarities[0]
-        
         # Multi-strategy ranking
-        ranked_chunks = self._multi_strategy_ranking(query, similarity_scores, document_id)
+        ranked_chunks = self._multi_strategy_ranking(query, processed_query, query_vector, document_id)
         
-        # Return top results with context
+        # Get top results with intelligent context expansion
         results = []
-        for chunk_idx, score in ranked_chunks[:top_k]:
+        used_sections = set()
+        
+        for chunk_idx, score in ranked_chunks[:top_k * 2]:  # Get more candidates
+            if len(results) >= top_k:
+                break
+                
             chunk_text = self.documents[document_id][chunk_idx]["text"]
+            section_id = self.chunk_metadata[document_id][chunk_idx]['section_id']
             
-            # Add context from adjacent chunks if score is high
-            if score > 0.3 and len(results) < 5:
-                context_text = self._get_contextual_chunk(document_id, chunk_idx)
+            # For high-scoring chunks, add context from same section
+            if score > 0.4 and section_id not in used_sections and len(results) < top_k - 2:
+                context_text = self._get_section_context(document_id, chunk_idx, section_id)
                 results.append(context_text)
+                used_sections.add(section_id)
             else:
                 results.append(chunk_text)
         
-        # Ensure we have some results
-        if not results:
-            results = [chunk["text"] for chunk in self.documents[document_id][:3]]
+        # Ensure minimum results
+        if len(results) < 3:
+            fallback_results = self._keyword_fallback_search(query, document_id, 5)
+            results.extend(fallback_results[:5-len(results)])
             
-        return results
+        return results[:top_k]
     
-    def _multi_strategy_ranking(self, query: str, similarity_scores: np.ndarray, document_id: str) -> List[Tuple[int, float]]:
-        """Combine multiple ranking strategies"""
-        query_lower = query.lower()
+    def _multi_strategy_ranking(self, original_query: str, processed_query: str, query_vector, document_id: str) -> List[Tuple[int, float]]:
+        """Advanced multi-strategy ranking combining multiple signals"""
         chunks = self.documents[document_id]
+        query_lower = original_query.lower()
         
-        # Strategy 1: TF-IDF similarity (weight: 0.6)
-        tfidf_scores = similarity_scores * 0.6
+        # Strategy 1: Enhanced TF-IDF similarity (weight: 0.5)
+        similarities = cosine_similarity(query_vector, self.document_vectors[document_id])
+        tfidf_scores = similarities[0] * 0.5
         
-        # Strategy 2: Keyword matching (weight: 0.3)
+        # Strategy 2: Exact phrase matching (weight: 0.25)
+        phrase_scores = np.zeros(len(chunks))
+        query_phrases = self._extract_phrases(original_query)
+        
+        for i, chunk in enumerate(chunks):
+            chunk_text = chunk["text"].lower()
+            phrase_matches = sum(1 for phrase in query_phrases if phrase in chunk_text)
+            phrase_scores[i] = (phrase_matches / max(len(query_phrases), 1)) * 0.25
+        
+        # Strategy 3: Keyword density scoring (weight: 0.15)
         keyword_scores = np.zeros(len(chunks))
         query_keywords = set(re.findall(r'\b\w+\b', query_lower))
         
         for i, chunk in enumerate(chunks):
             chunk_text = chunk["text"].lower()
-            chunk_keywords = set(re.findall(r'\b\w+\b', chunk_text))
-            keyword_overlap = len(query_keywords.intersection(chunk_keywords))
-            keyword_scores[i] = keyword_overlap / max(len(query_keywords), 1) * 0.3
+            chunk_words = re.findall(r'\b\w+\b', chunk_text)
+            
+            if chunk_words:
+                keyword_matches = sum(1 for word in chunk_words if word in query_keywords)
+                keyword_density = keyword_matches / len(chunk_words)
+                keyword_scores[i] = keyword_density * 0.15
         
-        # Strategy 3: Section relevance (weight: 0.1)
-        section_scores = np.zeros(len(chunks))
+        # Strategy 4: Metadata-based scoring (weight: 0.1)
+        metadata_scores = np.zeros(len(chunks))
+        
         for i, chunk in enumerate(chunks):
-            # Boost chunks from sections that might contain policy details
+            metadata = self.chunk_metadata[document_id][chunk['chunk_id']]
+            score = 0
+            
+            # Boost chunks with numbers if query contains numerical terms
+            if any(term in query_lower for term in ['period', 'days', 'months', 'years', '%', 'percent']):
+                if metadata['has_numbers'] or metadata['has_percentages'] or metadata['has_time_periods']:
+                    score += 0.05
+            
+            # Boost complete sections over split sections
+            if metadata['chunk_type'] == 'complete_section':
+                score += 0.02
+            
+            # Boost chunks with policy-specific indicators
             chunk_text = chunk["text"].lower()
-            if any(term in chunk_text for term in ['waiting period', 'coverage', 'benefit', 'premium', 'claim']):
-                section_scores[i] = 0.1
+            policy_indicators = ['coverage', 'benefit', 'waiting', 'grace', 'claim', 'premium', 'policy']
+            indicator_count = sum(1 for indicator in policy_indicators if indicator in chunk_text)
+            score += (indicator_count / len(policy_indicators)) * 0.03
+            
+            metadata_scores[i] = score
         
-        # Combine scores
-        final_scores = tfidf_scores + keyword_scores + section_scores
+        # Combine all scores
+        final_scores = tfidf_scores + phrase_scores + keyword_scores + metadata_scores
         
-        # Create ranked list
+        # Apply minimum threshold and sort
         ranked_indices = final_scores.argsort()[::-1]
         return [(idx, final_scores[idx]) for idx in ranked_indices if final_scores[idx] > 0.05]
     
-    def _get_contextual_chunk(self, document_id: str, chunk_idx: int) -> str:
-        """Get chunk with surrounding context"""
+    def _extract_phrases(self, query: str) -> List[str]:
+        """Extract meaningful phrases from query"""
+        phrases = []
+        
+        # Extract quoted phrases
+        quoted_phrases = re.findall(r'"([^"]+)"', query)
+        phrases.extend(quoted_phrases)
+        
+        # Extract common insurance phrases
+        insurance_phrases = [
+            'waiting period', 'grace period', 'pre-existing disease', 'no claim discount',
+            'room rent', 'icu charges', 'maternity expenses', 'health check-up',
+            'organ donor', 'cataract surgery', 'ayush treatment'
+        ]
+        
+        query_lower = query.lower()
+        for phrase in insurance_phrases:
+            if phrase in query_lower:
+                phrases.append(phrase)
+        
+        # Extract numerical phrases
+        numerical_phrases = re.findall(r'\d+\s*(?:days?|months?|years?|%|percent)', query_lower)
+        phrases.extend(numerical_phrases)
+        
+        return list(set(phrases))  # Remove duplicates
+    
+    def _get_section_context(self, document_id: str, chunk_idx: int, section_id: int) -> str:
+        """Get expanded context from the same section"""
         chunks = self.documents[document_id]
+        section_chunks = []
         
-        # Include previous and next chunk for context
-        context_chunks = []
+        # Find all chunks from the same section
+        for i, chunk in enumerate(chunks):
+            if self.chunk_metadata[document_id][chunk['chunk_id']]['section_id'] == section_id:
+                section_chunks.append((i, chunk['text']))
         
-        if chunk_idx > 0:
-            prev_chunk = chunks[chunk_idx - 1]["text"]
-            if len(prev_chunk) < 200:  # Only add if previous chunk is short
-                context_chunks.append(prev_chunk[-100:])  # Last 100 chars
-        
-        context_chunks.append(chunks[chunk_idx]["text"])
-        
-        if chunk_idx < len(chunks) - 1:
-            next_chunk = chunks[chunk_idx + 1]["text"]
-            if len(next_chunk) < 200:  # Only add if next chunk is short
-                context_chunks.append(next_chunk[:100])  # First 100 chars
-        
-        return " ... ".join(context_chunks)
+        # If we have multiple chunks from same section, combine them intelligently
+        if len(section_chunks) > 1:
+            # Sort by chunk index to maintain order
+            section_chunks.sort(key=lambda x: x[0])
+            
+            # Find the target chunk and include neighbors
+            target_pos = next(i for i, (idx, _) in enumerate(section_chunks) if idx == chunk_idx)
+            
+            context_parts = []
+            start_pos = max(0, target_pos - 1)
+            end_pos = min(len(section_chunks), target_pos + 2)
+            
+            for i in range(start_pos, end_pos):
+                _, text = section_chunks[i]
+                if i == target_pos:
+                    context_parts.append(f"[MAIN] {text}")
+                else:
+                    context_parts.append(f"[CONTEXT] {text[:200]}..." if len(text) > 200 else f"[CONTEXT] {text}")
+            
+            return " ".join(context_parts)
+        else:
+            return chunks[chunk_idx]['text']
     
     def _keyword_fallback_search(self, query: str, document_id: str, top_k: int) -> List[str]:
-        """Fallback search using keyword matching"""
+        """Enhanced fallback search using multiple keyword strategies"""
         query_words = set(query.lower().split())
         chunks = self.documents[document_id]
         
         scored_chunks = []
+        
         for chunk in chunks:
-            chunk_words = set(chunk["text"].lower().split())
-            overlap = len(query_words.intersection(chunk_words))
-            if overlap > 0:
-                scored_chunks.append((chunk["text"], overlap))
+            chunk_text = chunk["text"].lower()
+            chunk_words = set(chunk_text.split())
+            
+            # Calculate multiple similarity metrics
+            word_overlap = len(query_words.intersection(chunk_words))
+            jaccard_similarity = word_overlap / len(query_words.union(chunk_words)) if query_words.union(chunk_words) else 0
+            
+            # Boost score for exact phrase matches
+            phrase_bonus = 0
+            for phrase in self._extract_phrases(query):
+                if phrase.lower() in chunk_text:
+                    phrase_bonus += 0.5
+            
+            total_score = word_overlap + jaccard_similarity + phrase_bonus
+            
+            if total_score > 0:
+                scored_chunks.append((chunk["text"], total_score))
         
-        # Sort by overlap score
+        # Sort by score and return top results
         scored_chunks.sort(key=lambda x: x[1], reverse=True)
-        
         return [chunk[0] for chunk in scored_chunks[:top_k]]

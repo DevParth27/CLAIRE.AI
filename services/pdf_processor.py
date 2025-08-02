@@ -9,12 +9,12 @@ logger = logging.getLogger(__name__)
 
 class PDFProcessor:
     def __init__(self):
-        self.max_chunk_size = 800  # Reduced for better coherence
-        self.chunk_overlap = 150   # Increased overlap
-        self.min_chunk_size = 100  # Minimum viable chunk size
+        self.max_chunk_size = 600  # Optimized for better coherence
+        self.chunk_overlap = 100   # Increased overlap for context preservation
+        self.min_chunk_size = 80   # Minimum viable chunk size
     
     async def process_pdf_from_url(self, pdf_url: str) -> List[Dict[str, str]]:
-        """Download PDF from URL and extract text content"""
+        """Download PDF from URL and extract text content with enhanced processing"""
         try:
             # Download PDF
             async with aiohttp.ClientSession() as session:
@@ -24,12 +24,13 @@ class PDFProcessor:
                     
                     pdf_content = await response.read()
             
-            # Extract text with better formatting
+            # Extract text with enhanced formatting
             text_content = await self._extract_text_from_pdf(pdf_content)
             
             # Smart chunking with context preservation
             chunks = self._smart_chunk_text(text_content)
             
+            logger.info(f"Successfully processed PDF with {len(chunks)} optimized chunks")
             return chunks
             
         except Exception as e:
@@ -37,7 +38,7 @@ class PDFProcessor:
             raise
     
     async def _extract_text_from_pdf(self, pdf_content: bytes) -> str:
-        """Extract text from PDF content with better formatting"""
+        """Extract text from PDF content with enhanced formatting preservation"""
         text = ""
         
         try:
@@ -46,9 +47,9 @@ class PDFProcessor:
                 for page_num, page in enumerate(pdf_reader.pages):
                     page_text = page.extract_text()
                     if page_text:
-                        # Clean and format text
+                        # Clean and format text while preserving structure
                         cleaned_text = self._clean_text(page_text)
-                        text += f"\n\n--- Page {page_num + 1} ---\n{cleaned_text}"
+                        text += f"\n\n=== PAGE {page_num + 1} ===\n{cleaned_text}"
                         
         except Exception as e:
             logger.error(f"PyPDF2 extraction failed: {str(e)}")
@@ -60,61 +61,109 @@ class PDFProcessor:
         return text
     
     def _clean_text(self, text: str) -> str:
-        """Clean and normalize extracted text"""
-        # Remove excessive whitespace
-        text = re.sub(r'\s+', ' ', text)
+        """Clean and normalize extracted text while preserving important structure"""
+        # Remove excessive whitespace but preserve paragraph breaks
+        text = re.sub(r'\n\s*\n\s*\n+', '\n\n', text)
+        text = re.sub(r'[ \t]+', ' ', text)
+        
         # Fix common PDF extraction issues
         text = re.sub(r'([a-z])([A-Z])', r'\1 \2', text)  # Add space between camelCase
         text = re.sub(r'([.!?])([A-Z])', r'\1 \2', text)  # Add space after punctuation
-        # Preserve important formatting
-        text = re.sub(r'\b(SECTION|CLAUSE|ARTICLE|CHAPTER)\b', r'\n\n\1', text, flags=re.IGNORECASE)
+        text = re.sub(r'(\d)([A-Z])', r'\1 \2', text)     # Add space between number and letter
+        
+        # Preserve and enhance important policy structure markers
+        text = re.sub(r'\b(SECTION|CLAUSE|ARTICLE|CHAPTER|PART)\s*(\d+)', r'\n\n\1 \2', text, flags=re.IGNORECASE)
+        text = re.sub(r'\b(\d+\.\d*|\d+)\s*(WAITING PERIOD|GRACE PERIOD|COVERAGE|BENEFIT)', r'\n\1 \2', text, flags=re.IGNORECASE)
+        
+        # Normalize insurance-specific terms
+        text = re.sub(r'\bpre-existing\s+disease', 'pre-existing disease', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bno\s+claim\s+discount', 'no claim discount', text, flags=re.IGNORECASE)
+        
         return text.strip()
     
     def _smart_chunk_text(self, text: str) -> List[Dict[str, str]]:
-        """Smart chunking that preserves context and meaning"""
+        """Advanced chunking that preserves context and policy structure"""
         chunks = []
         
-        # Split by major sections first
-        sections = re.split(r'\n\n(?=(?:SECTION|CLAUSE|ARTICLE|CHAPTER|\d+\.))', text, flags=re.IGNORECASE)
+        # First, split by major sections (pages, sections, clauses)
+        major_sections = re.split(r'\n\n(?==== PAGE|SECTION|CLAUSE|ARTICLE)', text)
         
-        for section_idx, section in enumerate(sections):
+        for section_idx, section in enumerate(major_sections):
             if len(section.strip()) < self.min_chunk_size:
                 continue
-                
-            # Further split long sections by sentences
-            sentences = re.split(r'(?<=[.!?])\s+', section)
+            
+            # Check if section is small enough to be a single chunk
+            section_words = section.split()
+            if len(section_words) <= self.max_chunk_size:
+                chunks.append({
+                    "text": section.strip(),
+                    "chunk_id": len(chunks),
+                    "section_id": section_idx,
+                    "word_count": len(section_words),
+                    "chunk_type": "complete_section"
+                })
+                continue
+            
+            # For larger sections, split by sentences while preserving context
+            sentences = self._split_into_sentences(section)
             
             current_chunk = ""
             current_word_count = 0
+            sentence_buffer = []
             
             for sentence in sentences:
                 sentence_words = len(sentence.split())
                 
-                # If adding this sentence would exceed chunk size, save current chunk
+                # If adding this sentence would exceed chunk size
                 if current_word_count + sentence_words > self.max_chunk_size and current_chunk:
+                    # Save current chunk
                     chunks.append({
                         "text": current_chunk.strip(),
                         "chunk_id": len(chunks),
                         "section_id": section_idx,
-                        "word_count": current_word_count
+                        "word_count": current_word_count,
+                        "chunk_type": "split_section"
                     })
                     
-                    # Start new chunk with overlap
-                    overlap_sentences = current_chunk.split('. ')[-2:]  # Last 2 sentences
-                    current_chunk = '. '.join(overlap_sentences) + '. ' + sentence
+                    # Create overlap for next chunk
+                    overlap_sentences = sentence_buffer[-2:] if len(sentence_buffer) >= 2 else sentence_buffer
+                    current_chunk = ' '.join(overlap_sentences) + ' ' + sentence if overlap_sentences else sentence
                     current_word_count = len(current_chunk.split())
+                    sentence_buffer = overlap_sentences + [sentence]
                 else:
-                    current_chunk += " " + sentence if current_chunk else sentence
+                    current_chunk += ' ' + sentence if current_chunk else sentence
                     current_word_count += sentence_words
+                    sentence_buffer.append(sentence)
+                    
+                    # Keep buffer manageable
+                    if len(sentence_buffer) > 5:
+                        sentence_buffer = sentence_buffer[-3:]
             
-            # Add remaining chunk
+            # Add remaining chunk if substantial
             if current_chunk.strip() and len(current_chunk.split()) >= self.min_chunk_size:
                 chunks.append({
                     "text": current_chunk.strip(),
                     "chunk_id": len(chunks),
                     "section_id": section_idx,
-                    "word_count": current_word_count
+                    "word_count": current_word_count,
+                    "chunk_type": "final_section"
                 })
         
-        logger.info(f"Created {len(chunks)} smart chunks")
+        logger.info(f"Created {len(chunks)} smart chunks with preserved context")
         return chunks
+    
+    def _split_into_sentences(self, text: str) -> List[str]:
+        """Split text into sentences while handling policy document specifics"""
+        # Handle common abbreviations that shouldn't end sentences
+        text = re.sub(r'\b(Mr|Mrs|Dr|Prof|Inc|Ltd|Co|etc|vs|i\.e|e\.g)\.', r'\1<DOT>', text)
+        
+        # Split on sentence endings
+        sentences = re.split(r'(?<=[.!?])\s+(?=[A-Z])', text)
+        
+        # Restore dots in abbreviations
+        sentences = [s.replace('<DOT>', '.') for s in sentences]
+        
+        # Filter out very short sentences (likely formatting artifacts)
+        sentences = [s.strip() for s in sentences if len(s.strip()) > 10]
+        
+        return sentences
