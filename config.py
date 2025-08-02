@@ -6,8 +6,8 @@ class Settings(BaseSettings):
     # API Keys
     openai_api_key: str = os.getenv("OPENAI_API_KEY", "")
     openai_base_url: str = "https://api.openai.com/v1"
-    openai_model: str = "gpt-3.5-turbo"
-    
+    openai_model: str = "gpt-4-1106-preview"
+
     # Database
     database_url: str = os.getenv("DATABASE_URL", "sqlite:///./hackrx_db.db")
     
