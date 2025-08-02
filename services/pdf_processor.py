@@ -1,19 +1,17 @@
 import aiohttp
-import aiofiles
 import PyPDF2
-# import pdfplumber  # Comment out or remove this line
 import io
 import logging
+import re
 from typing import List, Dict
-import tempfile
-import os
 
 logger = logging.getLogger(__name__)
 
 class PDFProcessor:
     def __init__(self):
-        self.max_chunk_size = 1000
-        self.chunk_overlap = 200
+        self.max_chunk_size = 800  # Reduced for better coherence
+        self.chunk_overlap = 150   # Increased overlap
+        self.min_chunk_size = 100  # Minimum viable chunk size
     
     async def process_pdf_from_url(self, pdf_url: str) -> List[Dict[str, str]]:
         """Download PDF from URL and extract text content"""
@@ -26,11 +24,11 @@ class PDFProcessor:
                     
                     pdf_content = await response.read()
             
-            # Extract text
+            # Extract text with better formatting
             text_content = await self._extract_text_from_pdf(pdf_content)
             
-            # Chunk the content
-            chunks = self._chunk_text(text_content)
+            # Smart chunking with context preservation
+            chunks = self._smart_chunk_text(text_content)
             
             return chunks
             
@@ -39,17 +37,18 @@ class PDFProcessor:
             raise
     
     async def _extract_text_from_pdf(self, pdf_content: bytes) -> str:
-        """Extract text from PDF content using PyPDF2 only"""
+        """Extract text from PDF content with better formatting"""
         text = ""
         
         try:
-            # Use only PyPDF2 for memory efficiency
             with io.BytesIO(pdf_content) as pdf_file:
                 pdf_reader = PyPDF2.PdfReader(pdf_file)
-                for page in pdf_reader.pages:
+                for page_num, page in enumerate(pdf_reader.pages):
                     page_text = page.extract_text()
                     if page_text:
-                        text += page_text + "\n\n"
+                        # Clean and format text
+                        cleaned_text = self._clean_text(page_text)
+                        text += f"\n\n--- Page {page_num + 1} ---\n{cleaned_text}"
                         
         except Exception as e:
             logger.error(f"PyPDF2 extraction failed: {str(e)}")
@@ -60,20 +59,62 @@ class PDFProcessor:
             
         return text
     
-    def _chunk_text(self, text: str) -> List[Dict[str, str]]:
-        """Split text into overlapping chunks"""
+    def _clean_text(self, text: str) -> str:
+        """Clean and normalize extracted text"""
+        # Remove excessive whitespace
+        text = re.sub(r'\s+', ' ', text)
+        # Fix common PDF extraction issues
+        text = re.sub(r'([a-z])([A-Z])', r'\1 \2', text)  # Add space between camelCase
+        text = re.sub(r'([.!?])([A-Z])', r'\1 \2', text)  # Add space after punctuation
+        # Preserve important formatting
+        text = re.sub(r'\b(SECTION|CLAUSE|ARTICLE|CHAPTER)\b', r'\n\n\1', text, flags=re.IGNORECASE)
+        return text.strip()
+    
+    def _smart_chunk_text(self, text: str) -> List[Dict[str, str]]:
+        """Smart chunking that preserves context and meaning"""
         chunks = []
-        words = text.split()
         
-        for i in range(0, len(words), self.max_chunk_size - self.chunk_overlap):
-            chunk_words = words[i:i + self.max_chunk_size]
-            chunk_text = " ".join(chunk_words)
+        # Split by major sections first
+        sections = re.split(r'\n\n(?=(?:SECTION|CLAUSE|ARTICLE|CHAPTER|\d+\.))', text, flags=re.IGNORECASE)
+        
+        for section_idx, section in enumerate(sections):
+            if len(section.strip()) < self.min_chunk_size:
+                continue
+                
+            # Further split long sections by sentences
+            sentences = re.split(r'(?<=[.!?])\s+', section)
             
-            chunks.append({
-                "text": chunk_text,
-                "chunk_id": len(chunks),
-                "start_word": i,
-                "end_word": i + len(chunk_words)
-            })
+            current_chunk = ""
+            current_word_count = 0
+            
+            for sentence in sentences:
+                sentence_words = len(sentence.split())
+                
+                # If adding this sentence would exceed chunk size, save current chunk
+                if current_word_count + sentence_words > self.max_chunk_size and current_chunk:
+                    chunks.append({
+                        "text": current_chunk.strip(),
+                        "chunk_id": len(chunks),
+                        "section_id": section_idx,
+                        "word_count": current_word_count
+                    })
+                    
+                    # Start new chunk with overlap
+                    overlap_sentences = current_chunk.split('. ')[-2:]  # Last 2 sentences
+                    current_chunk = '. '.join(overlap_sentences) + '. ' + sentence
+                    current_word_count = len(current_chunk.split())
+                else:
+                    current_chunk += " " + sentence if current_chunk else sentence
+                    current_word_count += sentence_words
+            
+            # Add remaining chunk
+            if current_chunk.strip() and len(current_chunk.split()) >= self.min_chunk_size:
+                chunks.append({
+                    "text": current_chunk.strip(),
+                    "chunk_id": len(chunks),
+                    "section_id": section_idx,
+                    "word_count": current_word_count
+                })
         
+        logger.info(f"Created {len(chunks)} smart chunks")
         return chunks
