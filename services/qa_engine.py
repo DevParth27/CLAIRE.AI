@@ -96,8 +96,9 @@ class QAEngine:
         cleaned = re.sub(r'(\d+)\s*%', r'\1%', cleaned)
         return cleaned.strip()
 
+    # Update for better performance with cheaper models
     async def generate_answer(self, question: str, context_chunks: List[str]) -> str:
-        """Cost-optimized answer generation with high accuracy"""
+        """Generate comprehensive answer with enhanced prompting and validation"""
         try:
             # Organize context efficiently
             context = self.organize_context(context_chunks, max_tokens=8000)
@@ -117,15 +118,14 @@ class QAEngine:
                 try:
                     response = await asyncio.to_thread(
                         self.client.chat.completions.create,
-                        model=settings.openai_model,  # Use model from config
+                        model=settings.openai_model,
                         messages=[
                             {"role": "system", "content": system_prompt},
                             {"role": "user", "content": user_prompt}
                         ],
-                        max_tokens=600,         # Balanced for cost and detail
-                        temperature=0.0,        # Consistency
-                        top_p=0.1,             # Focus on best tokens
-                        timeout=45              # Reasonable timeout
+                        max_tokens=settings.max_tokens,
+                        temperature=0.0,  # Zero temperature for consistency
+                        timeout=30
                     )
                     
                     answer = response.choices[0].message.content.strip()
