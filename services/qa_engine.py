@@ -163,8 +163,8 @@ class QAEngine:
         
         return chunk
 
+    # Update for better performance with cheaper models
     async def generate_answer(self, question: str, context_chunks: List[str]) -> str:
-        """Generate comprehensive answer with enhanced prompting and validation"""
         try:
             # Organize context intelligently
             context = self.organize_context(context_chunks)
@@ -186,13 +186,16 @@ class QAEngine:
                 try:
                     response = await asyncio.to_thread(
                         self.client.chat.completions.create,
-                        model=settings.openai_model,
+                        model=settings.openai_model,  # Will use gpt-4-turbo
                         messages=[
                             {"role": "system", "content": system_prompt},
                             {"role": "user", "content": user_prompt}
                         ],
                         max_tokens=settings.max_tokens,
-                        temperature=0.0,  # Zero temperature for consistency
+                        temperature=0.1,  # Slightly higher for creativity
+                        top_p=0.9,       # More diverse responses
+                        frequency_penalty=0.1,  # Reduce repetition
+                        presence_penalty=0.1,   # Encourage new topics
                         timeout=30
                     )
                     
