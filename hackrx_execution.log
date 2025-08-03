@@ -158,3 +158,1978 @@
 2025-08-03 10:46:26,054 - execution_tracker - INFO - ANSWER_GENERATED|c7b17771|Q10|Time:17.24s|Total:17.25s|Length:667
 2025-08-03 10:46:26,054 - execution_tracker - INFO - ANSWER_CONTENT|c7b17771|Q10|The provided document context does not specify any sub-limits on room rent and ICU charges for Plan A. It defines "Room Rent" as the amount charged by a hospital towards room and boarding expenses and...
 2025-08-03 10:46:26,054 - execution_tracker - INFO - SESSION_COMPLETE|c7b17771|Total_time:72.42s|Success_rate:10/10
+2025-08-03 14:12:19,278 - services.qa_engine - INFO - Cost-Optimized High Accuracy QA Engine initialized with Gemini
+2025-08-03 14:12:19,291 - app - INFO - Application started successfully
+2025-08-03 14:13:10,398 - execution_tracker - INFO - SESSION_START|f19f1de6|2025-08-03T14:13:10.398035|Questions:10|Document:9szykRKdGYj0BVm1skP%2BX8N9%2FRENEn2k7MQPUp33jyQ%3D
+2025-08-03 14:13:10,398 - execution_tracker - INFO - QUESTION_RECEIVED|f19f1de6|Q1|What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?
+2025-08-03 14:13:10,398 - execution_tracker - INFO - QUESTION_RECEIVED|f19f1de6|Q2|What is the waiting period for pre-existing diseases (PED) to be covered?
+2025-08-03 14:13:10,398 - execution_tracker - INFO - QUESTION_RECEIVED|f19f1de6|Q3|Does this policy cover maternity expenses, and what are the conditions?
+2025-08-03 14:13:10,398 - execution_tracker - INFO - QUESTION_RECEIVED|f19f1de6|Q4|What is the waiting period for cataract surgery?
+2025-08-03 14:13:10,399 - execution_tracker - INFO - QUESTION_RECEIVED|f19f1de6|Q5|Are the medical expenses for an organ donor covered under this policy?
+2025-08-03 14:13:10,399 - execution_tracker - INFO - QUESTION_RECEIVED|f19f1de6|Q6|What is the No Claim Discount (NCD) offered in this policy?
+2025-08-03 14:13:10,399 - execution_tracker - INFO - QUESTION_RECEIVED|f19f1de6|Q7|Is there a benefit for preventive health check-ups?
+2025-08-03 14:13:10,399 - execution_tracker - INFO - QUESTION_RECEIVED|f19f1de6|Q8|How does the policy define a 'Hospital'?
+2025-08-03 14:13:10,400 - execution_tracker - INFO - QUESTION_RECEIVED|f19f1de6|Q9|What is the extent of coverage for AYUSH treatments?
+2025-08-03 14:13:10,400 - execution_tracker - INFO - QUESTION_RECEIVED|f19f1de6|Q10|Are there any sub-limits on room rent and ICU charges for Plan A?
+2025-08-03 14:13:10,401 - app - INFO - Processing 10 questions (cost-optimized)
+2025-08-03 14:13:15,999 - services.pdf_processor - INFO - Created 42 smart chunks with preserved context
+2025-08-03 14:13:15,999 - services.pdf_processor - INFO - Successfully processed PDF with 42 optimized chunks
+2025-08-03 14:13:15,999 - execution_tracker - INFO - PDF_PROCESSED|f19f1de6|Time:5.60s|Content_length:42
+2025-08-03 14:13:16,083 - services.vector_store_lite - INFO - Stored 42 chunks with enhanced semantic vectors and metadata
+2025-08-03 14:13:16,084 - execution_tracker - INFO - VECTOR_STORED|f19f1de6|Time:0.08s|Doc_ID:8a47c9c6b2803b1420575a001451a582
+2025-08-03 14:13:16,084 - execution_tracker - INFO - QUESTION_START|f19f1de6|Q1|What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?
+2025-08-03 14:13:16,085 - execution_tracker - INFO - CHUNKS_RETRIEVED|f19f1de6|Q1|Time:0.00s|Count:8
+2025-08-03 14:13:16,086 - qa_execution - INFO - QA_START|Hash:3515|Question:What is the grace period for premium payment under...
+2025-08-03 14:13:16,086 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:3515|Tokens:4891.900000000001
+2025-08-03 14:13:16,086 - qa_execution - INFO - API_CALL_START|Hash:3515|Attempt:1|Model:gemini-1.5-pro-latest
+2025-08-03 14:13:16,777 - qa_execution - WARNING - Gemini API call attempt 1 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 44
+}
+]
+2025-08-03 14:13:18,356 - qa_execution - WARNING - Gemini API call attempt 2 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 42
+}
+]
+2025-08-03 14:13:19,982 - qa_execution - WARNING - Gemini API call attempt 3 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 40
+}
+]
+2025-08-03 14:13:19,983 - qa_execution - ERROR - Error generating answer: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 40
+}
+]
+2025-08-03 14:13:19,983 - execution_tracker - INFO - ANSWER_GENERATED|f19f1de6|Q1|Time:3.90s|Total:3.90s|Length:72
+2025-08-03 14:13:19,983 - execution_tracker - INFO - ANSWER_CONTENT|f19f1de6|Q1|I encountered an error while processing your question. Please try again.
+2025-08-03 14:13:19,984 - execution_tracker - INFO - QUESTION_START|f19f1de6|Q2|What is the waiting period for pre-existing diseases (PED) to be covered?
+2025-08-03 14:13:19,985 - execution_tracker - INFO - CHUNKS_RETRIEVED|f19f1de6|Q2|Time:0.00s|Count:8
+2025-08-03 14:13:19,985 - qa_execution - INFO - QA_START|Hash:0696|Question:What is the waiting period for pre-existing diseas...
+2025-08-03 14:13:19,986 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:0696|Tokens:4930.900000000001
+2025-08-03 14:13:19,986 - qa_execution - INFO - API_CALL_START|Hash:0696|Attempt:1|Model:gemini-1.5-pro-latest
+2025-08-03 14:13:20,617 - qa_execution - WARNING - Gemini API call attempt 1 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 40
+}
+]
+2025-08-03 14:13:22,262 - qa_execution - WARNING - Gemini API call attempt 2 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 38
+}
+]
+2025-08-03 14:13:23,866 - qa_execution - WARNING - Gemini API call attempt 3 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 37
+}
+]
+2025-08-03 14:13:23,867 - qa_execution - ERROR - Error generating answer: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 37
+}
+]
+2025-08-03 14:13:23,867 - execution_tracker - INFO - ANSWER_GENERATED|f19f1de6|Q2|Time:3.88s|Total:3.88s|Length:72
+2025-08-03 14:13:23,868 - execution_tracker - INFO - ANSWER_CONTENT|f19f1de6|Q2|I encountered an error while processing your question. Please try again.
+2025-08-03 14:13:23,868 - execution_tracker - INFO - QUESTION_START|f19f1de6|Q3|Does this policy cover maternity expenses, and what are the conditions?
+2025-08-03 14:13:23,869 - execution_tracker - INFO - CHUNKS_RETRIEVED|f19f1de6|Q3|Time:0.00s|Count:8
+2025-08-03 14:13:23,869 - qa_execution - INFO - QA_START|Hash:5486|Question:Does this policy cover maternity expenses, and wha...
+2025-08-03 14:13:23,870 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:5486|Tokens:5029.7
+2025-08-03 14:13:23,870 - qa_execution - INFO - API_CALL_START|Hash:5486|Attempt:1|Model:gemini-1.5-pro-latest
+2025-08-03 14:13:24,500 - qa_execution - WARNING - Gemini API call attempt 1 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 36
+}
+]
+2025-08-03 14:13:26,143 - qa_execution - WARNING - Gemini API call attempt 2 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 34
+}
+]
+2025-08-03 14:13:27,752 - qa_execution - WARNING - Gemini API call attempt 3 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 33
+}
+]
+2025-08-03 14:13:27,753 - qa_execution - ERROR - Error generating answer: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 33
+}
+]
+2025-08-03 14:13:27,755 - execution_tracker - INFO - ANSWER_GENERATED|f19f1de6|Q3|Time:3.89s|Total:3.89s|Length:72
+2025-08-03 14:13:27,755 - execution_tracker - INFO - ANSWER_CONTENT|f19f1de6|Q3|I encountered an error while processing your question. Please try again.
+2025-08-03 14:13:27,756 - execution_tracker - INFO - QUESTION_START|f19f1de6|Q4|What is the waiting period for cataract surgery?
+2025-08-03 14:13:27,758 - execution_tracker - INFO - CHUNKS_RETRIEVED|f19f1de6|Q4|Time:0.00s|Count:8
+2025-08-03 14:13:27,758 - qa_execution - INFO - QA_START|Hash:0578|Question:What is the waiting period for cataract surgery?...
+2025-08-03 14:13:27,760 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:0578|Tokens:4416.1
+2025-08-03 14:13:27,760 - qa_execution - INFO - API_CALL_START|Hash:0578|Attempt:1|Model:gemini-1.5-pro-latest
+2025-08-03 14:13:28,964 - qa_execution - WARNING - Gemini API call attempt 1 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 31
+}
+]
+2025-08-03 14:13:30,608 - qa_execution - WARNING - Gemini API call attempt 2 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 30
+}
+]
+2025-08-03 14:13:32,109 - qa_execution - WARNING - Gemini API call attempt 3 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 28
+}
+]
+2025-08-03 14:13:32,109 - qa_execution - ERROR - Error generating answer: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 28
+}
+]
+2025-08-03 14:13:32,110 - execution_tracker - INFO - ANSWER_GENERATED|f19f1de6|Q4|Time:4.35s|Total:4.35s|Length:72
+2025-08-03 14:13:32,110 - execution_tracker - INFO - ANSWER_CONTENT|f19f1de6|Q4|I encountered an error while processing your question. Please try again.
+2025-08-03 14:13:32,111 - execution_tracker - INFO - QUESTION_START|f19f1de6|Q5|Are the medical expenses for an organ donor covered under this policy?
+2025-08-03 14:13:32,112 - execution_tracker - INFO - CHUNKS_RETRIEVED|f19f1de6|Q5|Time:0.00s|Count:8
+2025-08-03 14:13:32,112 - qa_execution - INFO - QA_START|Hash:6935|Question:Are the medical expenses for an organ donor covere...
+2025-08-03 14:13:32,112 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:6935|Tokens:5413.2
+2025-08-03 14:13:32,113 - qa_execution - INFO - API_CALL_START|Hash:6935|Attempt:1|Model:gemini-1.5-pro-latest
+2025-08-03 14:13:33,493 - qa_execution - WARNING - Gemini API call attempt 1 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 27
+}
+]
+2025-08-03 14:13:35,125 - qa_execution - WARNING - Gemini API call attempt 2 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 25
+}
+]
+2025-08-03 14:13:36,592 - qa_execution - WARNING - Gemini API call attempt 3 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 24
+}
+]
+2025-08-03 14:13:36,593 - qa_execution - ERROR - Error generating answer: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 24
+}
+]
+2025-08-03 14:13:36,593 - execution_tracker - INFO - ANSWER_GENERATED|f19f1de6|Q5|Time:4.48s|Total:4.48s|Length:72
+2025-08-03 14:13:36,594 - execution_tracker - INFO - ANSWER_CONTENT|f19f1de6|Q5|I encountered an error while processing your question. Please try again.
+2025-08-03 14:13:36,594 - execution_tracker - INFO - QUESTION_START|f19f1de6|Q6|What is the No Claim Discount (NCD) offered in this policy?
+2025-08-03 14:13:36,595 - execution_tracker - INFO - CHUNKS_RETRIEVED|f19f1de6|Q6|Time:0.00s|Count:8
+2025-08-03 14:13:36,595 - qa_execution - INFO - QA_START|Hash:4158|Question:What is the No Claim Discount (NCD) offered in thi...
+2025-08-03 14:13:36,596 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:4158|Tokens:5241.6
+2025-08-03 14:13:36,597 - qa_execution - INFO - API_CALL_START|Hash:4158|Attempt:1|Model:gemini-1.5-pro-latest
+2025-08-03 14:13:37,977 - qa_execution - WARNING - Gemini API call attempt 1 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 22
+}
+]
+2025-08-03 14:13:39,664 - qa_execution - WARNING - Gemini API call attempt 2 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 21
+}
+]
+2025-08-03 14:13:41,238 - qa_execution - WARNING - Gemini API call attempt 3 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 19
+}
+]
+2025-08-03 14:13:41,239 - qa_execution - ERROR - Error generating answer: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 19
+}
+]
+2025-08-03 14:13:41,239 - execution_tracker - INFO - ANSWER_GENERATED|f19f1de6|Q6|Time:4.64s|Total:4.65s|Length:72
+2025-08-03 14:13:41,240 - execution_tracker - INFO - ANSWER_CONTENT|f19f1de6|Q6|I encountered an error while processing your question. Please try again.
+2025-08-03 14:13:41,240 - execution_tracker - INFO - QUESTION_START|f19f1de6|Q7|Is there a benefit for preventive health check-ups?
+2025-08-03 14:13:41,241 - execution_tracker - INFO - CHUNKS_RETRIEVED|f19f1de6|Q7|Time:0.00s|Count:8
+2025-08-03 14:13:41,241 - qa_execution - INFO - QA_START|Hash:1683|Question:Is there a benefit for preventive health check-ups...
+2025-08-03 14:13:41,242 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:1683|Tokens:5357.3
+2025-08-03 14:13:41,242 - qa_execution - INFO - API_CALL_START|Hash:1683|Attempt:1|Model:gemini-1.5-pro-latest
+2025-08-03 14:13:41,916 - qa_execution - WARNING - Gemini API call attempt 1 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 18
+}
+]
+2025-08-03 14:13:43,579 - qa_execution - WARNING - Gemini API call attempt 2 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 17
+}
+]
+2025-08-03 14:13:45,145 - qa_execution - WARNING - Gemini API call attempt 3 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 15
+}
+]
+2025-08-03 14:13:45,145 - qa_execution - ERROR - Error generating answer: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 15
+}
+]
+2025-08-03 14:13:45,146 - execution_tracker - INFO - ANSWER_GENERATED|f19f1de6|Q7|Time:3.90s|Total:3.91s|Length:72
+2025-08-03 14:13:45,146 - execution_tracker - INFO - ANSWER_CONTENT|f19f1de6|Q7|I encountered an error while processing your question. Please try again.
+2025-08-03 14:13:45,146 - execution_tracker - INFO - QUESTION_START|f19f1de6|Q8|How does the policy define a 'Hospital'?
+2025-08-03 14:13:45,148 - execution_tracker - INFO - CHUNKS_RETRIEVED|f19f1de6|Q8|Time:0.00s|Count:8
+2025-08-03 14:13:45,148 - qa_execution - INFO - QA_START|Hash:9152|Question:How does the policy define a 'Hospital'?...
+2025-08-03 14:13:45,149 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:9152|Tokens:4824.3
+2025-08-03 14:13:45,149 - qa_execution - INFO - API_CALL_START|Hash:9152|Attempt:1|Model:gemini-1.5-pro-latest
+2025-08-03 14:13:47,042 - qa_execution - WARNING - Gemini API call attempt 1 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 13
+}
+]
+2025-08-03 14:13:48,611 - qa_execution - WARNING - Gemini API call attempt 2 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 12
+}
+]
+2025-08-03 14:13:50,211 - qa_execution - WARNING - Gemini API call attempt 3 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 10
+}
+]
+2025-08-03 14:13:50,212 - qa_execution - ERROR - Error generating answer: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 10
+}
+]
+2025-08-03 14:13:50,212 - execution_tracker - INFO - ANSWER_GENERATED|f19f1de6|Q8|Time:5.06s|Total:5.07s|Length:72
+2025-08-03 14:13:50,213 - execution_tracker - INFO - ANSWER_CONTENT|f19f1de6|Q8|I encountered an error while processing your question. Please try again.
+2025-08-03 14:13:50,213 - execution_tracker - INFO - QUESTION_START|f19f1de6|Q9|What is the extent of coverage for AYUSH treatments?
+2025-08-03 14:13:50,214 - execution_tracker - INFO - CHUNKS_RETRIEVED|f19f1de6|Q9|Time:0.00s|Count:8
+2025-08-03 14:13:50,215 - qa_execution - INFO - QA_START|Hash:7836|Question:What is the extent of coverage for AYUSH treatment...
+2025-08-03 14:13:50,216 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:7836|Tokens:5567.900000000001
+2025-08-03 14:13:50,216 - qa_execution - INFO - API_CALL_START|Hash:7836|Attempt:1|Model:gemini-1.5-pro-latest
+2025-08-03 14:13:50,818 - qa_execution - WARNING - Gemini API call attempt 1 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 10
+}
+]
+2025-08-03 14:13:52,441 - qa_execution - WARNING - Gemini API call attempt 2 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 8
+}
+]
+2025-08-03 14:13:54,105 - qa_execution - WARNING - Gemini API call attempt 3 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 6
+}
+]
+2025-08-03 14:13:54,106 - qa_execution - ERROR - Error generating answer: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 6
+}
+]
+2025-08-03 14:13:54,106 - execution_tracker - INFO - ANSWER_GENERATED|f19f1de6|Q9|Time:3.89s|Total:3.89s|Length:72
+2025-08-03 14:13:54,106 - execution_tracker - INFO - ANSWER_CONTENT|f19f1de6|Q9|I encountered an error while processing your question. Please try again.
+2025-08-03 14:13:54,107 - execution_tracker - INFO - QUESTION_START|f19f1de6|Q10|Are there any sub-limits on room rent and ICU charges for Plan A?
+2025-08-03 14:13:54,109 - execution_tracker - INFO - CHUNKS_RETRIEVED|f19f1de6|Q10|Time:0.00s|Count:8
+2025-08-03 14:13:54,109 - qa_execution - INFO - QA_START|Hash:8507|Question:Are there any sub-limits on room rent and ICU char...
+2025-08-03 14:13:54,110 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:8507|Tokens:4505.8
+2025-08-03 14:13:54,110 - qa_execution - INFO - API_CALL_START|Hash:8507|Attempt:1|Model:gemini-1.5-pro-latest
+2025-08-03 14:13:54,594 - qa_execution - WARNING - Gemini API call attempt 1 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 6
+}
+]
+2025-08-03 14:13:56,026 - qa_execution - WARNING - Gemini API call attempt 2 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 4
+}
+]
+2025-08-03 14:13:57,854 - qa_execution - WARNING - Gemini API call attempt 3 failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 3
+}
+]
+2025-08-03 14:13:57,855 - qa_execution - ERROR - Error generating answer: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-1.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 3
+}
+]
+2025-08-03 14:13:57,855 - execution_tracker - INFO - ANSWER_GENERATED|f19f1de6|Q10|Time:3.75s|Total:3.75s|Length:72
+2025-08-03 14:13:57,855 - execution_tracker - INFO - ANSWER_CONTENT|f19f1de6|Q10|I encountered an error while processing your question. Please try again.
+2025-08-03 14:13:57,855 - execution_tracker - INFO - SESSION_COMPLETE|f19f1de6|Total_time:47.46s|Success_rate:0/10
+2025-08-03 14:23:36,267 - services.qa_engine - INFO - Cost-Optimized High Accuracy QA Engine initialized with Gemini
+2025-08-03 14:23:36,271 - app - INFO - Application started successfully
+2025-08-03 14:23:40,972 - execution_tracker - INFO - SESSION_START|2a049a43|2025-08-03T14:23:40.972617|Questions:10|Document:9szykRKdGYj0BVm1skP%2BX8N9%2FRENEn2k7MQPUp33jyQ%3D
+2025-08-03 14:23:40,975 - execution_tracker - INFO - QUESTION_RECEIVED|2a049a43|Q1|What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?
+2025-08-03 14:23:40,975 - execution_tracker - INFO - QUESTION_RECEIVED|2a049a43|Q2|What is the waiting period for pre-existing diseases (PED) to be covered?
+2025-08-03 14:23:40,975 - execution_tracker - INFO - QUESTION_RECEIVED|2a049a43|Q3|Does this policy cover maternity expenses, and what are the conditions?
+2025-08-03 14:23:40,975 - execution_tracker - INFO - QUESTION_RECEIVED|2a049a43|Q4|What is the waiting period for cataract surgery?
+2025-08-03 14:23:40,975 - execution_tracker - INFO - QUESTION_RECEIVED|2a049a43|Q5|Are the medical expenses for an organ donor covered under this policy?
+2025-08-03 14:23:40,975 - execution_tracker - INFO - QUESTION_RECEIVED|2a049a43|Q6|What is the No Claim Discount (NCD) offered in this policy?
+2025-08-03 14:23:40,975 - execution_tracker - INFO - QUESTION_RECEIVED|2a049a43|Q7|Is there a benefit for preventive health check-ups?
+2025-08-03 14:23:40,976 - execution_tracker - INFO - QUESTION_RECEIVED|2a049a43|Q8|How does the policy define a 'Hospital'?
+2025-08-03 14:23:40,976 - execution_tracker - INFO - QUESTION_RECEIVED|2a049a43|Q9|What is the extent of coverage for AYUSH treatments?
+2025-08-03 14:23:40,976 - execution_tracker - INFO - QUESTION_RECEIVED|2a049a43|Q10|Are there any sub-limits on room rent and ICU charges for Plan A?
+2025-08-03 14:23:40,976 - app - INFO - Processing 10 questions (cost-optimized)
+2025-08-03 14:23:53,787 - services.pdf_processor - INFO - Created 42 smart chunks with preserved context
+2025-08-03 14:23:53,788 - services.pdf_processor - INFO - Successfully processed PDF with 42 optimized chunks
+2025-08-03 14:23:53,789 - execution_tracker - INFO - PDF_PROCESSED|2a049a43|Time:12.81s|Content_length:42
+2025-08-03 14:23:53,870 - services.vector_store_lite - INFO - Stored 42 chunks with enhanced semantic vectors and metadata
+2025-08-03 14:23:53,870 - execution_tracker - INFO - VECTOR_STORED|2a049a43|Time:0.08s|Doc_ID:8a47c9c6b2803b1420575a001451a582
+2025-08-03 14:23:53,871 - execution_tracker - INFO - QUESTION_START|2a049a43|Q1|What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?
+2025-08-03 14:23:53,872 - execution_tracker - INFO - CHUNKS_RETRIEVED|2a049a43|Q1|Time:0.00s|Count:8
+2025-08-03 14:23:53,873 - qa_execution - INFO - QA_START|Hash:5917|Question:What is the grace period for premium payment under...
+2025-08-03 14:23:53,873 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:5917|Tokens:4891.900000000001
+2025-08-03 14:23:53,874 - qa_execution - INFO - API_CALL_START|Hash:5917|Attempt:1|Model:gemini-2.0-flash
+2025-08-03 14:24:06,346 - qa_execution - INFO - API_SUCCESS|Hash:5917|Attempt:1|Time:12.47s|Response_length:669
+2025-08-03 14:24:06,347 - qa_execution - INFO - QA_COMPLETE|Hash:5917|Final_length:669
+2025-08-03 14:24:06,347 - execution_tracker - INFO - ANSWER_GENERATED|2a049a43|Q1|Time:12.47s|Total:12.48s|Length:669
+2025-08-03 14:24:06,347 - execution_tracker - INFO - ANSWER_CONTENT|2a049a43|Q1|The provided document refers to the "Easy Health" policy, not the "National Parivar Mediclaim Plus Policy."
+
+The grace period for premium payment under the HDFC ERGO "Easy Health" policy is as follows...
+2025-08-03 14:24:06,348 - execution_tracker - INFO - QUESTION_START|2a049a43|Q2|What is the waiting period for pre-existing diseases (PED) to be covered?
+2025-08-03 14:24:06,350 - execution_tracker - INFO - CHUNKS_RETRIEVED|2a049a43|Q2|Time:0.00s|Count:8
+2025-08-03 14:24:06,351 - qa_execution - INFO - QA_START|Hash:6365|Question:What is the waiting period for pre-existing diseas...
+2025-08-03 14:24:06,351 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:6365|Tokens:4930.900000000001
+2025-08-03 14:24:06,351 - qa_execution - INFO - API_CALL_START|Hash:6365|Attempt:1|Model:gemini-2.0-flash
+2025-08-03 14:24:09,925 - qa_execution - INFO - API_SUCCESS|Hash:6365|Attempt:1|Time:3.58s|Response_length:810
+2025-08-03 14:24:09,935 - qa_execution - INFO - QA_COMPLETE|Hash:6365|Final_length:810
+2025-08-03 14:24:09,936 - execution_tracker - INFO - ANSWER_GENERATED|2a049a43|Q2|Time:3.59s|Total:3.59s|Length:810
+2025-08-03 14:24:09,947 - execution_tracker - INFO - ANSWER_CONTENT|2a049a43|Q2|Expenses related to the treatment of a pre-existing disease (PED) and its direct complications shall be excluded until the expiry of **36 months** of continuous coverage after the date of inception of...
+2025-08-03 14:24:09,948 - execution_tracker - INFO - QUESTION_START|2a049a43|Q3|Does this policy cover maternity expenses, and what are the conditions?
+2025-08-03 14:24:09,965 - execution_tracker - INFO - CHUNKS_RETRIEVED|2a049a43|Q3|Time:0.02s|Count:8
+2025-08-03 14:24:09,985 - qa_execution - INFO - QA_START|Hash:0495|Question:Does this policy cover maternity expenses, and wha...
+2025-08-03 14:24:09,992 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:0495|Tokens:5029.7
+2025-08-03 14:24:10,006 - qa_execution - INFO - API_CALL_START|Hash:0495|Attempt:1|Model:gemini-2.0-flash
+2025-08-03 14:24:14,312 - qa_execution - INFO - API_SUCCESS|Hash:0495|Attempt:1|Time:4.30s|Response_length:1374
+2025-08-03 14:24:14,312 - qa_execution - INFO - QA_COMPLETE|Hash:0495|Final_length:1374
+2025-08-03 14:24:14,314 - execution_tracker - INFO - ANSWER_GENERATED|2a049a43|Q3|Time:4.33s|Total:4.37s|Length:1374
+2025-08-03 14:24:14,315 - execution_tracker - INFO - ANSWER_CONTENT|2a049a43|Q3|Yes, the HDFC ERGO General Insurance Company Limited Easy Health policy covers maternity expenses, but with specific conditions:
+
+*   **Coverage:** Maternity is covered to the extent provided for unde...
+2025-08-03 14:24:14,315 - execution_tracker - INFO - QUESTION_START|2a049a43|Q4|What is the waiting period for cataract surgery?
+2025-08-03 14:24:14,318 - execution_tracker - INFO - CHUNKS_RETRIEVED|2a049a43|Q4|Time:0.00s|Count:8
+2025-08-03 14:24:14,319 - qa_execution - INFO - QA_START|Hash:8500|Question:What is the waiting period for cataract surgery?...
+2025-08-03 14:24:14,322 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:8500|Tokens:4416.1
+2025-08-03 14:24:14,322 - qa_execution - INFO - API_CALL_START|Hash:8500|Attempt:1|Model:gemini-2.0-flash
+2025-08-03 14:24:15,654 - qa_execution - INFO - API_SUCCESS|Hash:8500|Attempt:1|Time:1.33s|Response_length:307
+2025-08-03 14:24:15,656 - qa_execution - INFO - QA_COMPLETE|Hash:8500|Final_length:307
+2025-08-03 14:24:15,656 - execution_tracker - INFO - ANSWER_GENERATED|2a049a43|Q4|Time:1.34s|Total:1.34s|Length:307
+2025-08-03 14:24:15,657 - execution_tracker - INFO - ANSWER_CONTENT|2a049a43|Q4|Expenses related to cataract surgery are excluded until the expiry of **24 months** of continuous coverage after the date of inception of the first policy with us under the **Easy Health** policy. Thi...
+2025-08-03 14:24:15,658 - execution_tracker - INFO - QUESTION_START|2a049a43|Q5|Are the medical expenses for an organ donor covered under this policy?
+2025-08-03 14:24:15,664 - execution_tracker - INFO - CHUNKS_RETRIEVED|2a049a43|Q5|Time:0.00s|Count:8
+2025-08-03 14:24:15,664 - qa_execution - INFO - QA_START|Hash:4628|Question:Are the medical expenses for an organ donor covere...
+2025-08-03 14:24:15,666 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:4628|Tokens:5413.2
+2025-08-03 14:24:15,667 - qa_execution - INFO - API_CALL_START|Hash:4628|Attempt:1|Model:gemini-2.0-flash
+2025-08-03 14:24:18,125 - qa_execution - INFO - API_SUCCESS|Hash:4628|Attempt:1|Time:2.45s|Response_length:804
+2025-08-03 14:24:18,125 - qa_execution - INFO - QA_COMPLETE|Hash:4628|Final_length:804
+2025-08-03 14:24:18,125 - execution_tracker - INFO - ANSWER_GENERATED|2a049a43|Q5|Time:2.46s|Total:2.47s|Length:804
+2025-08-03 14:24:18,125 - execution_tracker - INFO - ANSWER_CONTENT|2a049a43|Q5|Based on the provided document:
+
+*   **Coverage:** The "Easy Health" policy covers "Medical and surgical expenses of the organ donor for harvesting the organ where an Insured Person is the recipient."...
+2025-08-03 14:24:18,126 - execution_tracker - INFO - QUESTION_START|2a049a43|Q6|What is the No Claim Discount (NCD) offered in this policy?
+2025-08-03 14:24:18,130 - execution_tracker - INFO - CHUNKS_RETRIEVED|2a049a43|Q6|Time:0.00s|Count:8
+2025-08-03 14:24:18,130 - qa_execution - INFO - QA_START|Hash:9126|Question:What is the No Claim Discount (NCD) offered in thi...
+2025-08-03 14:24:18,131 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:9126|Tokens:5241.6
+2025-08-03 14:24:18,132 - qa_execution - INFO - API_CALL_START|Hash:9126|Attempt:1|Model:gemini-2.0-flash
+2025-08-03 14:24:21,501 - qa_execution - INFO - API_SUCCESS|Hash:9126|Attempt:1|Time:3.36s|Response_length:1943
+2025-08-03 14:24:21,501 - qa_execution - INFO - QA_COMPLETE|Hash:9126|Final_length:1500
+2025-08-03 14:24:21,502 - execution_tracker - INFO - ANSWER_GENERATED|2a049a43|Q6|Time:3.37s|Total:3.38s|Length:1500
+2025-08-03 14:24:21,502 - execution_tracker - INFO - ANSWER_CONTENT|2a049a43|Q6|The "Easy Health" policy offers a Cumulative Bonus, which functions as a No Claim Discount (NCD). Here are the details:
+
+*   **Cumulative Bonus:** A 10% cumulative bonus will be applied on the Sum Ins...
+2025-08-03 14:24:21,503 - execution_tracker - INFO - QUESTION_START|2a049a43|Q7|Is there a benefit for preventive health check-ups?
+2025-08-03 14:24:21,506 - execution_tracker - INFO - CHUNKS_RETRIEVED|2a049a43|Q7|Time:0.00s|Count:8
+2025-08-03 14:24:21,507 - qa_execution - INFO - QA_START|Hash:5579|Question:Is there a benefit for preventive health check-ups...
+2025-08-03 14:24:21,509 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:5579|Tokens:5357.3
+2025-08-03 14:24:21,512 - qa_execution - INFO - API_CALL_START|Hash:5579|Attempt:1|Model:gemini-2.0-flash
+2025-08-03 14:24:25,202 - qa_execution - INFO - API_SUCCESS|Hash:5579|Attempt:1|Time:3.69s|Response_length:1965
+2025-08-03 14:24:25,203 - qa_execution - INFO - QA_COMPLETE|Hash:5579|Final_length:1500
+2025-08-03 14:24:25,203 - execution_tracker - INFO - ANSWER_GENERATED|2a049a43|Q7|Time:3.70s|Total:3.70s|Length:1500
+2025-08-03 14:24:25,203 - execution_tracker - INFO - ANSWER_CONTENT|2a049a43|Q7|Yes, the "Easy Health" policy includes a benefit for preventive health check-ups. Here are the details:
+
+*   **Eligibility:** You must have maintained an "Easy Health" Policy without any break for the...
+2025-08-03 14:24:25,203 - execution_tracker - INFO - QUESTION_START|2a049a43|Q8|How does the policy define a 'Hospital'?
+2025-08-03 14:24:25,207 - execution_tracker - INFO - CHUNKS_RETRIEVED|2a049a43|Q8|Time:0.00s|Count:8
+2025-08-03 14:24:25,209 - qa_execution - INFO - QA_START|Hash:0988|Question:How does the policy define a 'Hospital'?...
+2025-08-03 14:24:25,212 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:0988|Tokens:4824.3
+2025-08-03 14:24:25,213 - qa_execution - INFO - API_CALL_START|Hash:0988|Attempt:1|Model:gemini-2.0-flash
+2025-08-03 14:24:26,696 - qa_execution - INFO - API_SUCCESS|Hash:0988|Attempt:1|Time:1.49s|Response_length:240
+2025-08-03 14:24:26,697 - qa_execution - INFO - QA_COMPLETE|Hash:0988|Final_length:240
+2025-08-03 14:24:26,697 - execution_tracker - INFO - ANSWER_GENERATED|2a049a43|Q8|Time:1.49s|Total:1.49s|Length:240
+2025-08-03 14:24:26,698 - execution_tracker - INFO - ANSWER_CONTENT|2a049a43|Q8|A Hospital is defined in the **Easy Health** policy as:
+
+*   Any institution established for in-patient care and day care treatment of illness and/or injuries.
+*   The institution must be registered a...
+2025-08-03 14:24:26,698 - execution_tracker - INFO - QUESTION_START|2a049a43|Q9|What is the extent of coverage for AYUSH treatments?
+2025-08-03 14:24:26,703 - execution_tracker - INFO - CHUNKS_RETRIEVED|2a049a43|Q9|Time:0.00s|Count:8
+2025-08-03 14:24:26,704 - qa_execution - INFO - QA_START|Hash:9878|Question:What is the extent of coverage for AYUSH treatment...
+2025-08-03 14:24:26,706 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:9878|Tokens:5567.900000000001
+2025-08-03 14:24:26,707 - qa_execution - INFO - API_CALL_START|Hash:9878|Attempt:1|Model:gemini-2.0-flash
+2025-08-03 14:24:30,781 - qa_execution - INFO - API_SUCCESS|Hash:9878|Attempt:1|Time:4.06s|Response_length:2796
+2025-08-03 14:24:30,784 - qa_execution - INFO - QA_COMPLETE|Hash:9878|Final_length:1500
+2025-08-03 14:24:30,786 - execution_tracker - INFO - ANSWER_GENERATED|2a049a43|Q9|Time:4.08s|Total:4.09s|Length:1500
+2025-08-03 14:24:30,787 - execution_tracker - INFO - ANSWER_CONTENT|2a049a43|Q9|Here's an analysis of the coverage for AYUSH treatments under the HDFC ERGO Easy Health policy, based solely on the provided document:
+
+*   **Coverage:** Expenses incurred on treatment taken under Ayu...
+2025-08-03 14:24:30,788 - execution_tracker - INFO - QUESTION_START|2a049a43|Q10|Are there any sub-limits on room rent and ICU charges for Plan A?
+2025-08-03 14:24:30,796 - execution_tracker - INFO - CHUNKS_RETRIEVED|2a049a43|Q10|Time:0.01s|Count:8
+2025-08-03 14:24:30,799 - qa_execution - INFO - QA_START|Hash:6444|Question:Are there any sub-limits on room rent and ICU char...
+2025-08-03 14:24:30,804 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:6444|Tokens:4505.8
+2025-08-03 14:24:30,804 - qa_execution - INFO - API_CALL_START|Hash:6444|Attempt:1|Model:gemini-2.0-flash
+2025-08-03 14:24:31,950 - qa_execution - INFO - API_SUCCESS|Hash:6444|Attempt:1|Time:1.14s|Response_length:59
+2025-08-03 14:24:31,951 - qa_execution - INFO - QA_COMPLETE|Hash:6444|Final_length:59
+2025-08-03 14:24:31,951 - execution_tracker - INFO - ANSWER_GENERATED|2a049a43|Q10|Time:1.15s|Total:1.16s|Length:59
+2025-08-03 14:24:31,951 - execution_tracker - INFO - ANSWER_CONTENT|2a049a43|Q10|This information is not mentioned in the provided document.
+2025-08-03 14:24:31,952 - execution_tracker - INFO - SESSION_COMPLETE|2a049a43|Total_time:50.98s|Success_rate:10/10

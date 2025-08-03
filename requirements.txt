@@ -1,8 +1,8 @@
 # Core FastAPI dependencies
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
-pydantic==2.5.0
-pydantic-settings==2.1.0
+pydantic>=2.8.0
+pydantic-settings>=2.3.0
 
 # HTTP and file handling
 aiohttp==3.9.1
@@ -24,7 +24,7 @@ sentence-transformers==2.2.2
 langchain==0.0.350
 pinecone-client==2.2.4
 python-magic==0.4.27
-
+google-generativeai>=0.3.0
 # Database
 sqlalchemy==2.0.23
 

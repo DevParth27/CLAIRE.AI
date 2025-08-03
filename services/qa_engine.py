@@ -1,253 +1,124 @@
-import openai
+import google.generativeai as genai
 import logging
 import asyncio
 from typing import List, Dict
 from config import settings
-import re
-from collections import Counter
-
-import logging
-import time
 
 logger = logging.getLogger(__name__)
 qa_logger = logging.getLogger('qa_execution')
 
 class QAEngine:
     def __init__(self):
-        self.client = openai.OpenAI(api_key=settings.openai_api_key)
+        # Configure Gemini API
+        genai.configure(api_key=settings.gemini_api_key)
+        self.model = genai.GenerativeModel(
+            model_name=settings.gemini_model,
+            generation_config=genai.types.GenerationConfig(
+                temperature=0.0,
+                max_output_tokens=1000,
+                top_p=0.95,
+                top_k=40
+            )
+        )
         self.max_retries = 3
-        logger.info("Cost-Optimized High Accuracy QA Engine initialized")
+        logger.info("Cost-Optimized High Accuracy QA Engine initialized with Gemini")
 
     def estimate_tokens(self, text: str) -> int:
-        """Accurate token estimation for cost control"""
-        return int(len(text.split()) * 1.3)
+        """Estimate token count for text"""
+        return len(text.split()) * 1.3
 
-    def organize_context(self, chunks: List[str], max_tokens: int = 8000) -> str:
-        """Cost-optimized context organization for high accuracy"""
-        if not chunks:
-            return ""
-        
-        # Smart deduplication to reduce token usage
-        unique_chunks = self._smart_deduplicate_chunks(chunks)
-        prioritized_chunks = self._cost_effective_prioritize_chunks(unique_chunks)
-        
+    def organize_context(self, chunks: List[str], max_tokens: int = 6000) -> str:
+        """Organize context chunks within token limit"""
         context_parts = []
         current_tokens = 0
         
-        # Optimize for 8 high-quality chunks (cost-effective)
-        for i, chunk in enumerate(prioritized_chunks[:8]):
+        # Use more chunks for better context
+        for chunk in chunks[:10]:
             chunk_tokens = self.estimate_tokens(chunk)
             if current_tokens + chunk_tokens > max_tokens:
                 break
-            
-            cleaned_chunk = self._efficient_clean_chunk(chunk)
-            formatted_chunk = f"\n--- SECTION {i+1} ---\n{cleaned_chunk}"
-            context_parts.append(formatted_chunk)
+            context_parts.append(chunk)
             current_tokens += chunk_tokens
         
-        return "\n".join(context_parts)
-
-    def _smart_deduplicate_chunks(self, chunks: List[str]) -> List[str]:
-        """Efficient deduplication to reduce costs"""
-        unique_chunks = []
-        seen_hashes = set()
-        
-        for chunk in chunks:
-            # Create content hash for quick comparison
-            content_hash = hash(re.sub(r'\s+', ' ', chunk.lower().strip()))
-            
-            if content_hash not in seen_hashes:
-                unique_chunks.append(chunk)
-                seen_hashes.add(content_hash)
-        
-        return unique_chunks
-
-    def _cost_effective_prioritize_chunks(self, chunks: List[str]) -> List[str]:
-        """Cost-effective prioritization for maximum relevance"""
-        scored_chunks = []
-        
-        for chunk in chunks:
-            score = 0
-            chunk_lower = chunk.lower()
-            
-            # High-impact keywords (focused list for efficiency)
-            key_terms = [
-                'coverage', 'premium', 'claim', 'benefit', 'waiting period',
-                'maternity', 'pre-existing', 'exclusion', 'sum insured',
-                'deductible', 'policy term', 'grace period'
-            ]
-            
-            # Numerical patterns (high value for insurance)
-            numerical_score = len(re.findall(r'\d+\s*%|\d+\s*years?|\d+\s*months?|rs\.?\s*\d+', chunk_lower))
-            
-            # Score calculation (optimized for relevance)
-            for term in key_terms:
-                score += chunk_lower.count(term) * 8
-            
-            score += numerical_score * 12
-            score += min(len(chunk.split()) / 8, 15)  # Prefer substantial content
-            
-            scored_chunks.append((chunk, score))
-        
-        scored_chunks.sort(key=lambda x: x[1], reverse=True)
-        return [chunk for chunk, _ in scored_chunks]
-
-    def _efficient_clean_chunk(self, chunk: str) -> str:
-        """Efficient text cleaning for cost optimization"""
-        # Essential cleaning only
-        cleaned = re.sub(r'\s+', ' ', chunk)
-        cleaned = re.sub(r'Rs\.?\s*', 'Rs. ', cleaned)
-        cleaned = re.sub(r'(\d+)\s*%', r'\1%', cleaned)
-        return cleaned.strip()
+        return "\n\n".join(context_parts)
 
     async def generate_answer(self, question: str, context_chunks: List[str]) -> str:
-        """Cost-optimized answer generation with high accuracy and detailed logging"""
-        start_time = time.time()
-        question_hash = hash(question) % 10000  # Short hash for tracking
+        """Generate comprehensive answer using Gemini API"""
+        question_hash = str(hash(question))[-4:]
+        qa_logger.info(f"QA_START|Hash:{question_hash}|Question:{question[:50]}...")
         
         try:
-            qa_logger.info(f"QA_START|Hash:{question_hash}|Question:{question[:50]}...")
-            
-            # Organize context efficiently
-            context_start = time.time()
-            context = self.organize_context(context_chunks, max_tokens=12000)
-            context_time = time.time() - context_start
-            
-            qa_logger.info(f"CONTEXT_ORGANIZED|Hash:{question_hash}|Time:{context_time:.2f}s|Tokens:{self.estimate_tokens(context)}")
+            # Organize context
+            context = self.organize_context(context_chunks)
             
             if not context:
-                qa_logger.warning(f"NO_CONTEXT|Hash:{question_hash}|No relevant information found")
                 return "I couldn't find relevant information in the document to answer your question."
             
-            # Streamlined question analysis
-            analysis_start = time.time()
-            question_analysis = self._efficient_question_analysis(question)
-            analysis_time = time.time() - analysis_start
+            qa_logger.info(f"CONTEXT_ORGANIZED|Hash:{question_hash}|Tokens:{self.estimate_tokens(context)}")
             
-            qa_logger.info(f"QUESTION_ANALYZED|Hash:{question_hash}|Type:{question_analysis['type']}|Time:{analysis_time:.2f}s")
+            # Enhanced prompt for policy documents
+            prompt = f"""
+You are an expert insurance policy analyst. Analyze the provided policy document context and answer questions with precision.
+
+CRITICAL INSTRUCTIONS:
+1. ONLY use information explicitly stated in the provided context
+2. For specific details (waiting periods, coverage limits, percentages), quote exact values from the document
+3. If information is not in the context, clearly state "This information is not mentioned in the provided document"
+4. For yes/no questions, provide definitive answers based on the context
+5. Include specific policy terms, conditions, and numerical values when available
+6. Structure answers clearly with bullet points for multiple details
+7. Be precise about coverage inclusions and exclusions
+8. Always refer to the correct policy name mentioned in the document
+
+Policy Document Context:
+{context}
+
+Question: {question}
+
+Provide a precise answer based ONLY on the information in the context above. Include specific details, waiting periods, coverage limits, and conditions mentioned in the document.
+"""
             
-            # Cost-optimized prompts
-            system_prompt = self._create_cost_effective_system_prompt(question_analysis)
-            user_prompt = self._create_efficient_user_prompt(question, context, question_analysis)
+            qa_logger.info(f"API_CALL_START|Hash:{question_hash}|Attempt:1|Model:{settings.gemini_model}")
             
-            qa_logger.info(f"PROMPTS_CREATED|Hash:{question_hash}|System_tokens:{self.estimate_tokens(system_prompt)}|User_tokens:{self.estimate_tokens(user_prompt)}")
-            
-            # API call with cost optimization
+            # Make API call with retries
             for attempt in range(self.max_retries):
-                api_start = time.time()
                 try:
-                    qa_logger.info(f"API_CALL_START|Hash:{question_hash}|Attempt:{attempt+1}|Model:{settings.openai_model}")
+                    start_time = asyncio.get_event_loop().time()
                     
                     response = await asyncio.to_thread(
-                        self.client.chat.completions.create,
-                        model=settings.openai_model,
-                        messages=[
-                            {"role": "system", "content": system_prompt},
-                            {"role": "user", "content": user_prompt}
-                        ],
-                        max_tokens=600,
-                        temperature=0.0,
-                        top_p=0.1,
-                        timeout=15
+                        self.model.generate_content,
+                        prompt
                     )
                     
-                    api_time = time.time() - api_start
-                    answer = response.choices[0].message.content.strip()
+                    api_time = asyncio.get_event_loop().time() - start_time
+                    answer = response.text.strip()
                     
                     qa_logger.info(f"API_SUCCESS|Hash:{question_hash}|Attempt:{attempt+1}|Time:{api_time:.2f}s|Response_length:{len(answer)}")
                     
-                    formatted_answer = self._format_cost_effective_answer(answer, question_analysis)
-                    total_time = time.time() - start_time
-                    
-                    qa_logger.info(f"QA_COMPLETE|Hash:{question_hash}|Total_time:{total_time:.2f}s|Final_length:{len(formatted_answer)}")
-                    qa_logger.info(f"FINAL_ANSWER|Hash:{question_hash}|{formatted_answer[:150]}{'...' if len(formatted_answer) > 150 else ''}")
+                    formatted_answer = self._format_answer(answer)
+                    qa_logger.info(f"QA_COMPLETE|Hash:{question_hash}|Final_length:{len(formatted_answer)}")
                     
                     return formatted_answer
                     
                 except Exception as e:
-                    api_time = time.time() - api_start
-                    qa_logger.warning(f"API_FAILED|Hash:{question_hash}|Attempt:{attempt+1}|Time:{api_time:.2f}s|Error:{str(e)}")
+                    qa_logger.warning(f"Gemini API call attempt {attempt + 1} failed: {e}")
                     if attempt == self.max_retries - 1:
                         raise e
                     await asyncio.sleep(1)
             
         except Exception as e:
-            total_time = time.time() - start_time
-            qa_logger.error(f"QA_ERROR|Hash:{question_hash}|Total_time:{total_time:.2f}s|Error:{str(e)}")
+            qa_logger.error(f"Error generating answer: {e}")
             return "I encountered an error while processing your question. Please try again."
-
-    def _efficient_question_analysis(self, question: str) -> Dict[str, any]:
-        """Streamlined question analysis for cost efficiency"""
-        question_lower = question.lower()
+    
+    def _format_answer(self, answer: str) -> str:
+        """Format and clean up the generated answer"""
+        if not answer:
+            return "I couldn't generate an answer for your question."
         
-        # Quick classification
-        question_type = "factual"
-        if any(word in question_lower for word in ['yes', 'no', 'does', 'is', 'can']):
-            question_type = "yes_no"
-        elif any(word in question_lower for word in ['how much', 'amount', 'cost']):
-            question_type = "numerical"
-        elif any(word in question_lower for word in ['when', 'period', 'duration']):
-            question_type = "temporal"
-        
-        return {
-            'type': question_type,
-            'needs_numbers': any(word in question_lower for word in ['amount', 'cost', 'premium', '%']),
-            'needs_time': any(word in question_lower for word in ['period', 'duration', 'months', 'years'])
-        }
-
-    def _create_cost_effective_system_prompt(self, question_analysis: Dict) -> str:
-        """Concise system prompt for cost optimization"""
-        # In _create_cost_effective_system_prompt method:
-        return f"""You are an expert insurance policy analyzer. Answer questions based on the provided policy document context.
-        
-        IMPORTANT INSTRUCTIONS:
-        1. Use ONLY the information from the provided context
-        2. If specific details aren't found, provide the closest relevant information available
-        3. Be specific with numbers, percentages, and conditions
-        4. If truly no relevant information exists, state clearly what information is missing
-        5. DO NOT default to 'Not available' unless absolutely no related content exists
-        
-        Question Type: {question_analysis['type']}
-        Expected Answer Style: {question_analysis.get('expected_style', 'detailed')}"""
-        
-        if question_analysis['type'] == 'yes_no':
-            prompt += "\nFor YES/NO questions: Start with YES or NO, then explain briefly."
-        elif question_analysis['type'] == 'numerical':
-            prompt += "\nFor numerical questions: Provide exact figures with units/currency."
-        elif question_analysis['type'] == 'temporal':
-            prompt += "\nFor time questions: Provide exact periods as stated in document."
-        
-        return prompt
-
-    def _create_efficient_user_prompt(self, question: str, context: str, question_analysis: Dict) -> str:
-        """Efficient user prompt for cost optimization"""
-        return f"""
-DOCUMENT CONTEXT:
-{context}
-
-QUESTION: {question}
-
-Provide a precise answer based on the document context above.
-"""
-
-    def _format_cost_effective_answer(self, answer: str, question_analysis: Dict) -> str:
-        """Efficient answer formatting"""
         answer = answer.strip()
         
-        # Ensure reasonable length (cost control)
-        if len(answer) > 1200:
-            sentences = answer.split('. ')
-            truncated = []
-            char_count = 0
-            
-            for sentence in sentences:
-                if char_count + len(sentence) > 1100:
-                    break
-                truncated.append(sentence)
-                char_count += len(sentence)
-            
-            answer = '. '.join(truncated)
-            if not answer.endswith('.'):
-                answer += '.'
+        # Allow longer answers for detailed policy information
+        if len(answer) > 1500:
+            answer = answer[:1497] + "..."
         
         return answer

@@ -11,16 +11,14 @@ logger = logging.getLogger(__name__)
 
 class LightweightVectorStore:
     def __init__(self):
-        # Enhanced TF-IDF with optimized parameters for policy documents
+        # Enhanced TF-IDF for better semantic matching
         self.vectorizer = TfidfVectorizer(
-            max_features=8000,  # Increased vocabulary for better coverage
+            max_features=5000,  # Increased for better coverage
             stop_words='english',
-            ngram_range=(1, 4),  # Include up to 4-grams for phrase matching
+            ngram_range=(1, 3),  # Include trigrams
             min_df=1,
-            max_df=0.85,
-            sublinear_tf=True,  # Better handling of term frequencies
-            norm='l2',  # L2 normalization
-            token_pattern=r'\b[a-zA-Z][a-zA-Z0-9]*\b'  # Include alphanumeric tokens
+            max_df=0.95,
+            sublinear_tf=True   # Better scaling
         )
         self.documents = {}
         self.document_vectors = {}
@@ -102,48 +100,26 @@ class LightweightVectorStore:
             if term in self.term_importance:
                 self.term_importance[term] *= 1.5  # Boost policy-specific terms
     
-    async def search_similar(self, query: str, document_id: str, top_k: int = 10) -> List[str]:
-        """Advanced multi-strategy similarity search"""
+    async def search_similar(self, query: str, document_id: str, top_k: int = 8) -> List[str]:
+        """Enhanced similarity search with more results"""
         if document_id not in self.documents:
             return []
-        
+            
         try:
-            # Preprocess query with same transformations
-            processed_query = self._preprocess_text(query)
-            query_vector = self.vectorizer.transform([processed_query])
-        except Exception as e:
-            logger.warning(f"Vectorization failed: {e}, using keyword fallback")
-            return self._keyword_fallback_search(query, document_id, top_k)
+            query_vector = self.vectorizer.transform([query])
+        except:
+            return [chunk["text"] for chunk in self.documents[document_id][:top_k]]
         
-        # Multi-strategy ranking
-        ranked_chunks = self._multi_strategy_ranking(query, processed_query, query_vector, document_id)
+        # Calculate similarities
+        similarities = cosine_similarity(query_vector, self.document_vectors[document_id])
         
-        # Get top results with intelligent context expansion
-        results = []
-        used_sections = set()
+        # Get top results with higher threshold
+        similarity_scores = similarities[0]
+        top_indices = similarity_scores.argsort()[-top_k:][::-1]
         
-        for chunk_idx, score in ranked_chunks[:top_k * 2]:  # Get more candidates
-            if len(results) >= top_k:
-                break
-                
-            chunk_text = self.documents[document_id][chunk_idx]["text"]
-            section_id = self.chunk_metadata[document_id][chunk_idx]['section_id']
-            
-            # For high-scoring chunks, add context from same section
-            if score > 0.4 and section_id not in used_sections and len(results) < top_k - 2:
-                context_text = self._get_section_context(document_id, chunk_idx, section_id)
-                results.append(context_text)
-                used_sections.add(section_id)
-            else:
-                results.append(chunk_text)
+        # Return full chunks without truncation
+        return [self.documents[document_id][idx]["text"] for idx in top_indices]
         
-        # Ensure minimum results
-        if len(results) < 3:
-            fallback_results = self._keyword_fallback_search(query, document_id, 5)
-            results.extend(fallback_results[:5-len(results)])
-            
-        return results[:top_k]
-    
     def _multi_strategy_ranking(self, original_query: str, processed_query: str, query_vector, document_id: str) -> List[Tuple[int, float]]:
         """Advanced multi-strategy ranking combining multiple signals"""
         chunks = self.documents[document_id]
