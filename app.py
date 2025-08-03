@@ -7,6 +7,8 @@ import os
 import asyncio
 import logging
 from datetime import datetime
+import json
+import uuid
 
 # Import our custom modules
 from services.pdf_processor import PDFProcessor
@@ -16,8 +18,17 @@ from database.models import init_db
 from config import settings
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+# Enhanced logging configuration
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('hackrx_execution.log'),
+        logging.StreamHandler()
+    ]
+)
 logger = logging.getLogger(__name__)
+execution_logger = logging.getLogger('execution_tracker')
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -75,64 +86,100 @@ async def process_questions(
     request: QuestionRequest,
     token: str = Depends(verify_token)
 ):
+    # Generate unique session ID for tracking
+    session_id = str(uuid.uuid4())[:8]
     start_time = datetime.now()
+    
+    # Log API request initiation
+    execution_logger.info(f"SESSION_START|{session_id}|{start_time.isoformat()}|Questions:{len(request.questions)}|Document:{str(request.documents)[-50:]}")
     
     try:
         # Optimal batch size for cost control
         if len(request.questions) > 10:
+            execution_logger.warning(f"SESSION_ERROR|{session_id}|Too many questions: {len(request.questions)}")
             raise HTTPException(
                 status_code=400, 
                 detail="Maximum 10 questions per batch for cost optimization"
             )
         
+        # Log each question before processing
+        for i, question in enumerate(request.questions, 1):
+            execution_logger.info(f"QUESTION_RECEIVED|{session_id}|Q{i}|{question[:100]}{'...' if len(question) > 100 else ''}")
+        
         logger.info(f"Processing {len(request.questions)} questions (cost-optimized)")
         
         # Step 1: PDF processing
+        pdf_start = datetime.now()
         try:
             pdf_content = await asyncio.wait_for(
                 pdf_processor.process_pdf_from_url(str(request.documents)),
                 timeout=PDF_TIMEOUT
             )
+            pdf_time = (datetime.now() - pdf_start).total_seconds()
+            execution_logger.info(f"PDF_PROCESSED|{session_id}|Time:{pdf_time:.2f}s|Content_length:{len(pdf_content)}")
         except asyncio.TimeoutError:
+            execution_logger.error(f"PDF_TIMEOUT|{session_id}|{PDF_TIMEOUT}s")
             logger.error("PDF processing timeout")
             raise HTTPException(status_code=408, detail="PDF processing timeout")
         
         # Step 2: Vector storage
+        vector_start = datetime.now()
         try:
             document_id = await asyncio.wait_for(
                 vector_store.store_document(pdf_content, str(request.documents)),
                 timeout=VECTOR_TIMEOUT
             )
+            vector_time = (datetime.now() - vector_start).total_seconds()
+            execution_logger.info(f"VECTOR_STORED|{session_id}|Time:{vector_time:.2f}s|Doc_ID:{document_id}")
         except asyncio.TimeoutError:
+            execution_logger.error(f"VECTOR_TIMEOUT|{session_id}|{VECTOR_TIMEOUT}s")
             logger.error("Vector storage timeout")
             raise HTTPException(status_code=408, detail="Vector storage timeout")
         
-        # Step 3: Process questions
-        # Process questions efficiently
+        # Step 3: Process questions with detailed logging
         answers = []
-        for i, question in enumerate(request.questions):
+        for i, question in enumerate(request.questions, 1):
+            question_start = datetime.now()
+            execution_logger.info(f"QUESTION_START|{session_id}|Q{i}|{question}")
+            
             try:
                 # Get optimal number of chunks (cost control)
+                chunks_start = datetime.now()
                 chunks = await asyncio.wait_for(
                     vector_store.search_similar(question, document_id, top_k=8),
                     timeout=5.0
                 )
+                chunks_time = (datetime.now() - chunks_start).total_seconds()
+                execution_logger.info(f"CHUNKS_RETRIEVED|{session_id}|Q{i}|Time:{chunks_time:.2f}s|Count:{len(chunks)}")
                 
                 # Generate cost-effective answer
+                answer_start = datetime.now()
                 answer = await asyncio.wait_for(
                     qa_engine.generate_answer(question, chunks),
                     timeout=PER_QUESTION_TIMEOUT
                 )
+                answer_time = (datetime.now() - answer_start).total_seconds()
+                question_total_time = (datetime.now() - question_start).total_seconds()
                 
                 answers.append(answer)
                 
+                # Log successful answer generation
+                execution_logger.info(f"ANSWER_GENERATED|{session_id}|Q{i}|Time:{answer_time:.2f}s|Total:{question_total_time:.2f}s|Length:{len(answer)}")
+                execution_logger.info(f"ANSWER_CONTENT|{session_id}|Q{i}|{answer[:200]}{'...' if len(answer) > 200 else ''}")
+                
             except asyncio.TimeoutError:
-                answers.append("Processing timeout - please try a simpler question")
+                timeout_answer = "Processing timeout - please try a simpler question"
+                answers.append(timeout_answer)
+                execution_logger.error(f"QUESTION_TIMEOUT|{session_id}|Q{i}|{PER_QUESTION_TIMEOUT}s")
             except Exception as e:
-                logger.error(f"Error processing question {i+1}: {e}")
-                answers.append("Error processing question - please try again")
+                error_answer = "Error processing question - please try again"
+                answers.append(error_answer)
+                execution_logger.error(f"QUESTION_ERROR|{session_id}|Q{i}|{str(e)}")
         
         processing_time = (datetime.now() - start_time).total_seconds()
+        
+        # Log session completion
+        execution_logger.info(f"SESSION_COMPLETE|{session_id}|Total_time:{processing_time:.2f}s|Success_rate:{len([a for a in answers if 'timeout' not in a.lower() and 'error' not in a.lower()])}/{len(answers)}")
         
         return QuestionResponse(
             answers=answers,
@@ -141,6 +188,7 @@ async def process_questions(
         )
         
     except Exception as e:
+        execution_logger.error(f"SESSION_FAILED|{session_id}|{str(e)}")
         logger.error(f"Processing error: {e}")
         raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")
 

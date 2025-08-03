@@ -1,0 +1,160 @@
+2025-08-03 10:44:01,999 - services.qa_engine - INFO - Cost-Optimized High Accuracy QA Engine initialized
+2025-08-03 10:44:02,015 - app - INFO - Application started successfully
+2025-08-03 10:44:15,946 - services.qa_engine - INFO - Cost-Optimized High Accuracy QA Engine initialized
+2025-08-03 10:44:15,955 - app - INFO - Application started successfully
+2025-08-03 10:45:13,631 - execution_tracker - INFO - SESSION_START|c7b17771|2025-08-03T10:45:13.631628|Questions:10|Document:9szykRKdGYj0BVm1skP%2BX8N9%2FRENEn2k7MQPUp33jyQ%3D
+2025-08-03 10:45:13,631 - execution_tracker - INFO - QUESTION_RECEIVED|c7b17771|Q1|What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?
+2025-08-03 10:45:13,631 - execution_tracker - INFO - QUESTION_RECEIVED|c7b17771|Q2|What is the waiting period for pre-existing diseases (PED) to be covered?
+2025-08-03 10:45:13,631 - execution_tracker - INFO - QUESTION_RECEIVED|c7b17771|Q3|Does this policy cover maternity expenses, and what are the conditions?
+2025-08-03 10:45:13,631 - execution_tracker - INFO - QUESTION_RECEIVED|c7b17771|Q4|What is the waiting period for cataract surgery?
+2025-08-03 10:45:13,631 - execution_tracker - INFO - QUESTION_RECEIVED|c7b17771|Q5|Are the medical expenses for an organ donor covered under this policy?
+2025-08-03 10:45:13,631 - execution_tracker - INFO - QUESTION_RECEIVED|c7b17771|Q6|What is the No Claim Discount (NCD) offered in this policy?
+2025-08-03 10:45:13,631 - execution_tracker - INFO - QUESTION_RECEIVED|c7b17771|Q7|Is there a benefit for preventive health check-ups?
+2025-08-03 10:45:13,631 - execution_tracker - INFO - QUESTION_RECEIVED|c7b17771|Q8|How does the policy define a 'Hospital'?
+2025-08-03 10:45:13,631 - execution_tracker - INFO - QUESTION_RECEIVED|c7b17771|Q9|What is the extent of coverage for AYUSH treatments?
+2025-08-03 10:45:13,631 - execution_tracker - INFO - QUESTION_RECEIVED|c7b17771|Q10|Are there any sub-limits on room rent and ICU charges for Plan A?
+2025-08-03 10:45:13,631 - app - INFO - Processing 10 questions (cost-optimized)
+2025-08-03 10:45:16,297 - services.pdf_processor - INFO - Created 42 smart chunks with preserved context
+2025-08-03 10:45:16,297 - services.pdf_processor - INFO - Successfully processed PDF with 42 optimized chunks
+2025-08-03 10:45:16,297 - execution_tracker - INFO - PDF_PROCESSED|c7b17771|Time:2.67s|Content_length:42
+2025-08-03 10:45:16,402 - services.vector_store_lite - INFO - Stored 42 chunks with enhanced semantic vectors and metadata
+2025-08-03 10:45:16,402 - execution_tracker - INFO - VECTOR_STORED|c7b17771|Time:0.10s|Doc_ID:8a47c9c6b2803b1420575a001451a582
+2025-08-03 10:45:16,402 - execution_tracker - INFO - QUESTION_START|c7b17771|Q1|What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?
+2025-08-03 10:45:16,413 - execution_tracker - INFO - CHUNKS_RETRIEVED|c7b17771|Q1|Time:0.01s|Count:8
+2025-08-03 10:45:16,413 - qa_execution - INFO - QA_START|Hash:4153|Question:What is the grace period for premium payment under...
+2025-08-03 10:45:16,418 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:4153|Time:0.01s|Tokens:5378
+2025-08-03 10:45:16,420 - qa_execution - INFO - QUESTION_ANALYZED|Hash:4153|Type:yes_no|Time:0.00s
+2025-08-03 10:45:16,420 - qa_execution - INFO - PROMPTS_CREATED|Hash:4153|System_tokens:104|User_tokens:5414
+2025-08-03 10:45:16,420 - qa_execution - INFO - API_CALL_START|Hash:4153|Attempt:1|Model:gpt-4-1106-preview
+2025-08-03 10:45:21,706 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-03 10:45:21,726 - qa_execution - INFO - API_SUCCESS|Hash:4153|Attempt:1|Time:5.31s|Response_length:561
+2025-08-03 10:45:21,726 - qa_execution - INFO - QA_COMPLETE|Hash:4153|Total_time:5.31s|Final_length:561
+2025-08-03 10:45:21,726 - qa_execution - INFO - FINAL_ANSWER|Hash:4153|The document context provided does not mention a "National Parivar Mediclaim Plus Policy." Instead, it refers to the HDFC ERGO General Insurance Compa...
+2025-08-03 10:45:21,726 - execution_tracker - INFO - ANSWER_GENERATED|c7b17771|Q1|Time:5.31s|Total:5.32s|Length:561
+2025-08-03 10:45:21,726 - execution_tracker - INFO - ANSWER_CONTENT|c7b17771|Q1|The document context provided does not mention a "National Parivar Mediclaim Plus Policy." Instead, it refers to the HDFC ERGO General Insurance Company Limited's Easy Health policy. For the Easy Heal...
+2025-08-03 10:45:21,726 - execution_tracker - INFO - QUESTION_START|c7b17771|Q2|What is the waiting period for pre-existing diseases (PED) to be covered?
+2025-08-03 10:45:21,739 - execution_tracker - INFO - CHUNKS_RETRIEVED|c7b17771|Q2|Time:0.01s|Count:8
+2025-08-03 10:45:21,740 - qa_execution - INFO - QA_START|Hash:9576|Question:What is the waiting period for pre-existing diseas...
+2025-08-03 10:45:21,744 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:9576|Time:0.00s|Tokens:5224
+2025-08-03 10:45:21,744 - qa_execution - INFO - QUESTION_ANALYZED|Hash:9576|Type:yes_no|Time:0.00s
+2025-08-03 10:45:21,744 - qa_execution - INFO - PROMPTS_CREATED|Hash:9576|System_tokens:104|User_tokens:5257
+2025-08-03 10:45:21,744 - qa_execution - INFO - API_CALL_START|Hash:9576|Attempt:1|Model:gpt-4-1106-preview
+2025-08-03 10:45:24,426 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-03 10:45:24,431 - qa_execution - INFO - API_SUCCESS|Hash:9576|Attempt:1|Time:2.69s|Response_length:166
+2025-08-03 10:45:24,431 - qa_execution - INFO - QA_COMPLETE|Hash:9576|Total_time:2.69s|Final_length:166
+2025-08-03 10:45:24,431 - qa_execution - INFO - FINAL_ANSWER|Hash:9576|The waiting period for pre-existing diseases (PED) to be covered is 36 months of continuous coverage after the date of inception of the first policy w...
+2025-08-03 10:45:24,431 - execution_tracker - INFO - ANSWER_GENERATED|c7b17771|Q2|Time:2.69s|Total:2.71s|Length:166
+2025-08-03 10:45:24,431 - execution_tracker - INFO - ANSWER_CONTENT|c7b17771|Q2|The waiting period for pre-existing diseases (PED) to be covered is 36 months of continuous coverage after the date of inception of the first policy with the insurer.
+2025-08-03 10:45:24,431 - execution_tracker - INFO - QUESTION_START|c7b17771|Q3|Does this policy cover maternity expenses, and what are the conditions?
+2025-08-03 10:45:24,443 - execution_tracker - INFO - CHUNKS_RETRIEVED|c7b17771|Q3|Time:0.01s|Count:8
+2025-08-03 10:45:24,443 - qa_execution - INFO - QA_START|Hash:5619|Question:Does this policy cover maternity expenses, and wha...
+2025-08-03 10:45:24,447 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:5619|Time:0.00s|Tokens:5721
+2025-08-03 10:45:24,447 - qa_execution - INFO - QUESTION_ANALYZED|Hash:5619|Type:yes_no|Time:0.00s
+2025-08-03 10:45:24,447 - qa_execution - INFO - PROMPTS_CREATED|Hash:5619|System_tokens:104|User_tokens:5752
+2025-08-03 10:45:24,447 - qa_execution - INFO - API_CALL_START|Hash:5619|Attempt:1|Model:gpt-4-1106-preview
+2025-08-03 10:45:31,299 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-03 10:45:31,306 - qa_execution - INFO - API_SUCCESS|Hash:5619|Attempt:1|Time:6.86s|Response_length:1153
+2025-08-03 10:45:31,309 - qa_execution - INFO - QA_COMPLETE|Hash:5619|Total_time:6.87s|Final_length:1153
+2025-08-03 10:45:31,309 - qa_execution - INFO - FINAL_ANSWER|Hash:5619|Yes, this policy covers maternity expenses. The conditions for coverage of maternity expenses are as follows:
+
+1. Medical Expenses for a delivery (inc...
+2025-08-03 10:45:31,309 - execution_tracker - INFO - ANSWER_GENERATED|c7b17771|Q3|Time:6.87s|Total:6.88s|Length:1153
+2025-08-03 10:45:31,310 - execution_tracker - INFO - ANSWER_CONTENT|c7b17771|Q3|Yes, this policy covers maternity expenses. The conditions for coverage of maternity expenses are as follows:
+
+1. Medical Expenses for a delivery (including caesarean section) as mentioned in the sche...
+2025-08-03 10:45:31,310 - execution_tracker - INFO - QUESTION_START|c7b17771|Q4|What is the waiting period for cataract surgery?
+2025-08-03 10:45:31,321 - execution_tracker - INFO - CHUNKS_RETRIEVED|c7b17771|Q4|Time:0.01s|Count:8
+2025-08-03 10:45:31,321 - qa_execution - INFO - QA_START|Hash:1098|Question:What is the waiting period for cataract surgery?...
+2025-08-03 10:45:31,326 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:1098|Time:0.00s|Tokens:5623
+2025-08-03 10:45:31,328 - qa_execution - INFO - QUESTION_ANALYZED|Hash:1098|Type:yes_no|Time:0.00s
+2025-08-03 10:45:31,328 - qa_execution - INFO - PROMPTS_CREATED|Hash:1098|System_tokens:104|User_tokens:5651
+2025-08-03 10:45:31,328 - qa_execution - INFO - API_CALL_START|Hash:1098|Attempt:1|Model:gpt-4-1106-preview
+2025-08-03 10:45:38,941 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-03 10:45:38,941 - qa_execution - INFO - API_SUCCESS|Hash:1098|Attempt:1|Time:7.61s|Response_length:801
+2025-08-03 10:45:38,957 - qa_execution - INFO - QA_COMPLETE|Hash:1098|Total_time:7.64s|Final_length:801
+2025-08-03 10:45:38,958 - qa_execution - INFO - FINAL_ANSWER|Hash:1098|The document context provided does not specify a waiting period for cataract surgery specifically. However, it does mention a "Specified disease/proce...
+2025-08-03 10:45:38,958 - execution_tracker - INFO - ANSWER_GENERATED|c7b17771|Q4|Time:7.64s|Total:7.65s|Length:801
+2025-08-03 10:45:38,959 - execution_tracker - INFO - ANSWER_CONTENT|c7b17771|Q4|The document context provided does not specify a waiting period for cataract surgery specifically. However, it does mention a "Specified disease/procedure waiting period" under Section 4, which states...
+2025-08-03 10:45:38,959 - execution_tracker - INFO - QUESTION_START|c7b17771|Q5|Are the medical expenses for an organ donor covered under this policy?
+2025-08-03 10:45:38,974 - execution_tracker - INFO - CHUNKS_RETRIEVED|c7b17771|Q5|Time:0.01s|Count:8
+2025-08-03 10:45:38,974 - qa_execution - INFO - QA_START|Hash:1894|Question:Are the medical expenses for an organ donor covere...
+2025-08-03 10:45:38,980 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:1894|Time:0.01s|Tokens:5496
+2025-08-03 10:45:38,980 - qa_execution - INFO - QUESTION_ANALYZED|Hash:1894|Type:yes_no|Time:0.00s
+2025-08-03 10:45:38,981 - qa_execution - INFO - PROMPTS_CREATED|Hash:1894|System_tokens:104|User_tokens:5528
+2025-08-03 10:45:38,981 - qa_execution - INFO - API_CALL_START|Hash:1894|Attempt:1|Model:gpt-4-1106-preview
+2025-08-03 10:45:42,395 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-03 10:45:42,398 - qa_execution - INFO - API_SUCCESS|Hash:1894|Attempt:1|Time:3.42s|Response_length:321
+2025-08-03 10:45:42,398 - qa_execution - INFO - QA_COMPLETE|Hash:1894|Total_time:3.42s|Final_length:321
+2025-08-03 10:45:42,398 - qa_execution - INFO - FINAL_ANSWER|Hash:1894|Yes, the medical and surgical expenses of the organ donor for harvesting the organ are covered under this policy, but only where an insured person is ...
+2025-08-03 10:45:42,398 - execution_tracker - INFO - ANSWER_GENERATED|c7b17771|Q5|Time:3.42s|Total:3.44s|Length:321
+2025-08-03 10:45:42,398 - execution_tracker - INFO - ANSWER_CONTENT|c7b17771|Q5|Yes, the medical and surgical expenses of the organ donor for harvesting the organ are covered under this policy, but only where an insured person is the recipient. However, expenses incurred by an in...
+2025-08-03 10:45:42,398 - execution_tracker - INFO - QUESTION_START|c7b17771|Q6|What is the No Claim Discount (NCD) offered in this policy?
+2025-08-03 10:45:42,401 - execution_tracker - INFO - CHUNKS_RETRIEVED|c7b17771|Q6|Time:0.00s|Count:8
+2025-08-03 10:45:42,409 - qa_execution - INFO - QA_START|Hash:7372|Question:What is the No Claim Discount (NCD) offered in thi...
+2025-08-03 10:45:42,409 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:7372|Time:0.00s|Tokens:5707
+2025-08-03 10:45:42,409 - qa_execution - INFO - QUESTION_ANALYZED|Hash:7372|Type:yes_no|Time:0.00s
+2025-08-03 10:45:42,409 - qa_execution - INFO - PROMPTS_CREATED|Hash:7372|System_tokens:104|User_tokens:5738
+2025-08-03 10:45:42,409 - qa_execution - INFO - API_CALL_START|Hash:7372|Attempt:1|Model:gpt-4-1106-preview
+2025-08-03 10:45:48,275 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-03 10:45:48,281 - qa_execution - INFO - API_SUCCESS|Hash:7372|Attempt:1|Time:5.87s|Response_length:415
+2025-08-03 10:45:48,281 - qa_execution - INFO - QA_COMPLETE|Hash:7372|Total_time:5.87s|Final_length:415
+2025-08-03 10:45:48,281 - qa_execution - INFO - FINAL_ANSWER|Hash:7372|The No Claim Discount (NCD) offered in this policy is referred to as "Cumulative Bonus" in the document. The cumulative bonus is a 10% increase applie...
+2025-08-03 10:45:48,281 - execution_tracker - INFO - ANSWER_GENERATED|c7b17771|Q6|Time:5.87s|Total:5.88s|Length:415
+2025-08-03 10:45:48,286 - execution_tracker - INFO - ANSWER_CONTENT|c7b17771|Q6|The No Claim Discount (NCD) offered in this policy is referred to as "Cumulative Bonus" in the document. The cumulative bonus is a 10% increase applied to the Sum Insured for the next policy year afte...
+2025-08-03 10:45:48,286 - execution_tracker - INFO - QUESTION_START|c7b17771|Q7|Is there a benefit for preventive health check-ups?
+2025-08-03 10:45:48,294 - execution_tracker - INFO - CHUNKS_RETRIEVED|c7b17771|Q7|Time:0.01s|Count:8
+2025-08-03 10:45:48,294 - qa_execution - INFO - QA_START|Hash:682|Question:Is there a benefit for preventive health check-ups...
+2025-08-03 10:45:48,302 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:682|Time:0.00s|Tokens:5440
+2025-08-03 10:45:48,302 - qa_execution - INFO - QUESTION_ANALYZED|Hash:682|Type:yes_no|Time:0.00s
+2025-08-03 10:45:48,308 - qa_execution - INFO - PROMPTS_CREATED|Hash:682|System_tokens:104|User_tokens:5467
+2025-08-03 10:45:48,308 - qa_execution - INFO - API_CALL_START|Hash:682|Attempt:1|Model:gpt-4-1106-preview
+2025-08-03 10:45:55,959 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-03 10:45:55,959 - qa_execution - INFO - API_SUCCESS|Hash:682|Attempt:1|Time:7.65s|Response_length:1217
+2025-08-03 10:45:55,959 - qa_execution - INFO - QA_COMPLETE|Hash:682|Total_time:7.67s|Final_length:1095
+2025-08-03 10:45:55,959 - qa_execution - INFO - FINAL_ANSWER|Hash:682|Yes, there is a benefit for preventive health check-ups. According to the document, if an insured person has maintained an Easy Health Policy with HDF...
+2025-08-03 10:45:55,959 - execution_tracker - INFO - ANSWER_GENERATED|c7b17771|Q7|Time:7.67s|Total:7.67s|Length:1095
+2025-08-03 10:45:55,959 - execution_tracker - INFO - ANSWER_CONTENT|c7b17771|Q7|Yes, there is a benefit for preventive health check-ups. According to the document, if an insured person has maintained an Easy Health Policy with HDFC ERGO General Insurance Company Limited for a spe...
+2025-08-03 10:45:55,959 - execution_tracker - INFO - QUESTION_START|c7b17771|Q8|How does the policy define a 'Hospital'?
+2025-08-03 10:45:55,976 - execution_tracker - INFO - CHUNKS_RETRIEVED|c7b17771|Q8|Time:0.02s|Count:8
+2025-08-03 10:45:55,981 - qa_execution - INFO - QA_START|Hash:3308|Question:How does the policy define a 'Hospital'?...
+2025-08-03 10:45:55,982 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:3308|Time:0.00s|Tokens:5473
+2025-08-03 10:45:55,982 - qa_execution - INFO - QUESTION_ANALYZED|Hash:3308|Type:yes_no|Time:0.00s
+2025-08-03 10:45:55,982 - qa_execution - INFO - PROMPTS_CREATED|Hash:3308|System_tokens:104|User_tokens:5499
+2025-08-03 10:45:55,982 - qa_execution - INFO - API_CALL_START|Hash:3308|Attempt:1|Model:gpt-4-1106-preview
+2025-08-03 10:45:59,739 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-03 10:45:59,747 - qa_execution - INFO - API_SUCCESS|Hash:3308|Attempt:1|Time:3.77s|Response_length:490
+2025-08-03 10:45:59,747 - qa_execution - INFO - QA_COMPLETE|Hash:3308|Total_time:3.77s|Final_length:490
+2025-08-03 10:45:59,747 - qa_execution - INFO - FINAL_ANSWER|Hash:3308|The policy does not provide a specific definition for 'Hospital' within the provided document context. The definitions section provided (SECTION 6) do...
+2025-08-03 10:45:59,749 - execution_tracker - INFO - ANSWER_GENERATED|c7b17771|Q8|Time:3.77s|Total:3.79s|Length:490
+2025-08-03 10:45:59,749 - execution_tracker - INFO - ANSWER_CONTENT|c7b17771|Q8|The policy does not provide a specific definition for 'Hospital' within the provided document context. The definitions section provided (SECTION 6) does not include a definition for 'Hospital,' and th...
+2025-08-03 10:45:59,749 - execution_tracker - INFO - QUESTION_START|c7b17771|Q9|What is the extent of coverage for AYUSH treatments?
+2025-08-03 10:45:59,766 - execution_tracker - INFO - CHUNKS_RETRIEVED|c7b17771|Q9|Time:0.02s|Count:8
+2025-08-03 10:45:59,767 - qa_execution - INFO - QA_START|Hash:1220|Question:What is the extent of coverage for AYUSH treatment...
+2025-08-03 10:45:59,772 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:1220|Time:0.01s|Tokens:4923
+2025-08-03 10:45:59,772 - qa_execution - INFO - QUESTION_ANALYZED|Hash:1220|Type:yes_no|Time:0.00s
+2025-08-03 10:45:59,772 - qa_execution - INFO - PROMPTS_CREATED|Hash:1220|System_tokens:104|User_tokens:4951
+2025-08-03 10:45:59,772 - qa_execution - INFO - API_CALL_START|Hash:1220|Attempt:1|Model:gpt-4-1106-preview
+2025-08-03 10:46:00,158 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-08-03 10:46:00,159 - openai._base_client - INFO - Retrying request to /chat/completions in 5.230000 seconds
+2025-08-03 10:46:08,777 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-03 10:46:08,800 - qa_execution - INFO - API_SUCCESS|Hash:1220|Attempt:1|Time:9.03s|Response_length:420
+2025-08-03 10:46:08,801 - qa_execution - INFO - QA_COMPLETE|Hash:1220|Total_time:9.03s|Final_length:420
+2025-08-03 10:46:08,801 - qa_execution - INFO - FINAL_ANSWER|Hash:1220|The document context does not provide specific details regarding the extent of coverage for AYUSH treatments. It only defines AYUSH Treatment as hospi...
+2025-08-03 10:46:08,801 - execution_tracker - INFO - ANSWER_GENERATED|c7b17771|Q9|Time:9.04s|Total:9.05s|Length:420
+2025-08-03 10:46:08,801 - execution_tracker - INFO - ANSWER_CONTENT|c7b17771|Q9|The document context does not provide specific details regarding the extent of coverage for AYUSH treatments. It only defines AYUSH Treatment as hospitalization treatments given under Ayurveda, Yoga a...
+2025-08-03 10:46:08,801 - execution_tracker - INFO - QUESTION_START|c7b17771|Q10|Are there any sub-limits on room rent and ICU charges for Plan A?
+2025-08-03 10:46:08,818 - execution_tracker - INFO - CHUNKS_RETRIEVED|c7b17771|Q10|Time:0.02s|Count:8
+2025-08-03 10:46:08,818 - qa_execution - INFO - QA_START|Hash:7502|Question:Are there any sub-limits on room rent and ICU char...
+2025-08-03 10:46:08,824 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:7502|Time:0.01s|Tokens:5644
+2025-08-03 10:46:08,824 - qa_execution - INFO - QUESTION_ANALYZED|Hash:7502|Type:factual|Time:0.00s
+2025-08-03 10:46:08,824 - qa_execution - INFO - PROMPTS_CREATED|Hash:7502|System_tokens:104|User_tokens:5678
+2025-08-03 10:46:08,827 - qa_execution - INFO - API_CALL_START|Hash:7502|Attempt:1|Model:gpt-4-1106-preview
+2025-08-03 10:46:09,765 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-08-03 10:46:09,765 - openai._base_client - INFO - Retrying request to /chat/completions in 7.860000 seconds
+2025-08-03 10:46:26,054 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-03 10:46:26,054 - qa_execution - INFO - API_SUCCESS|Hash:7502|Attempt:1|Time:17.23s|Response_length:667
+2025-08-03 10:46:26,054 - qa_execution - INFO - QA_COMPLETE|Hash:7502|Total_time:17.24s|Final_length:667
+2025-08-03 10:46:26,054 - qa_execution - INFO - FINAL_ANSWER|Hash:7502|The provided document context does not specify any sub-limits on room rent and ICU charges for Plan A. It defines "Room Rent" as the amount charged by...
+2025-08-03 10:46:26,054 - execution_tracker - INFO - ANSWER_GENERATED|c7b17771|Q10|Time:17.24s|Total:17.25s|Length:667
+2025-08-03 10:46:26,054 - execution_tracker - INFO - ANSWER_CONTENT|c7b17771|Q10|The provided document context does not specify any sub-limits on room rent and ICU charges for Plan A. It defines "Room Rent" as the amount charged by a hospital towards room and boarding expenses and...
+2025-08-03 10:46:26,054 - execution_tracker - INFO - SESSION_COMPLETE|c7b17771|Total_time:72.42s|Success_rate:10/10

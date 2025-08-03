@@ -6,7 +6,11 @@ from config import settings
 import re
 from collections import Counter
 
+import logging
+import time
+
 logger = logging.getLogger(__name__)
+qa_logger = logging.getLogger('qa_execution')
 
 class QAEngine:
     def __init__(self):
@@ -97,52 +101,79 @@ class QAEngine:
         return cleaned.strip()
 
     async def generate_answer(self, question: str, context_chunks: List[str]) -> str:
-        """Cost-optimized answer generation with high accuracy"""
+        """Cost-optimized answer generation with high accuracy and detailed logging"""
+        start_time = time.time()
+        question_hash = hash(question) % 10000  # Short hash for tracking
+        
         try:
+            qa_logger.info(f"QA_START|Hash:{question_hash}|Question:{question[:50]}...")
+            
             # Organize context efficiently
-            # In organize_context method, increase chunk limit:
-            context = self.organize_context(context_chunks, max_tokens=12000)  # Increase from 8000
+            context_start = time.time()
+            context = self.organize_context(context_chunks, max_tokens=12000)
+            context_time = time.time() - context_start
+            
+            qa_logger.info(f"CONTEXT_ORGANIZED|Hash:{question_hash}|Time:{context_time:.2f}s|Tokens:{self.estimate_tokens(context)}")
             
             if not context:
+                qa_logger.warning(f"NO_CONTEXT|Hash:{question_hash}|No relevant information found")
                 return "I couldn't find relevant information in the document to answer your question."
             
             # Streamlined question analysis
+            analysis_start = time.time()
             question_analysis = self._efficient_question_analysis(question)
+            analysis_time = time.time() - analysis_start
+            
+            qa_logger.info(f"QUESTION_ANALYZED|Hash:{question_hash}|Type:{question_analysis['type']}|Time:{analysis_time:.2f}s")
             
             # Cost-optimized prompts
             system_prompt = self._create_cost_effective_system_prompt(question_analysis)
             user_prompt = self._create_efficient_user_prompt(question, context, question_analysis)
             
+            qa_logger.info(f"PROMPTS_CREATED|Hash:{question_hash}|System_tokens:{self.estimate_tokens(system_prompt)}|User_tokens:{self.estimate_tokens(user_prompt)}")
+            
             # API call with cost optimization
             for attempt in range(self.max_retries):
+                api_start = time.time()
                 try:
+                    qa_logger.info(f"API_CALL_START|Hash:{question_hash}|Attempt:{attempt+1}|Model:{settings.openai_model}")
+                    
                     response = await asyncio.to_thread(
                         self.client.chat.completions.create,
-                        model=settings.openai_model,  # Use model from config
+                        model=settings.openai_model,
                         messages=[
                             {"role": "system", "content": system_prompt},
                             {"role": "user", "content": user_prompt}
                         ],
-                        max_tokens=600,         # Balanced for cost and detail
-                        temperature=0.0,        # Consistency
-                        top_p=0.1,             # Focus on best tokens
-                        timeout=15              # Reduce from 45 to 15 seconds
+                        max_tokens=600,
+                        temperature=0.0,
+                        top_p=0.1,
+                        timeout=15
                     )
                     
+                    api_time = time.time() - api_start
                     answer = response.choices[0].message.content.strip()
-                    formatted_answer = self._format_cost_effective_answer(answer, question_analysis)
                     
-                    logger.info(f"Generated cost-effective answer for {question_analysis['type']} question")
+                    qa_logger.info(f"API_SUCCESS|Hash:{question_hash}|Attempt:{attempt+1}|Time:{api_time:.2f}s|Response_length:{len(answer)}")
+                    
+                    formatted_answer = self._format_cost_effective_answer(answer, question_analysis)
+                    total_time = time.time() - start_time
+                    
+                    qa_logger.info(f"QA_COMPLETE|Hash:{question_hash}|Total_time:{total_time:.2f}s|Final_length:{len(formatted_answer)}")
+                    qa_logger.info(f"FINAL_ANSWER|Hash:{question_hash}|{formatted_answer[:150]}{'...' if len(formatted_answer) > 150 else ''}")
+                    
                     return formatted_answer
                     
                 except Exception as e:
-                    logger.warning(f"API call attempt {attempt + 1} failed: {e}")
+                    api_time = time.time() - api_start
+                    qa_logger.warning(f"API_FAILED|Hash:{question_hash}|Attempt:{attempt+1}|Time:{api_time:.2f}s|Error:{str(e)}")
                     if attempt == self.max_retries - 1:
                         raise e
                     await asyncio.sleep(1)
             
         except Exception as e:
-            logger.error(f"Error generating answer: {e}")
+            total_time = time.time() - start_time
+            qa_logger.error(f"QA_ERROR|Hash:{question_hash}|Total_time:{total_time:.2f}s|Error:{str(e)}")
             return "I encountered an error while processing your question. Please try again."
 
     def _efficient_question_analysis(self, question: str) -> Dict[str, any]:
