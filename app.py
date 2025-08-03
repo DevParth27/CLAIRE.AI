@@ -2,6 +2,8 @@ from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, HttpUrl
+from services.qa_engine import QAEngine
+from services.qa_engine_enhanced import EnhancedQAEngine
 from typing import List
 import os
 import asyncio
@@ -62,7 +64,8 @@ class QuestionResponse(BaseModel):
 # Initialize services
 pdf_processor = PDFProcessor()
 vector_store = LightweightVectorStore()
-qa_engine = QAEngine()
+#qa_engine = QAEngine()
+qa_engine = EnhancedQAEngine()
 
 # Authentication
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
