@@ -98,7 +98,7 @@ async def process_questions(
     
     try:
         # Optimal batch size for cost control
-        if len(request.questions) > 10:
+        if len(request.questions) > 50:
             execution_logger.warning(f"SESSION_ERROR|{session_id}|Too many questions: {len(request.questions)}")
             raise HTTPException(
                 status_code=400, 

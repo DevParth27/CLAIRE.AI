@@ -2253,3 +2253,505 @@ The grace period for premium payment under the HDFC ERGO "Easy Health" policy is
 2025-08-03 14:59:06,083 - execution_tracker - INFO - ANSWER_GENERATED|c4ed2919|Q10|Time:9.77s|Total:9.77s|Length:435
 2025-08-03 14:59:06,083 - execution_tracker - INFO - ANSWER_CONTENT|c4ed2919|Q10|This information is not mentioned in the provided document.  The document describes various definitions, lists of covered and non-covered items, information about renewals and cancellations, and some ...
 2025-08-03 14:59:06,083 - execution_tracker - INFO - SESSION_COMPLETE|c4ed2919|Total_time:77.74s|Success_rate:10/10
+2025-08-03 17:14:59,867 - training_data - INFO - No existing training data found or invalid format. Creating new dataset.
+2025-08-03 17:14:59,867 - training_data - INFO - Saved 0 training questions
+2025-08-03 17:14:59,869 - services.qa_engine_enhanced - INFO - Enhanced QA Engine initialized with training examples
+2025-08-03 17:14:59,872 - app - INFO - Application started successfully
+2025-08-03 17:15:12,776 - execution_tracker - INFO - SESSION_START|820561b7|2025-08-03T17:15:12.776263|Questions:47|Document:9szykRKdGYj0BVm1skP%2BX8N9%2FRENEn2k7MQPUp33jyQ%3D
+2025-08-03 17:15:12,777 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q1|What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?
+2025-08-03 17:15:12,777 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q2|What is the waiting period for pre-existing diseases (PED) to be covered?
+2025-08-03 17:15:12,777 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q3|Does this policy cover maternity expenses, and what are the conditions?
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q4|What is the waiting period for cataract surgery?
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q5|Are the medical expenses for an organ donor covered under this policy?
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q6|What is the No Claim Discount (NCD) offered in this policy?
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q7|Is there a benefit for preventive health check-ups?
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q8|How does the policy define a 'Hospital'?
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q9|What is the extent of coverage for AYUSH treatments?
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q10|Are there any sub-limits on room rent and ICU charges for Plan A?
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q11|When will my root canal claim of Rs 25,000 be settled?
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q12|I have done an IVF for Rs 56,000. Is it covered?
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q13|I did a cataract treatment of Rs 100,000. Will you settle the full Rs 100,000?
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q14|Give me a list of documents to be uploaded for hospitalization for heart surgery.
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q15|The ideal spark plug gap recommended is 0.8-0.9 mm.
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q16|Does this come in a tubeless tyre version?
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q17|Is it compulsory to have a disc brake?
+2025-08-03 17:15:12,778 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q18|Can I put Thums Up instead of oil?
+2025-08-03 17:15:12,783 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q19|What is the official name of India according to Article 1 of the Constitution?
+2025-08-03 17:15:12,783 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q20|Which Article guarantees equality before the law and equal protection of laws to all persons?
+2025-08-03 17:15:12,783 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q21|What is abolished by Article 17 of the Constitution?
+2025-08-03 17:15:12,783 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q22|What are the key ideals mentioned in the Preamble of the Constitution of India?
+2025-08-03 17:15:12,783 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q23|According to Article 24, children below what age are prohibited from working in hazardous industries...
+2025-08-03 17:15:12,783 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q24|What is the significance of Article 21 in the Indian Constitution?
+2025-08-03 17:15:12,783 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q25|Article 15 prohibits discrimination on certain grounds. However, which groups can the State make spe...
+2025-08-03 17:15:12,783 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q26|Which Article allows Parliament to regulate the right of citizenship and override previous articles ...
+2025-08-03 17:15:12,787 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q27|What restrictions can the State impose on the right to freedom of speech under Article 19(2)?
+2025-08-03 17:15:12,787 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q28|If my car is stolen, what case will it be in law?
+2025-08-03 17:15:12,787 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q29|If I am arrested without a warrant, is that legal?
+2025-08-03 17:15:12,788 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q30|If someone denies me a job because of my caste, is that allowed?
+2025-08-03 17:15:12,788 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q31|If the government takes my land for a project, can I stop it?
+2025-08-03 17:15:12,790 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q32|If my child is forced to work in a factory, is that legal?
+2025-08-03 17:15:12,791 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q33|If I am stopped from speaking at a protest, is that against my rights?
+2025-08-03 17:15:12,791 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q34|If a religious place stops me from entering because I'm a woman, is that constitutional?
+2025-08-03 17:15:12,791 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q35|If I change my religion, can the government stop me?
+2025-08-03 17:15:12,792 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q36|If the police torture someone in custody, what right is being violated?
+2025-08-03 17:15:12,792 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q37|If I'm denied admission to a public university because I'm from a backward community, can I do somet...
+2025-08-03 17:15:12,792 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q38|What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?
+2025-08-03 17:15:12,793 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q39|What is the waiting period for pre-existing diseases (PED) to be covered?
+2025-08-03 17:15:12,793 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q40|Does this policy cover maternity expenses, and what are the conditions?
+2025-08-03 17:15:12,793 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q41|What is the waiting period for cataract surgery?
+2025-08-03 17:15:12,795 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q42|Are the medical expenses for an organ donor covered under this policy?
+2025-08-03 17:15:12,795 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q43|What is the No Claim Discount (NCD) offered in this policy?
+2025-08-03 17:15:12,795 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q44|Is there a benefit for preventive health check-ups?
+2025-08-03 17:15:12,795 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q45|How does the policy define a 'Hospital'?
+2025-08-03 17:15:12,795 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q46|What is the extent of coverage for AYUSH treatments?
+2025-08-03 17:15:12,795 - execution_tracker - INFO - QUESTION_RECEIVED|820561b7|Q47|Are there any sub-limits on room rent and ICU charges for Plan A?
+2025-08-03 17:15:12,795 - app - INFO - Processing 47 questions (cost-optimized)
+2025-08-03 17:15:15,232 - services.pdf_processor - INFO - Created 42 smart chunks with preserved context
+2025-08-03 17:15:15,232 - services.pdf_processor - INFO - Successfully processed PDF with 42 optimized chunks
+2025-08-03 17:15:15,232 - execution_tracker - INFO - PDF_PROCESSED|820561b7|Time:2.44s|Content_length:42
+2025-08-03 17:15:15,311 - services.vector_store_lite - INFO - Stored 42 chunks with enhanced semantic vectors and metadata
+2025-08-03 17:15:15,311 - execution_tracker - INFO - VECTOR_STORED|820561b7|Time:0.08s|Doc_ID:8a47c9c6b2803b1420575a001451a582
+2025-08-03 17:15:15,312 - execution_tracker - INFO - QUESTION_START|820561b7|Q1|What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?
+2025-08-03 17:15:15,313 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q1|Time:0.00s|Count:8
+2025-08-03 17:15:15,313 - qa_execution - INFO - QA_START|Hash:6751|Question:What is the grace period for premium payment under...
+2025-08-03 17:15:15,313 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:6751|Tokens:4891.900000000001
+2025-08-03 17:15:15,313 - qa_execution - INFO - API_CALL_START|Hash:6751|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:15:18,990 - qa_execution - INFO - API_SUCCESS|Hash:6751|Attempt:1|Time:3.67s|Response_length:669
+2025-08-03 17:15:18,990 - qa_execution - INFO - QA_COMPLETE|Hash:6751|Final_length:669
+2025-08-03 17:15:18,990 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q1|Time:3.68s|Total:3.68s|Length:669
+2025-08-03 17:15:18,990 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q1|The provided document refers to the "Easy Health" policy, not the "National Parivar Mediclaim Plus Policy".  For the Easy Health policy:
+
+* **Option 1 (Multi-Year/Yearly):** 30 days
+* **Option 2 (Half...
+2025-08-03 17:15:18,990 - execution_tracker - INFO - QUESTION_START|820561b7|Q2|What is the waiting period for pre-existing diseases (PED) to be covered?
+2025-08-03 17:15:18,992 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q2|Time:0.00s|Count:8
+2025-08-03 17:15:18,992 - qa_execution - INFO - QA_START|Hash:4766|Question:What is the waiting period for pre-existing diseas...
+2025-08-03 17:15:18,992 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:4766|Tokens:4930.900000000001
+2025-08-03 17:15:18,992 - qa_execution - INFO - API_CALL_START|Hash:4766|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:15:21,696 - qa_execution - INFO - API_SUCCESS|Hash:4766|Attempt:1|Time:2.70s|Response_length:404
+2025-08-03 17:15:21,696 - qa_execution - INFO - QA_COMPLETE|Hash:4766|Final_length:404
+2025-08-03 17:15:21,696 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q2|Time:2.70s|Total:2.71s|Length:404
+2025-08-03 17:15:21,696 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q2|Expenses related to the treatment of a pre-existing disease (PED) and its direct complications shall be excluded until the expiry of **36 months** of continuous coverage after the date of inception of...
+2025-08-03 17:15:21,696 - execution_tracker - INFO - QUESTION_START|820561b7|Q3|Does this policy cover maternity expenses, and what are the conditions?
+2025-08-03 17:15:21,696 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q3|Time:0.00s|Count:8
+2025-08-03 17:15:21,696 - qa_execution - INFO - QA_START|Hash:3824|Question:Does this policy cover maternity expenses, and wha...
+2025-08-03 17:15:21,696 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:3824|Tokens:5029.7
+2025-08-03 17:15:21,696 - qa_execution - INFO - API_CALL_START|Hash:3824|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:15:26,232 - qa_execution - INFO - API_SUCCESS|Hash:3824|Attempt:1|Time:4.55s|Response_length:964
+2025-08-03 17:15:26,232 - qa_execution - INFO - QA_COMPLETE|Hash:3824|Final_length:964
+2025-08-03 17:15:26,232 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q3|Time:4.54s|Total:4.54s|Length:964
+2025-08-03 17:15:26,232 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q3|Maternity expenses are generally excluded ("Maternity (except to the extent provided for under Section B.1.3.a)): Code – Excl18"), except for newborn baby coverage under specific conditions:
+
+* **Newb...
+2025-08-03 17:15:26,232 - execution_tracker - INFO - QUESTION_START|820561b7|Q4|What is the waiting period for cataract surgery?
+2025-08-03 17:15:26,235 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q4|Time:0.00s|Count:8
+2025-08-03 17:15:26,236 - qa_execution - INFO - QA_START|Hash:8698|Question:What is the waiting period for cataract surgery?...
+2025-08-03 17:15:26,236 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:8698|Tokens:4416.1
+2025-08-03 17:15:26,236 - qa_execution - INFO - API_CALL_START|Hash:8698|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:15:29,319 - qa_execution - INFO - API_SUCCESS|Hash:8698|Attempt:1|Time:3.08s|Response_length:465
+2025-08-03 17:15:29,319 - qa_execution - INFO - QA_COMPLETE|Hash:8698|Final_length:465
+2025-08-03 17:15:29,319 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q4|Time:3.08s|Total:3.09s|Length:465
+2025-08-03 17:15:29,319 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q4|The document lists Cataract under specified diseases/procedures (Excl02), which have a waiting period of "24 months of continuous coverage after the date of inception of the first policy".  However, i...
+2025-08-03 17:15:29,319 - execution_tracker - INFO - QUESTION_START|820561b7|Q5|Are the medical expenses for an organ donor covered under this policy?
+2025-08-03 17:15:29,319 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q5|Time:0.00s|Count:8
+2025-08-03 17:15:29,319 - qa_execution - INFO - QA_START|Hash:5252|Question:Are the medical expenses for an organ donor covere...
+2025-08-03 17:15:29,319 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:5252|Tokens:5413.2
+2025-08-03 17:15:29,319 - qa_execution - INFO - API_CALL_START|Hash:5252|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:15:31,611 - qa_execution - INFO - API_SUCCESS|Hash:5252|Attempt:1|Time:2.30s|Response_length:284
+2025-08-03 17:15:31,613 - qa_execution - INFO - QA_COMPLETE|Hash:5252|Final_length:284
+2025-08-03 17:15:31,613 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q5|Time:2.29s|Total:2.29s|Length:284
+2025-08-03 17:15:31,613 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q5|No.  While the policy covers "Medical and surgical expenses of the organ donor for harvesting the organ where an Insured Person is the recipient," it explicitly states under Section B - 1.f: "IMPORTAN...
+2025-08-03 17:15:31,613 - execution_tracker - INFO - QUESTION_START|820561b7|Q6|What is the No Claim Discount (NCD) offered in this policy?
+2025-08-03 17:15:31,613 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q6|Time:0.00s|Count:8
+2025-08-03 17:15:31,617 - qa_execution - INFO - QA_START|Hash:9920|Question:What is the No Claim Discount (NCD) offered in thi...
+2025-08-03 17:15:31,617 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:9920|Tokens:5241.6
+2025-08-03 17:15:31,617 - qa_execution - INFO - API_CALL_START|Hash:9920|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:15:36,145 - qa_execution - INFO - API_SUCCESS|Hash:9920|Attempt:1|Time:4.53s|Response_length:839
+2025-08-03 17:15:36,145 - qa_execution - INFO - QA_COMPLETE|Hash:9920|Final_length:839
+2025-08-03 17:15:36,145 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q6|Time:4.53s|Total:4.53s|Length:839
+2025-08-03 17:15:36,145 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q6|The document refers to "Cumulative Bonus" and "Stay Active" discounts, not "No Claim Discount (NCD)."
+
+* **Cumulative Bonus:** A 10% cumulative bonus is applied to the Sum Insured for the next policy ...
+2025-08-03 17:15:36,145 - execution_tracker - INFO - QUESTION_START|820561b7|Q7|Is there a benefit for preventive health check-ups?
+2025-08-03 17:15:36,145 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q7|Time:0.00s|Count:8
+2025-08-03 17:15:36,145 - qa_execution - INFO - QA_START|Hash:4994|Question:Is there a benefit for preventive health check-ups...
+2025-08-03 17:15:36,145 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:4994|Tokens:5357.3
+2025-08-03 17:15:36,145 - qa_execution - INFO - API_CALL_START|Hash:4994|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:15:44,738 - qa_execution - INFO - API_SUCCESS|Hash:4994|Attempt:1|Time:8.59s|Response_length:2198
+2025-08-03 17:15:44,738 - qa_execution - INFO - QA_COMPLETE|Hash:4994|Final_length:1500
+2025-08-03 17:15:44,738 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q7|Time:8.59s|Total:8.59s|Length:1500
+2025-08-03 17:15:44,738 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q7|Yes, the Easy Health policy provides a Preventive Health Check-up benefit.
+
+* **Eligibility:**  If the policyholder has maintained an Easy Health Policy without any break for the period mentioned in t...
+2025-08-03 17:15:44,738 - execution_tracker - INFO - QUESTION_START|820561b7|Q8|How does the policy define a 'Hospital'?
+2025-08-03 17:15:44,748 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q8|Time:0.01s|Count:8
+2025-08-03 17:15:44,748 - qa_execution - INFO - QA_START|Hash:9429|Question:How does the policy define a 'Hospital'?...
+2025-08-03 17:15:44,748 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:9429|Tokens:4824.3
+2025-08-03 17:15:44,754 - qa_execution - INFO - API_CALL_START|Hash:9429|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:15:46,464 - qa_execution - INFO - API_SUCCESS|Hash:9429|Attempt:1|Time:1.70s|Response_length:198
+2025-08-03 17:15:46,464 - qa_execution - INFO - QA_COMPLETE|Hash:9429|Final_length:198
+2025-08-03 17:15:46,464 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q8|Time:1.72s|Total:1.73s|Length:198
+2025-08-03 17:15:46,464 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q8|A 'Hospital' is defined as "any institution established for in-patient care and day care treatment of illness and/or injuries and which has been registered as a hospital with the local authorities".
+2025-08-03 17:15:46,464 - execution_tracker - INFO - QUESTION_START|820561b7|Q9|What is the extent of coverage for AYUSH treatments?
+2025-08-03 17:15:46,464 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q9|Time:0.00s|Count:8
+2025-08-03 17:15:46,464 - qa_execution - INFO - QA_START|Hash:0803|Question:What is the extent of coverage for AYUSH treatment...
+2025-08-03 17:15:46,464 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:0803|Tokens:5567.900000000001
+2025-08-03 17:15:46,464 - qa_execution - INFO - API_CALL_START|Hash:0803|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:15:49,826 - qa_execution - INFO - API_SUCCESS|Hash:0803|Attempt:1|Time:3.36s|Response_length:663
+2025-08-03 17:15:49,826 - qa_execution - INFO - QA_COMPLETE|Hash:0803|Final_length:663
+2025-08-03 17:15:49,826 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q9|Time:3.36s|Total:3.36s|Length:663
+2025-08-03 17:15:49,826 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q9|Expenses incurred on AYUSH treatment are covered if:
+
+* The treatment is received in a government hospital or in any institute recognized by the government and/or accredited by Quality Council of Indi...
+2025-08-03 17:15:49,826 - execution_tracker - INFO - QUESTION_START|820561b7|Q10|Are there any sub-limits on room rent and ICU charges for Plan A?
+2025-08-03 17:15:49,829 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q10|Time:0.00s|Count:8
+2025-08-03 17:15:49,829 - qa_execution - INFO - QA_START|Hash:8662|Question:Are there any sub-limits on room rent and ICU char...
+2025-08-03 17:15:49,830 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:8662|Tokens:4505.8
+2025-08-03 17:15:49,831 - qa_execution - INFO - API_CALL_START|Hash:8662|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:15:52,319 - qa_execution - INFO - API_SUCCESS|Hash:8662|Attempt:1|Time:2.48s|Response_length:311
+2025-08-03 17:15:52,320 - qa_execution - INFO - QA_COMPLETE|Hash:8662|Final_length:311
+2025-08-03 17:15:52,320 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q10|Time:2.49s|Total:2.49s|Length:311
+2025-08-03 17:15:52,320 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q10|This information is not mentioned in the provided document.  The document describes various policy terms and conditions, including some specific benefits and exclusions, but it does not provide detail...
+2025-08-03 17:15:52,320 - execution_tracker - INFO - QUESTION_START|820561b7|Q11|When will my root canal claim of Rs 25,000 be settled?
+2025-08-03 17:15:52,322 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q11|Time:0.00s|Count:8
+2025-08-03 17:15:52,322 - qa_execution - INFO - QA_START|Hash:7663|Question:When will my root canal claim of Rs 25,000 be sett...
+2025-08-03 17:15:52,324 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:7663|Tokens:4553.900000000001
+2025-08-03 17:15:52,324 - qa_execution - INFO - API_CALL_START|Hash:7663|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:15:54,477 - qa_execution - INFO - API_SUCCESS|Hash:7663|Attempt:1|Time:2.14s|Response_length:238
+2025-08-03 17:15:54,477 - qa_execution - INFO - QA_COMPLETE|Hash:7663|Final_length:238
+2025-08-03 17:15:54,477 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q11|Time:2.16s|Total:2.16s|Length:238
+2025-08-03 17:15:54,477 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q11|This information is not mentioned in the provided document.  The provided text excerpts discuss policy terms, conditions, benefits, and exclusions, but do not address specific claim settlement timelin...
+2025-08-03 17:15:54,477 - execution_tracker - INFO - QUESTION_START|820561b7|Q12|I have done an IVF for Rs 56,000. Is it covered?
+2025-08-03 17:15:54,488 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q12|Time:0.01s|Count:8
+2025-08-03 17:15:54,488 - qa_execution - INFO - QA_START|Hash:6887|Question:I have done an IVF for Rs 56,000. Is it covered?...
+2025-08-03 17:15:54,488 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:6887|Tokens:4904.900000000001
+2025-08-03 17:15:54,488 - qa_execution - INFO - API_CALL_START|Hash:6887|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:15:56,196 - qa_execution - INFO - API_SUCCESS|Hash:6887|Attempt:1|Time:1.70s|Response_length:149
+2025-08-03 17:15:56,196 - qa_execution - INFO - QA_COMPLETE|Hash:6887|Final_length:149
+2025-08-03 17:15:56,196 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q12|Time:1.71s|Total:1.72s|Length:149
+2025-08-03 17:15:56,196 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q12|This information is not mentioned in the provided document.  Therefore, whether IVF treatment is covered cannot be determined from the provided text.
+2025-08-03 17:15:56,196 - execution_tracker - INFO - QUESTION_START|820561b7|Q13|I did a cataract treatment of Rs 100,000. Will you settle the full Rs 100,000?
+2025-08-03 17:15:56,196 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q13|Time:0.00s|Count:8
+2025-08-03 17:15:56,196 - qa_execution - INFO - QA_START|Hash:7942|Question:I did a cataract treatment of Rs 100,000. Will you...
+2025-08-03 17:15:56,196 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:7942|Tokens:4999.8
+2025-08-03 17:15:56,196 - qa_execution - INFO - API_CALL_START|Hash:7942|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:15:58,934 - qa_execution - INFO - API_SUCCESS|Hash:7942|Attempt:1|Time:2.75s|Response_length:385
+2025-08-03 17:15:58,934 - qa_execution - INFO - QA_COMPLETE|Hash:7942|Final_length:385
+2025-08-03 17:15:58,934 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q13|Time:2.74s|Total:2.74s|Length:385
+2025-08-03 17:15:58,934 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q13|This information is not mentioned in the provided document.  While the document describes various benefits and coverage details under the "Easy Health" policy by HDFC ERGO, it does not specify whether...
+2025-08-03 17:15:58,934 - execution_tracker - INFO - QUESTION_START|820561b7|Q14|Give me a list of documents to be uploaded for hospitalization for heart surgery.
+2025-08-03 17:15:58,937 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q14|Time:0.00s|Count:8
+2025-08-03 17:15:58,940 - qa_execution - INFO - QA_START|Hash:1588|Question:Give me a list of documents to be uploaded for hos...
+2025-08-03 17:15:58,941 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:1588|Tokens:4741.1
+2025-08-03 17:15:58,941 - qa_execution - INFO - API_CALL_START|Hash:1588|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:10,297 - qa_execution - INFO - API_SUCCESS|Hash:1588|Attempt:1|Time:11.36s|Response_length:2962
+2025-08-03 17:16:10,297 - qa_execution - INFO - QA_COMPLETE|Hash:1588|Final_length:1500
+2025-08-03 17:16:10,297 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q14|Time:11.36s|Total:11.36s|Length:1500
+2025-08-03 17:16:10,297 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q14|The provided document lists required claim documentation in general, but does not specify a separate list for heart surgery.  The following documents are required for *all* claims, which would include...
+2025-08-03 17:16:10,297 - execution_tracker - INFO - QUESTION_START|820561b7|Q15|The ideal spark plug gap recommended is 0.8-0.9 mm.
+2025-08-03 17:16:10,303 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q15|Time:0.01s|Count:8
+2025-08-03 17:16:10,303 - qa_execution - INFO - QA_START|Hash:2361|Question:The ideal spark plug gap recommended is 0.8-0.9 mm...
+2025-08-03 17:16:10,303 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:2361|Tokens:4764.5
+2025-08-03 17:16:10,303 - qa_execution - INFO - API_CALL_START|Hash:2361|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:11,721 - qa_execution - INFO - API_SUCCESS|Hash:2361|Attempt:1|Time:1.41s|Response_length:59
+2025-08-03 17:16:11,721 - qa_execution - INFO - QA_COMPLETE|Hash:2361|Final_length:59
+2025-08-03 17:16:11,736 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q15|Time:1.42s|Total:1.44s|Length:59
+2025-08-03 17:16:11,736 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q15|This information is not mentioned in the provided document.
+2025-08-03 17:16:11,736 - execution_tracker - INFO - QUESTION_START|820561b7|Q16|Does this come in a tubeless tyre version?
+2025-08-03 17:16:11,736 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q16|Time:0.00s|Count:8
+2025-08-03 17:16:11,736 - qa_execution - INFO - QA_START|Hash:2887|Question:Does this come in a tubeless tyre version?...
+2025-08-03 17:16:11,736 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:2887|Tokens:5092.1
+2025-08-03 17:16:11,736 - qa_execution - INFO - API_CALL_START|Hash:2887|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:13,215 - qa_execution - INFO - API_SUCCESS|Hash:2887|Attempt:1|Time:1.48s|Response_length:59
+2025-08-03 17:16:13,215 - qa_execution - INFO - QA_COMPLETE|Hash:2887|Final_length:59
+2025-08-03 17:16:13,215 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q16|Time:1.48s|Total:1.48s|Length:59
+2025-08-03 17:16:13,215 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q16|This information is not mentioned in the provided document.
+2025-08-03 17:16:13,215 - execution_tracker - INFO - QUESTION_START|820561b7|Q17|Is it compulsory to have a disc brake?
+2025-08-03 17:16:13,224 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q17|Time:0.01s|Count:8
+2025-08-03 17:16:13,225 - qa_execution - INFO - QA_START|Hash:5365|Question:Is it compulsory to have a disc brake?...
+2025-08-03 17:16:13,225 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:5365|Tokens:4764.5
+2025-08-03 17:16:13,225 - qa_execution - INFO - API_CALL_START|Hash:5365|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:14,718 - qa_execution - INFO - API_SUCCESS|Hash:5365|Attempt:1|Time:1.50s|Response_length:59
+2025-08-03 17:16:14,719 - qa_execution - INFO - QA_COMPLETE|Hash:5365|Final_length:59
+2025-08-03 17:16:14,719 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q17|Time:1.49s|Total:1.50s|Length:59
+2025-08-03 17:16:14,720 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q17|This information is not mentioned in the provided document.
+2025-08-03 17:16:14,720 - execution_tracker - INFO - QUESTION_START|820561b7|Q18|Can I put Thums Up instead of oil?
+2025-08-03 17:16:14,723 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q18|Time:0.00s|Count:8
+2025-08-03 17:16:14,723 - qa_execution - INFO - QA_START|Hash:7255|Question:Can I put Thums Up instead of oil?...
+2025-08-03 17:16:14,724 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:7255|Tokens:4764.5
+2025-08-03 17:16:14,724 - qa_execution - INFO - API_CALL_START|Hash:7255|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:16,264 - qa_execution - INFO - API_SUCCESS|Hash:7255|Attempt:1|Time:1.55s|Response_length:59
+2025-08-03 17:16:16,275 - qa_execution - INFO - QA_COMPLETE|Hash:7255|Final_length:59
+2025-08-03 17:16:16,275 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q18|Time:1.55s|Total:1.56s|Length:59
+2025-08-03 17:16:16,275 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q18|This information is not mentioned in the provided document.
+2025-08-03 17:16:16,275 - execution_tracker - INFO - QUESTION_START|820561b7|Q19|What is the official name of India according to Article 1 of the Constitution?
+2025-08-03 17:16:16,275 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q19|Time:0.00s|Count:8
+2025-08-03 17:16:16,275 - qa_execution - INFO - QA_START|Hash:0027|Question:What is the official name of India according to Ar...
+2025-08-03 17:16:16,275 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:0027|Tokens:5519.8
+2025-08-03 17:16:16,275 - qa_execution - INFO - API_CALL_START|Hash:0027|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:17,781 - qa_execution - INFO - API_SUCCESS|Hash:0027|Attempt:1|Time:1.50s|Response_length:59
+2025-08-03 17:16:17,781 - qa_execution - INFO - QA_COMPLETE|Hash:0027|Final_length:59
+2025-08-03 17:16:17,781 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q19|Time:1.51s|Total:1.51s|Length:59
+2025-08-03 17:16:17,783 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q19|This information is not mentioned in the provided document.
+2025-08-03 17:16:17,783 - execution_tracker - INFO - QUESTION_START|820561b7|Q20|Which Article guarantees equality before the law and equal protection of laws to all persons?
+2025-08-03 17:16:17,785 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q20|Time:0.00s|Count:8
+2025-08-03 17:16:17,785 - qa_execution - INFO - QA_START|Hash:2232|Question:Which Article guarantees equality before the law a...
+2025-08-03 17:16:17,785 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:2232|Tokens:5175.3
+2025-08-03 17:16:17,787 - qa_execution - INFO - API_CALL_START|Hash:2232|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:19,263 - qa_execution - INFO - API_SUCCESS|Hash:2232|Attempt:1|Time:1.48s|Response_length:59
+2025-08-03 17:16:19,263 - qa_execution - INFO - QA_COMPLETE|Hash:2232|Final_length:59
+2025-08-03 17:16:19,263 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q20|Time:1.48s|Total:1.48s|Length:59
+2025-08-03 17:16:19,263 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q20|This information is not mentioned in the provided document.
+2025-08-03 17:16:19,263 - execution_tracker - INFO - QUESTION_START|820561b7|Q21|What is abolished by Article 17 of the Constitution?
+2025-08-03 17:16:19,275 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q21|Time:0.01s|Count:8
+2025-08-03 17:16:19,275 - qa_execution - INFO - QA_START|Hash:5841|Question:What is abolished by Article 17 of the Constitutio...
+2025-08-03 17:16:19,275 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:5841|Tokens:3832.4
+2025-08-03 17:16:19,275 - qa_execution - INFO - API_CALL_START|Hash:5841|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:20,519 - qa_execution - INFO - API_SUCCESS|Hash:5841|Attempt:1|Time:1.25s|Response_length:59
+2025-08-03 17:16:20,519 - qa_execution - INFO - QA_COMPLETE|Hash:5841|Final_length:59
+2025-08-03 17:16:20,519 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q21|Time:1.24s|Total:1.26s|Length:59
+2025-08-03 17:16:20,519 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q21|This information is not mentioned in the provided document.
+2025-08-03 17:16:20,519 - execution_tracker - INFO - QUESTION_START|820561b7|Q22|What are the key ideals mentioned in the Preamble of the Constitution of India?
+2025-08-03 17:16:20,529 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q22|Time:0.01s|Count:8
+2025-08-03 17:16:20,529 - qa_execution - INFO - QA_START|Hash:2693|Question:What are the key ideals mentioned in the Preamble ...
+2025-08-03 17:16:20,529 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:2693|Tokens:5435.3
+2025-08-03 17:16:20,529 - qa_execution - INFO - API_CALL_START|Hash:2693|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:22,774 - qa_execution - INFO - API_SUCCESS|Hash:2693|Attempt:1|Time:2.23s|Response_length:312
+2025-08-03 17:16:22,774 - qa_execution - INFO - QA_COMPLETE|Hash:2693|Final_length:312
+2025-08-03 17:16:22,774 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q22|Time:2.24s|Total:2.26s|Length:312
+2025-08-03 17:16:22,774 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q22|This information is not mentioned in the provided document. The provided text pertains to HDFC ERGO General Insurance Company Limited's "Easy Health" policy and discusses coverage details, definitions...
+2025-08-03 17:16:22,774 - execution_tracker - INFO - QUESTION_START|820561b7|Q23|According to Article 24, children below what age are prohibited from working in hazardous industries?
+2025-08-03 17:16:22,782 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q23|Time:0.01s|Count:8
+2025-08-03 17:16:22,783 - qa_execution - INFO - QA_START|Hash:2576|Question:According to Article 24, children below what age a...
+2025-08-03 17:16:22,783 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:2576|Tokens:5401.5
+2025-08-03 17:16:22,783 - qa_execution - INFO - API_CALL_START|Hash:2576|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:24,708 - qa_execution - INFO - API_SUCCESS|Hash:2576|Attempt:1|Time:1.92s|Response_length:198
+2025-08-03 17:16:24,710 - qa_execution - INFO - QA_COMPLETE|Hash:2576|Final_length:198
+2025-08-03 17:16:24,710 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q23|Time:1.93s|Total:1.94s|Length:198
+2025-08-03 17:16:24,711 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q23|This information is not mentioned in the provided document.  The provided text pertains to HDFC ERGO Easy Health insurance policy details and does not contain any information about child labor laws.
+2025-08-03 17:16:24,711 - execution_tracker - INFO - QUESTION_START|820561b7|Q24|What is the significance of Article 21 in the Indian Constitution?
+2025-08-03 17:16:24,713 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q24|Time:0.00s|Count:8
+2025-08-03 17:16:24,715 - qa_execution - INFO - QA_START|Hash:2660|Question:What is the significance of Article 21 in the Indi...
+2025-08-03 17:16:24,715 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:2660|Tokens:5008.900000000001
+2025-08-03 17:16:24,722 - qa_execution - INFO - API_CALL_START|Hash:2660|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:26,211 - qa_execution - INFO - API_SUCCESS|Hash:2660|Attempt:1|Time:1.49s|Response_length:59
+2025-08-03 17:16:26,213 - qa_execution - INFO - QA_COMPLETE|Hash:2660|Final_length:59
+2025-08-03 17:16:26,214 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q24|Time:1.50s|Total:1.50s|Length:59
+2025-08-03 17:16:26,214 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q24|This information is not mentioned in the provided document.
+2025-08-03 17:16:26,214 - execution_tracker - INFO - QUESTION_START|820561b7|Q25|Article 15 prohibits discrimination on certain grounds. However, which groups can the State make special provisions for under this Article?
+2025-08-03 17:16:26,217 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q25|Time:0.00s|Count:8
+2025-08-03 17:16:26,217 - qa_execution - INFO - QA_START|Hash:7547|Question:Article 15 prohibits discrimination on certain gro...
+2025-08-03 17:16:26,217 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:7547|Tokens:5278.0
+2025-08-03 17:16:26,217 - qa_execution - INFO - API_CALL_START|Hash:7547|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:27,661 - qa_execution - INFO - API_SUCCESS|Hash:7547|Attempt:1|Time:1.42s|Response_length:59
+2025-08-03 17:16:27,664 - qa_execution - INFO - QA_COMPLETE|Hash:7547|Final_length:59
+2025-08-03 17:16:27,670 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q25|Time:1.45s|Total:1.46s|Length:59
+2025-08-03 17:16:27,672 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q25|This information is not mentioned in the provided document.
+2025-08-03 17:16:27,674 - execution_tracker - INFO - QUESTION_START|820561b7|Q26|Which Article allows Parliament to regulate the right of citizenship and override previous articles on citizenship?
+2025-08-03 17:16:27,674 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q26|Time:0.00s|Count:8
+2025-08-03 17:16:27,674 - qa_execution - INFO - QA_START|Hash:0534|Question:Which Article allows Parliament to regulate the ri...
+2025-08-03 17:16:27,680 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:0534|Tokens:5166.2
+2025-08-03 17:16:27,683 - qa_execution - INFO - API_CALL_START|Hash:0534|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:30,016 - qa_execution - INFO - API_SUCCESS|Hash:0534|Attempt:1|Time:2.33s|Response_length:302
+2025-08-03 17:16:30,018 - qa_execution - INFO - QA_COMPLETE|Hash:0534|Final_length:302
+2025-08-03 17:16:30,018 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q26|Time:2.34s|Total:2.34s|Length:302
+2025-08-03 17:16:30,020 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q26|This information is not mentioned in the provided document. The provided text pertains to HDFC ERGO's "Easy Health" insurance policy and discusses details like discounts, waiting periods, renewal bene...
+2025-08-03 17:16:30,020 - execution_tracker - INFO - QUESTION_START|820561b7|Q27|What restrictions can the State impose on the right to freedom of speech under Article 19(2)?
+2025-08-03 17:16:30,027 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q27|Time:0.01s|Count:8
+2025-08-03 17:16:30,027 - qa_execution - INFO - QA_START|Hash:8142|Question:What restrictions can the State impose on the righ...
+2025-08-03 17:16:30,027 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:8142|Tokens:4521.400000000001
+2025-08-03 17:16:30,027 - qa_execution - INFO - API_CALL_START|Hash:8142|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:32,435 - qa_execution - INFO - API_SUCCESS|Hash:8142|Attempt:1|Time:2.41s|Response_length:307
+2025-08-03 17:16:32,435 - qa_execution - INFO - QA_COMPLETE|Hash:8142|Final_length:307
+2025-08-03 17:16:32,435 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q27|Time:2.41s|Total:2.41s|Length:307
+2025-08-03 17:16:32,435 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q27|This information is not mentioned in the provided document. The provided text pertains to HDFC ERGO General Insurance Company Limited's Easy Health policy and discusses definitions, claim procedures, ...
+2025-08-03 17:16:32,435 - execution_tracker - INFO - QUESTION_START|820561b7|Q28|If my car is stolen, what case will it be in law?
+2025-08-03 17:16:32,435 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q28|Time:0.00s|Count:8
+2025-08-03 17:16:32,435 - qa_execution - INFO - QA_START|Hash:1286|Question:If my car is stolen, what case will it be in law?...
+2025-08-03 17:16:32,435 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:1286|Tokens:5228.6
+2025-08-03 17:16:32,435 - qa_execution - INFO - API_CALL_START|Hash:1286|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:35,061 - qa_execution - INFO - API_SUCCESS|Hash:1286|Attempt:1|Time:2.62s|Response_length:330
+2025-08-03 17:16:35,061 - qa_execution - INFO - QA_COMPLETE|Hash:1286|Final_length:330
+2025-08-03 17:16:35,061 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q28|Time:2.63s|Total:2.63s|Length:330
+2025-08-03 17:16:35,061 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q28|This information is not mentioned in the provided document.  The provided text pertains to the "Easy Health" policy from HDFC ERGO General Insurance and discusses health insurance coverage, exclusions...
+2025-08-03 17:16:35,061 - execution_tracker - INFO - QUESTION_START|820561b7|Q29|If I am arrested without a warrant, is that legal?
+2025-08-03 17:16:35,065 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q29|Time:0.00s|Count:8
+2025-08-03 17:16:35,066 - qa_execution - INFO - QA_START|Hash:0705|Question:If I am arrested without a warrant, is that legal?...
+2025-08-03 17:16:35,072 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:0705|Tokens:5704.400000000001
+2025-08-03 17:16:35,072 - qa_execution - INFO - API_CALL_START|Hash:0705|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:36,563 - qa_execution - INFO - API_SUCCESS|Hash:0705|Attempt:1|Time:1.50s|Response_length:59
+2025-08-03 17:16:36,563 - qa_execution - INFO - QA_COMPLETE|Hash:0705|Final_length:59
+2025-08-03 17:16:36,563 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q29|Time:1.50s|Total:1.50s|Length:59
+2025-08-03 17:16:36,563 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q29|This information is not mentioned in the provided document.
+2025-08-03 17:16:36,563 - execution_tracker - INFO - QUESTION_START|820561b7|Q30|If someone denies me a job because of my caste, is that allowed?
+2025-08-03 17:16:36,563 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q30|Time:0.00s|Count:8
+2025-08-03 17:16:36,577 - qa_execution - INFO - QA_START|Hash:8684|Question:If someone denies me a job because of my caste, is...
+2025-08-03 17:16:36,581 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:8684|Tokens:4764.5
+2025-08-03 17:16:36,583 - qa_execution - INFO - API_CALL_START|Hash:8684|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:38,024 - qa_execution - INFO - API_SUCCESS|Hash:8684|Attempt:1|Time:1.44s|Response_length:59
+2025-08-03 17:16:38,024 - qa_execution - INFO - QA_COMPLETE|Hash:8684|Final_length:59
+2025-08-03 17:16:38,024 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q30|Time:1.45s|Total:1.46s|Length:59
+2025-08-03 17:16:38,026 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q30|This information is not mentioned in the provided document.
+2025-08-03 17:16:38,026 - execution_tracker - INFO - QUESTION_START|820561b7|Q31|If the government takes my land for a project, can I stop it?
+2025-08-03 17:16:38,028 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q31|Time:0.00s|Count:8
+2025-08-03 17:16:38,028 - qa_execution - INFO - QA_START|Hash:3997|Question:If the government takes my land for a project, can...
+2025-08-03 17:16:38,030 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:3997|Tokens:5231.2
+2025-08-03 17:16:38,030 - qa_execution - INFO - API_CALL_START|Hash:3997|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:39,499 - qa_execution - INFO - API_SUCCESS|Hash:3997|Attempt:1|Time:1.47s|Response_length:59
+2025-08-03 17:16:39,499 - qa_execution - INFO - QA_COMPLETE|Hash:3997|Final_length:59
+2025-08-03 17:16:39,499 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q31|Time:1.47s|Total:1.47s|Length:59
+2025-08-03 17:16:39,499 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q31|This information is not mentioned in the provided document.
+2025-08-03 17:16:39,499 - execution_tracker - INFO - QUESTION_START|820561b7|Q32|If my child is forced to work in a factory, is that legal?
+2025-08-03 17:16:39,506 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q32|Time:0.01s|Count:8
+2025-08-03 17:16:39,506 - qa_execution - INFO - QA_START|Hash:6372|Question:If my child is forced to work in a factory, is tha...
+2025-08-03 17:16:39,506 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:6372|Tokens:5447.0
+2025-08-03 17:16:39,511 - qa_execution - INFO - API_CALL_START|Hash:6372|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:40,997 - qa_execution - INFO - API_SUCCESS|Hash:6372|Attempt:1|Time:1.48s|Response_length:59
+2025-08-03 17:16:40,997 - qa_execution - INFO - QA_COMPLETE|Hash:6372|Final_length:59
+2025-08-03 17:16:40,997 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q32|Time:1.49s|Total:1.50s|Length:59
+2025-08-03 17:16:40,997 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q32|This information is not mentioned in the provided document.
+2025-08-03 17:16:40,997 - execution_tracker - INFO - QUESTION_START|820561b7|Q33|If I am stopped from speaking at a protest, is that against my rights?
+2025-08-03 17:16:41,015 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q33|Time:0.00s|Count:8
+2025-08-03 17:16:41,015 - qa_execution - INFO - QA_START|Hash:5378|Question:If I am stopped from speaking at a protest, is tha...
+2025-08-03 17:16:41,015 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:5378|Tokens:4764.5
+2025-08-03 17:16:41,015 - qa_execution - INFO - API_CALL_START|Hash:5378|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:42,461 - qa_execution - INFO - API_SUCCESS|Hash:5378|Attempt:1|Time:1.44s|Response_length:59
+2025-08-03 17:16:42,461 - qa_execution - INFO - QA_COMPLETE|Hash:5378|Final_length:59
+2025-08-03 17:16:42,461 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q33|Time:1.45s|Total:1.46s|Length:59
+2025-08-03 17:16:42,461 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q33|This information is not mentioned in the provided document.
+2025-08-03 17:16:42,461 - execution_tracker - INFO - QUESTION_START|820561b7|Q34|If a religious place stops me from entering because I'm a woman, is that constitutional?
+2025-08-03 17:16:42,461 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q34|Time:0.00s|Count:8
+2025-08-03 17:16:42,461 - qa_execution - INFO - QA_START|Hash:2653|Question:If a religious place stops me from entering becaus...
+2025-08-03 17:16:42,461 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:2653|Tokens:5184.400000000001
+2025-08-03 17:16:42,461 - qa_execution - INFO - API_CALL_START|Hash:2653|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:43,951 - qa_execution - INFO - API_SUCCESS|Hash:2653|Attempt:1|Time:1.50s|Response_length:59
+2025-08-03 17:16:43,956 - qa_execution - INFO - QA_COMPLETE|Hash:2653|Final_length:59
+2025-08-03 17:16:43,956 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q34|Time:1.50s|Total:1.50s|Length:59
+2025-08-03 17:16:43,956 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q34|This information is not mentioned in the provided document.
+2025-08-03 17:16:43,956 - execution_tracker - INFO - QUESTION_START|820561b7|Q35|If I change my religion, can the government stop me?
+2025-08-03 17:16:43,969 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q35|Time:0.01s|Count:8
+2025-08-03 17:16:43,969 - qa_execution - INFO - QA_START|Hash:4995|Question:If I change my religion, can the government stop m...
+2025-08-03 17:16:43,969 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:4995|Tokens:5712.2
+2025-08-03 17:16:43,983 - qa_execution - INFO - API_CALL_START|Hash:4995|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:45,469 - qa_execution - INFO - API_SUCCESS|Hash:4995|Attempt:1|Time:1.48s|Response_length:59
+2025-08-03 17:16:45,474 - qa_execution - INFO - QA_COMPLETE|Hash:4995|Final_length:59
+2025-08-03 17:16:45,474 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q35|Time:1.50s|Total:1.52s|Length:59
+2025-08-03 17:16:45,474 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q35|This information is not mentioned in the provided document.
+2025-08-03 17:16:45,476 - execution_tracker - INFO - QUESTION_START|820561b7|Q36|If the police torture someone in custody, what right is being violated?
+2025-08-03 17:16:45,478 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q36|Time:0.00s|Count:8
+2025-08-03 17:16:45,478 - qa_execution - INFO - QA_START|Hash:4871|Question:If the police torture someone in custody, what rig...
+2025-08-03 17:16:45,488 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:4871|Tokens:4893.2
+2025-08-03 17:16:45,488 - qa_execution - INFO - API_CALL_START|Hash:4871|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:47,812 - qa_execution - INFO - API_SUCCESS|Hash:4871|Attempt:1|Time:2.31s|Response_length:175
+2025-08-03 17:16:47,813 - qa_execution - INFO - QA_COMPLETE|Hash:4871|Final_length:175
+2025-08-03 17:16:47,813 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q36|Time:2.34s|Total:2.34s|Length:175
+2025-08-03 17:16:47,813 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q36|This information is not mentioned in the provided document.  The provided text pertains to health insurance policy details and does not discuss police custody or legal rights.
+2025-08-03 17:16:47,813 - execution_tracker - INFO - QUESTION_START|820561b7|Q37|If I'm denied admission to a public university because I'm from a backward community, can I do something?
+2025-08-03 17:16:47,813 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q37|Time:0.00s|Count:8
+2025-08-03 17:16:47,822 - qa_execution - INFO - QA_START|Hash:4903|Question:If I'm denied admission to a public university bec...
+2025-08-03 17:16:47,822 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:4903|Tokens:4776.2
+2025-08-03 17:16:47,822 - qa_execution - INFO - API_CALL_START|Hash:4903|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:49,824 - qa_execution - INFO - API_SUCCESS|Hash:4903|Attempt:1|Time:2.02s|Response_length:230
+2025-08-03 17:16:49,824 - qa_execution - INFO - QA_COMPLETE|Hash:4903|Final_length:230
+2025-08-03 17:16:49,824 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q37|Time:2.00s|Total:2.01s|Length:230
+2025-08-03 17:16:49,824 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q37|This information is not mentioned in the provided document. The document pertains to HDFC ERGO Easy Health insurance policy details and does not contain information about university admissions or lega...
+2025-08-03 17:16:49,824 - execution_tracker - INFO - QUESTION_START|820561b7|Q38|What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?
+2025-08-03 17:16:49,828 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q38|Time:0.00s|Count:8
+2025-08-03 17:16:49,828 - qa_execution - INFO - QA_START|Hash:6751|Question:What is the grace period for premium payment under...
+2025-08-03 17:16:49,828 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:6751|Tokens:4891.900000000001
+2025-08-03 17:16:49,828 - qa_execution - INFO - API_CALL_START|Hash:6751|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:53,302 - qa_execution - INFO - API_SUCCESS|Hash:6751|Attempt:1|Time:3.47s|Response_length:637
+2025-08-03 17:16:53,302 - qa_execution - INFO - QA_COMPLETE|Hash:6751|Final_length:637
+2025-08-03 17:16:53,302 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q38|Time:3.47s|Total:3.48s|Length:637
+2025-08-03 17:16:53,302 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q38|The provided text refers to the "Easy Health" policy, not the "National Parivar Mediclaim Plus Policy".  The grace period for the Easy Health policy varies depending on the premium payment frequency:
+...
+2025-08-03 17:16:53,302 - execution_tracker - INFO - QUESTION_START|820561b7|Q39|What is the waiting period for pre-existing diseases (PED) to be covered?
+2025-08-03 17:16:53,302 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q39|Time:0.00s|Count:8
+2025-08-03 17:16:53,302 - qa_execution - INFO - QA_START|Hash:4766|Question:What is the waiting period for pre-existing diseas...
+2025-08-03 17:16:53,302 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:4766|Tokens:4930.900000000001
+2025-08-03 17:16:53,310 - qa_execution - INFO - API_CALL_START|Hash:4766|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:16:56,602 - qa_execution - INFO - API_SUCCESS|Hash:4766|Attempt:1|Time:3.28s|Response_length:755
+2025-08-03 17:16:56,608 - qa_execution - INFO - QA_COMPLETE|Hash:4766|Final_length:755
+2025-08-03 17:16:56,608 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q39|Time:3.31s|Total:3.31s|Length:755
+2025-08-03 17:16:56,608 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q39|Expenses related to the treatment of a pre-existing disease (PED) and its direct complications shall be excluded until the expiry of **36 months** of continuous coverage after the date of inception of...
+2025-08-03 17:16:56,608 - execution_tracker - INFO - QUESTION_START|820561b7|Q40|Does this policy cover maternity expenses, and what are the conditions?
+2025-08-03 17:16:56,611 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q40|Time:0.00s|Count:8
+2025-08-03 17:16:56,611 - qa_execution - INFO - QA_START|Hash:3824|Question:Does this policy cover maternity expenses, and wha...
+2025-08-03 17:16:56,614 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:3824|Tokens:5029.7
+2025-08-03 17:16:56,614 - qa_execution - INFO - API_CALL_START|Hash:3824|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:17:01,404 - qa_execution - INFO - API_SUCCESS|Hash:3824|Attempt:1|Time:4.80s|Response_length:1108
+2025-08-03 17:17:01,404 - qa_execution - INFO - QA_COMPLETE|Hash:3824|Final_length:1108
+2025-08-03 17:17:01,404 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q40|Time:4.79s|Total:4.80s|Length:1108
+2025-08-03 17:17:01,404 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q40|Maternity expenses are generally *excluded* except for ectopic pregnancies (page 19, item 13).  The policy specifically excludes:
+
+* Medical treatment expenses traceable to childbirth (including compl...
+2025-08-03 17:17:01,404 - execution_tracker - INFO - QUESTION_START|820561b7|Q41|What is the waiting period for cataract surgery?
+2025-08-03 17:17:01,411 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q41|Time:0.01s|Count:8
+2025-08-03 17:17:01,411 - qa_execution - INFO - QA_START|Hash:8698|Question:What is the waiting period for cataract surgery?...
+2025-08-03 17:17:01,411 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:8698|Tokens:4416.1
+2025-08-03 17:17:01,411 - qa_execution - INFO - API_CALL_START|Hash:8698|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:17:03,783 - qa_execution - INFO - API_SUCCESS|Hash:8698|Attempt:1|Time:2.38s|Response_length:292
+2025-08-03 17:17:03,785 - qa_execution - INFO - QA_COMPLETE|Hash:8698|Final_length:292
+2025-08-03 17:17:03,785 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q41|Time:2.37s|Total:2.38s|Length:292
+2025-08-03 17:17:03,785 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q41|The document lists Cataract under specified diseases/procedures (Excl02), which have a waiting period of "24 months of continuous coverage after the date of inception of the first policy".  There is n...
+2025-08-03 17:17:03,785 - execution_tracker - INFO - QUESTION_START|820561b7|Q42|Are the medical expenses for an organ donor covered under this policy?
+2025-08-03 17:17:03,789 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q42|Time:0.00s|Count:8
+2025-08-03 17:17:03,789 - qa_execution - INFO - QA_START|Hash:5252|Question:Are the medical expenses for an organ donor covere...
+2025-08-03 17:17:03,789 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:5252|Tokens:5413.2
+2025-08-03 17:17:03,789 - qa_execution - INFO - API_CALL_START|Hash:5252|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:17:06,139 - qa_execution - INFO - API_SUCCESS|Hash:5252|Attempt:1|Time:2.34s|Response_length:236
+2025-08-03 17:17:06,144 - qa_execution - INFO - QA_COMPLETE|Hash:5252|Final_length:236
+2025-08-03 17:17:06,144 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q42|Time:2.35s|Total:2.36s|Length:236
+2025-08-03 17:17:06,144 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q42|No.  While the policy covers medical and surgical expenses for an organ donor *when an Insured Person is the recipient*, expenses incurred by an insured person while donating an organ are *specificall...
+2025-08-03 17:17:06,144 - execution_tracker - INFO - QUESTION_START|820561b7|Q43|What is the No Claim Discount (NCD) offered in this policy?
+2025-08-03 17:17:06,150 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q43|Time:0.01s|Count:8
+2025-08-03 17:17:06,150 - qa_execution - INFO - QA_START|Hash:9920|Question:What is the No Claim Discount (NCD) offered in thi...
+2025-08-03 17:17:06,161 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:9920|Tokens:5241.6
+2025-08-03 17:17:06,161 - qa_execution - INFO - API_CALL_START|Hash:9920|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:17:10,173 - qa_execution - INFO - API_SUCCESS|Hash:9920|Attempt:1|Time:4.02s|Response_length:678
+2025-08-03 17:17:10,173 - qa_execution - INFO - QA_COMPLETE|Hash:9920|Final_length:678
+2025-08-03 17:17:10,173 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q43|Time:4.02s|Total:4.03s|Length:678
+2025-08-03 17:17:10,173 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q43|The document refers to "Cumulative Bonus" and "Stay Active" discounts, but does not mention "No Claim Discount (NCD)" specifically.
+
+* **Cumulative Bonus:** A 10% cumulative bonus is applied to the Su...
+2025-08-03 17:17:10,173 - execution_tracker - INFO - QUESTION_START|820561b7|Q44|Is there a benefit for preventive health check-ups?
+2025-08-03 17:17:10,177 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q44|Time:0.00s|Count:8
+2025-08-03 17:17:10,177 - qa_execution - INFO - QA_START|Hash:4994|Question:Is there a benefit for preventive health check-ups...
+2025-08-03 17:17:10,177 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:4994|Tokens:5357.3
+2025-08-03 17:17:10,177 - qa_execution - INFO - API_CALL_START|Hash:4994|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:17:16,837 - qa_execution - INFO - API_SUCCESS|Hash:4994|Attempt:1|Time:6.66s|Response_length:1675
+2025-08-03 17:17:16,837 - qa_execution - INFO - QA_COMPLETE|Hash:4994|Final_length:1500
+2025-08-03 17:17:16,837 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q44|Time:6.66s|Total:6.66s|Length:1500
+2025-08-03 17:17:16,837 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q44|Yes, the Easy Health policy provides a Preventive Health Check-up benefit.
+
+* **Eligibility:**  If the policyholder has maintained an Easy Health Policy without any break for the period mentioned in t...
+2025-08-03 17:17:16,837 - execution_tracker - INFO - QUESTION_START|820561b7|Q45|How does the policy define a 'Hospital'?
+2025-08-03 17:17:16,853 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q45|Time:0.02s|Count:8
+2025-08-03 17:17:16,853 - qa_execution - INFO - QA_START|Hash:9429|Question:How does the policy define a 'Hospital'?...
+2025-08-03 17:17:16,853 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:9429|Tokens:4824.3
+2025-08-03 17:17:16,860 - qa_execution - INFO - API_CALL_START|Hash:9429|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:17:18,591 - qa_execution - INFO - API_SUCCESS|Hash:9429|Attempt:1|Time:1.73s|Response_length:198
+2025-08-03 17:17:18,591 - qa_execution - INFO - QA_COMPLETE|Hash:9429|Final_length:198
+2025-08-03 17:17:18,604 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q45|Time:1.75s|Total:1.77s|Length:198
+2025-08-03 17:17:18,605 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q45|A 'Hospital' is defined as "any institution established for in-patient care and day care treatment of illness and/or injuries and which has been registered as a hospital with the local authorities".
+2025-08-03 17:17:18,605 - execution_tracker - INFO - QUESTION_START|820561b7|Q46|What is the extent of coverage for AYUSH treatments?
+2025-08-03 17:17:18,608 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q46|Time:0.00s|Count:8
+2025-08-03 17:17:18,608 - qa_execution - INFO - QA_START|Hash:0803|Question:What is the extent of coverage for AYUSH treatment...
+2025-08-03 17:17:18,611 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:0803|Tokens:5567.900000000001
+2025-08-03 17:17:18,627 - qa_execution - INFO - API_CALL_START|Hash:0803|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:17:21,967 - qa_execution - INFO - API_SUCCESS|Hash:0803|Attempt:1|Time:3.34s|Response_length:663
+2025-08-03 17:17:21,967 - qa_execution - INFO - QA_COMPLETE|Hash:0803|Final_length:663
+2025-08-03 17:17:21,967 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q46|Time:3.36s|Total:3.36s|Length:663
+2025-08-03 17:17:21,967 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q46|Expenses incurred on AYUSH treatment are covered if:
+
+* The treatment is received in a government hospital or in any institute recognized by the government and/or accredited by Quality Council of Indi...
+2025-08-03 17:17:21,967 - execution_tracker - INFO - QUESTION_START|820561b7|Q47|Are there any sub-limits on room rent and ICU charges for Plan A?
+2025-08-03 17:17:21,979 - execution_tracker - INFO - CHUNKS_RETRIEVED|820561b7|Q47|Time:0.01s|Count:8
+2025-08-03 17:17:21,979 - qa_execution - INFO - QA_START|Hash:8662|Question:Are there any sub-limits on room rent and ICU char...
+2025-08-03 17:17:21,979 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:8662|Tokens:4505.8
+2025-08-03 17:17:21,982 - qa_execution - INFO - API_CALL_START|Hash:8662|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 17:17:24,457 - qa_execution - INFO - API_SUCCESS|Hash:8662|Attempt:1|Time:2.47s|Response_length:318
+2025-08-03 17:17:24,458 - qa_execution - INFO - QA_COMPLETE|Hash:8662|Final_length:318
+2025-08-03 17:17:24,459 - execution_tracker - INFO - ANSWER_GENERATED|820561b7|Q47|Time:2.48s|Total:2.49s|Length:318
+2025-08-03 17:17:24,459 - execution_tracker - INFO - ANSWER_CONTENT|820561b7|Q47|This information is not mentioned in the provided document.  The document describes various policy terms and conditions, including some specific benefits and exclusions, but it does not provide detail...
+2025-08-03 17:17:24,460 - execution_tracker - INFO - SESSION_COMPLETE|820561b7|Total_time:131.68s|Success_rate:47/47
