@@ -2133,3 +2133,123 @@ The grace period for premium payment under the HDFC ERGO "Easy Health" policy is
 2025-08-03 14:24:31,951 - execution_tracker - INFO - ANSWER_GENERATED|2a049a43|Q10|Time:1.15s|Total:1.16s|Length:59
 2025-08-03 14:24:31,951 - execution_tracker - INFO - ANSWER_CONTENT|2a049a43|Q10|This information is not mentioned in the provided document.
 2025-08-03 14:24:31,952 - execution_tracker - INFO - SESSION_COMPLETE|2a049a43|Total_time:50.98s|Success_rate:10/10
+2025-08-03 14:57:20,096 - services.qa_engine - INFO - Cost-Optimized High Accuracy QA Engine initialized with Gemini
+2025-08-03 14:57:20,118 - app - INFO - Application started successfully
+2025-08-03 14:57:48,339 - execution_tracker - INFO - SESSION_START|c4ed2919|2025-08-03T14:57:48.339218|Questions:10|Document:9szykRKdGYj0BVm1skP%2BX8N9%2FRENEn2k7MQPUp33jyQ%3D
+2025-08-03 14:57:48,339 - execution_tracker - INFO - QUESTION_RECEIVED|c4ed2919|Q1|What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?
+2025-08-03 14:57:48,340 - execution_tracker - INFO - QUESTION_RECEIVED|c4ed2919|Q2|What is the waiting period for pre-existing diseases (PED) to be covered?
+2025-08-03 14:57:48,341 - execution_tracker - INFO - QUESTION_RECEIVED|c4ed2919|Q3|Does this policy cover maternity expenses, and what are the conditions?
+2025-08-03 14:57:48,341 - execution_tracker - INFO - QUESTION_RECEIVED|c4ed2919|Q4|What is the waiting period for cataract surgery?
+2025-08-03 14:57:48,342 - execution_tracker - INFO - QUESTION_RECEIVED|c4ed2919|Q5|Are the medical expenses for an organ donor covered under this policy?
+2025-08-03 14:57:48,342 - execution_tracker - INFO - QUESTION_RECEIVED|c4ed2919|Q6|What is the No Claim Discount (NCD) offered in this policy?
+2025-08-03 14:57:48,343 - execution_tracker - INFO - QUESTION_RECEIVED|c4ed2919|Q7|Is there a benefit for preventive health check-ups?
+2025-08-03 14:57:48,343 - execution_tracker - INFO - QUESTION_RECEIVED|c4ed2919|Q8|How does the policy define a 'Hospital'?
+2025-08-03 14:57:48,343 - execution_tracker - INFO - QUESTION_RECEIVED|c4ed2919|Q9|What is the extent of coverage for AYUSH treatments?
+2025-08-03 14:57:48,343 - execution_tracker - INFO - QUESTION_RECEIVED|c4ed2919|Q10|Are there any sub-limits on room rent and ICU charges for Plan A?
+2025-08-03 14:57:48,344 - app - INFO - Processing 10 questions (cost-optimized)
+2025-08-03 14:57:59,813 - services.pdf_processor - INFO - Created 42 smart chunks with preserved context
+2025-08-03 14:57:59,813 - services.pdf_processor - INFO - Successfully processed PDF with 42 optimized chunks
+2025-08-03 14:57:59,813 - execution_tracker - INFO - PDF_PROCESSED|c4ed2919|Time:11.47s|Content_length:42
+2025-08-03 14:57:59,894 - services.vector_store_lite - INFO - Stored 42 chunks with enhanced semantic vectors and metadata
+2025-08-03 14:57:59,894 - execution_tracker - INFO - VECTOR_STORED|c4ed2919|Time:0.08s|Doc_ID:8a47c9c6b2803b1420575a001451a582
+2025-08-03 14:57:59,894 - execution_tracker - INFO - QUESTION_START|c4ed2919|Q1|What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?
+2025-08-03 14:57:59,896 - execution_tracker - INFO - CHUNKS_RETRIEVED|c4ed2919|Q1|Time:0.00s|Count:8
+2025-08-03 14:57:59,896 - qa_execution - INFO - QA_START|Hash:3240|Question:What is the grace period for premium payment under...
+2025-08-03 14:57:59,896 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:3240|Tokens:4891.900000000001
+2025-08-03 14:57:59,896 - qa_execution - INFO - API_CALL_START|Hash:3240|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 14:58:08,357 - qa_execution - INFO - API_SUCCESS|Hash:3240|Attempt:1|Time:8.47s|Response_length:721
+2025-08-03 14:58:08,357 - qa_execution - INFO - QA_COMPLETE|Hash:3240|Final_length:721
+2025-08-03 14:58:08,357 - execution_tracker - INFO - ANSWER_GENERATED|c4ed2919|Q1|Time:8.46s|Total:8.46s|Length:721
+2025-08-03 14:58:08,357 - execution_tracker - INFO - ANSWER_CONTENT|c4ed2919|Q1|The provided text refers to the "Easy Health" policy, not the "National Parivar Mediclaim Plus Policy."  For the Easy Health policy:
+
+* **Option 1 (Multi-Year/Yearly):** 30 days
+* **Option 2 (Half Yea...
+2025-08-03 14:58:08,369 - execution_tracker - INFO - QUESTION_START|c4ed2919|Q2|What is the waiting period for pre-existing diseases (PED) to be covered?
+2025-08-03 14:58:08,370 - execution_tracker - INFO - CHUNKS_RETRIEVED|c4ed2919|Q2|Time:0.00s|Count:8
+2025-08-03 14:58:08,370 - qa_execution - INFO - QA_START|Hash:2589|Question:What is the waiting period for pre-existing diseas...
+2025-08-03 14:58:08,370 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:2589|Tokens:4930.900000000001
+2025-08-03 14:58:08,370 - qa_execution - INFO - API_CALL_START|Hash:2589|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 14:58:12,373 - qa_execution - INFO - API_SUCCESS|Hash:2589|Attempt:1|Time:4.00s|Response_length:353
+2025-08-03 14:58:12,373 - qa_execution - INFO - QA_COMPLETE|Hash:2589|Final_length:353
+2025-08-03 14:58:12,373 - execution_tracker - INFO - ANSWER_GENERATED|c4ed2919|Q2|Time:4.00s|Total:4.00s|Length:353
+2025-08-03 14:58:12,373 - execution_tracker - INFO - ANSWER_CONTENT|c4ed2919|Q2|Expenses related to the treatment of a pre-existing disease (PED) and its direct complications are excluded until the expiry of **36 months** of continuous coverage after the date of inception of the ...
+2025-08-03 14:58:12,373 - execution_tracker - INFO - QUESTION_START|c4ed2919|Q3|Does this policy cover maternity expenses, and what are the conditions?
+2025-08-03 14:58:12,373 - execution_tracker - INFO - CHUNKS_RETRIEVED|c4ed2919|Q3|Time:0.00s|Count:8
+2025-08-03 14:58:12,373 - qa_execution - INFO - QA_START|Hash:3937|Question:Does this policy cover maternity expenses, and wha...
+2025-08-03 14:58:12,373 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:3937|Tokens:5029.7
+2025-08-03 14:58:12,382 - qa_execution - INFO - API_CALL_START|Hash:3937|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 14:58:17,975 - qa_execution - INFO - API_SUCCESS|Hash:3937|Attempt:1|Time:5.59s|Response_length:951
+2025-08-03 14:58:17,975 - qa_execution - INFO - QA_COMPLETE|Hash:3937|Final_length:951
+2025-08-03 14:58:17,977 - execution_tracker - INFO - ANSWER_GENERATED|c4ed2919|Q3|Time:5.60s|Total:5.60s|Length:951
+2025-08-03 14:58:17,977 - execution_tracker - INFO - ANSWER_CONTENT|c4ed2919|Q3|Maternity expenses are generally *excluded* except for ectopic pregnancies (page 19, item 13).  The policy specifically excludes:
+
+* Medical treatment expenses traceable to childbirth (including compl...
+2025-08-03 14:58:17,979 - execution_tracker - INFO - QUESTION_START|c4ed2919|Q4|What is the waiting period for cataract surgery?
+2025-08-03 14:58:17,981 - execution_tracker - INFO - CHUNKS_RETRIEVED|c4ed2919|Q4|Time:0.00s|Count:8
+2025-08-03 14:58:17,983 - qa_execution - INFO - QA_START|Hash:4984|Question:What is the waiting period for cataract surgery?...
+2025-08-03 14:58:17,983 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:4984|Tokens:4416.1
+2025-08-03 14:58:17,984 - qa_execution - INFO - API_CALL_START|Hash:4984|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 14:58:20,520 - qa_execution - INFO - API_SUCCESS|Hash:4984|Attempt:1|Time:2.53s|Response_length:414
+2025-08-03 14:58:20,520 - qa_execution - INFO - QA_COMPLETE|Hash:4984|Final_length:414
+2025-08-03 14:58:20,520 - execution_tracker - INFO - ANSWER_GENERATED|c4ed2919|Q4|Time:2.54s|Total:2.54s|Length:414
+2025-08-03 14:58:20,520 - execution_tracker - INFO - ANSWER_CONTENT|c4ed2919|Q4|The waiting period for cataract surgery is 24 months.  This falls under the "Specified disease/procedure waiting period – Code – Excl02" which states "Expenses related to the treatment of the listed C...
+2025-08-03 14:58:20,520 - execution_tracker - INFO - QUESTION_START|c4ed2919|Q5|Are the medical expenses for an organ donor covered under this policy?
+2025-08-03 14:58:20,520 - execution_tracker - INFO - CHUNKS_RETRIEVED|c4ed2919|Q5|Time:0.00s|Count:8
+2025-08-03 14:58:20,525 - qa_execution - INFO - QA_START|Hash:6645|Question:Are the medical expenses for an organ donor covere...
+2025-08-03 14:58:20,536 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:6645|Tokens:5413.2
+2025-08-03 14:58:20,537 - qa_execution - INFO - API_CALL_START|Hash:6645|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 14:58:22,976 - qa_execution - INFO - API_SUCCESS|Hash:6645|Attempt:1|Time:2.44s|Response_length:232
+2025-08-03 14:58:22,981 - qa_execution - INFO - QA_COMPLETE|Hash:6645|Final_length:232
+2025-08-03 14:58:22,981 - execution_tracker - INFO - ANSWER_GENERATED|c4ed2919|Q5|Time:2.46s|Total:2.46s|Length:232
+2025-08-03 14:58:22,981 - execution_tracker - INFO - ANSWER_CONTENT|c4ed2919|Q5|No. While the policy covers medical and surgical expenses for the *organ donor* when an *Insured Person* is the recipient, expenses incurred by an *Insured Person* while donating an organ are **not** ...
+2025-08-03 14:58:22,989 - execution_tracker - INFO - QUESTION_START|c4ed2919|Q6|What is the No Claim Discount (NCD) offered in this policy?
+2025-08-03 14:58:23,011 - execution_tracker - INFO - CHUNKS_RETRIEVED|c4ed2919|Q6|Time:0.02s|Count:8
+2025-08-03 14:58:23,011 - qa_execution - INFO - QA_START|Hash:3292|Question:What is the No Claim Discount (NCD) offered in thi...
+2025-08-03 14:58:23,027 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:3292|Tokens:5241.6
+2025-08-03 14:58:23,027 - qa_execution - INFO - API_CALL_START|Hash:3292|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 14:58:39,774 - qa_execution - INFO - API_SUCCESS|Hash:3292|Attempt:1|Time:16.73s|Response_length:945
+2025-08-03 14:58:39,774 - qa_execution - INFO - QA_COMPLETE|Hash:3292|Final_length:945
+2025-08-03 14:58:39,790 - execution_tracker - INFO - ANSWER_GENERATED|c4ed2919|Q6|Time:16.78s|Total:16.80s|Length:945
+2025-08-03 14:58:39,790 - execution_tracker - INFO - ANSWER_CONTENT|c4ed2919|Q6|The document refers to a "Cumulative Bonus," not a No Claim Discount (NCD).  The Cumulative Bonus details are as follows:
+
+* **Amount:** 10% of the Base Sum Insured is added for each claim-free year.
+...
+2025-08-03 14:58:39,791 - execution_tracker - INFO - QUESTION_START|c4ed2919|Q7|Is there a benefit for preventive health check-ups?
+2025-08-03 14:58:39,791 - execution_tracker - INFO - CHUNKS_RETRIEVED|c4ed2919|Q7|Time:0.00s|Count:8
+2025-08-03 14:58:39,791 - qa_execution - INFO - QA_START|Hash:2203|Question:Is there a benefit for preventive health check-ups...
+2025-08-03 14:58:39,791 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:2203|Tokens:5357.3
+2025-08-03 14:58:39,791 - qa_execution - INFO - API_CALL_START|Hash:2203|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 14:58:47,595 - qa_execution - INFO - API_SUCCESS|Hash:2203|Attempt:1|Time:7.80s|Response_length:1957
+2025-08-03 14:58:47,595 - qa_execution - INFO - QA_COMPLETE|Hash:2203|Final_length:1500
+2025-08-03 14:58:47,595 - execution_tracker - INFO - ANSWER_GENERATED|c4ed2919|Q7|Time:7.80s|Total:7.80s|Length:1500
+2025-08-03 14:58:47,595 - execution_tracker - INFO - ANSWER_CONTENT|c4ed2919|Q7|Yes, the Easy Health policy provides a Preventive Health Check-up benefit.
+
+* **Eligibility:**  If the policyholder has maintained an Easy Health Policy without any break for the period specified in t...
+2025-08-03 14:58:47,597 - execution_tracker - INFO - QUESTION_START|c4ed2919|Q8|How does the policy define a 'Hospital'?
+2025-08-03 14:58:47,599 - execution_tracker - INFO - CHUNKS_RETRIEVED|c4ed2919|Q8|Time:0.00s|Count:8
+2025-08-03 14:58:47,599 - qa_execution - INFO - QA_START|Hash:0845|Question:How does the policy define a 'Hospital'?...
+2025-08-03 14:58:47,601 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:0845|Tokens:4824.3
+2025-08-03 14:58:47,601 - qa_execution - INFO - API_CALL_START|Hash:0845|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 14:58:51,719 - qa_execution - INFO - API_SUCCESS|Hash:0845|Attempt:1|Time:4.12s|Response_length:196
+2025-08-03 14:58:51,720 - qa_execution - INFO - QA_COMPLETE|Hash:0845|Final_length:196
+2025-08-03 14:58:51,720 - execution_tracker - INFO - ANSWER_GENERATED|c4ed2919|Q8|Time:4.12s|Total:4.12s|Length:196
+2025-08-03 14:58:51,720 - execution_tracker - INFO - ANSWER_CONTENT|c4ed2919|Q8|A "Hospital" is defined as any institution established for in-patient care and day care treatment of illness and/or injuries and which has been registered as a hospital with the local authorities.
+2025-08-03 14:58:51,720 - execution_tracker - INFO - QUESTION_START|c4ed2919|Q9|What is the extent of coverage for AYUSH treatments?
+2025-08-03 14:58:51,721 - execution_tracker - INFO - CHUNKS_RETRIEVED|c4ed2919|Q9|Time:0.00s|Count:8
+2025-08-03 14:58:51,722 - qa_execution - INFO - QA_START|Hash:1850|Question:What is the extent of coverage for AYUSH treatment...
+2025-08-03 14:58:51,722 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:1850|Tokens:5567.900000000001
+2025-08-03 14:58:51,723 - qa_execution - INFO - API_CALL_START|Hash:1850|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 14:58:56,311 - qa_execution - INFO - API_SUCCESS|Hash:1850|Attempt:1|Time:4.59s|Response_length:729
+2025-08-03 14:58:56,311 - qa_execution - INFO - QA_COMPLETE|Hash:1850|Final_length:729
+2025-08-03 14:58:56,311 - execution_tracker - INFO - ANSWER_GENERATED|c4ed2919|Q9|Time:4.59s|Total:4.59s|Length:729
+2025-08-03 14:58:56,311 - execution_tracker - INFO - ANSWER_CONTENT|c4ed2919|Q9|Expenses incurred on AYUSH (Ayurveda, Unani, Sidha and Homeopathy) treatment are covered when received in a government hospital or in any institute recognized by the government and/or accredited by Qu...
+2025-08-03 14:58:56,311 - execution_tracker - INFO - QUESTION_START|c4ed2919|Q10|Are there any sub-limits on room rent and ICU charges for Plan A?
+2025-08-03 14:58:56,311 - execution_tracker - INFO - CHUNKS_RETRIEVED|c4ed2919|Q10|Time:0.00s|Count:8
+2025-08-03 14:58:56,311 - qa_execution - INFO - QA_START|Hash:7084|Question:Are there any sub-limits on room rent and ICU char...
+2025-08-03 14:58:56,311 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:7084|Tokens:4505.8
+2025-08-03 14:58:56,311 - qa_execution - INFO - API_CALL_START|Hash:7084|Attempt:1|Model:gemini-1.5-pro
+2025-08-03 14:59:06,083 - qa_execution - INFO - API_SUCCESS|Hash:7084|Attempt:1|Time:9.75s|Response_length:435
+2025-08-03 14:59:06,083 - qa_execution - INFO - QA_COMPLETE|Hash:7084|Final_length:435
+2025-08-03 14:59:06,083 - execution_tracker - INFO - ANSWER_GENERATED|c4ed2919|Q10|Time:9.77s|Total:9.77s|Length:435
+2025-08-03 14:59:06,083 - execution_tracker - INFO - ANSWER_CONTENT|c4ed2919|Q10|This information is not mentioned in the provided document.  The document describes various definitions, lists of covered and non-covered items, information about renewals and cancellations, and some ...
+2025-08-03 14:59:06,083 - execution_tracker - INFO - SESSION_COMPLETE|c4ed2919|Total_time:77.74s|Success_rate:10/10
