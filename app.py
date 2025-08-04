@@ -11,14 +11,14 @@ import logging
 from datetime import datetime
 import json
 import uuid
-
+from dotenv import load_dotenv
 # Import our custom modules
 from services.pdf_processor import PDFProcessor
 from services.vector_store_lite import LightweightVectorStore
 from services.qa_engine import QAEngine
 from database.models import init_db
 from config import settings
-
+load_dotenv()
 # Configure logging
 # Enhanced logging configuration
 logging.basicConfig(
