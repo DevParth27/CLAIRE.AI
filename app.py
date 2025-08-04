@@ -77,10 +77,10 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
     return credentials.credentials
 
 # Cost-optimized timeout settings
-API_TIMEOUT = 90   # 1.5 minutes total
-PER_QUESTION_TIMEOUT = 20  # Reduce from 30 to 20 seconds
-PDF_TIMEOUT = 15   # Reduce from 20 to 15 seconds
-VECTOR_TIMEOUT = 5  # Reduce from 10 to 5 seconds
+API_TIMEOUT = 120   # 2 minutes total for larger batches
+PER_QUESTION_TIMEOUT = 25  # Increased from 20 to 25 seconds
+PDF_TIMEOUT = 20   # Increased from 15 to 20 seconds
+VECTOR_TIMEOUT = 10  # Increased from 5 to 10 seconds
 
 @app.post("/api/v1/hackrx/run", response_model=QuestionResponse)
 async def process_questions(
@@ -95,19 +95,19 @@ async def process_questions(
     execution_logger.info(f"SESSION_START|{session_id}|{start_time.isoformat()}|Questions:{len(request.questions)}|Document:{str(request.documents)[-50:]}")
     
     try:
-        # Optimal batch size for cost control
+        # Support larger batch sizes
         if len(request.questions) > 50:
             execution_logger.warning(f"SESSION_ERROR|{session_id}|Too many questions: {len(request.questions)}")
             raise HTTPException(
                 status_code=400, 
-                detail="Maximum 10 questions per batch for cost optimization"
+                detail="Maximum 50 questions per batch for cost optimization"
             )
         
         # Log each question before processing
         for i, question in enumerate(request.questions, 1):
             execution_logger.info(f"QUESTION_RECEIVED|{session_id}|Q{i}|{question[:100]}{'...' if len(question) > 100 else ''}")
         
-        logger.info(f"Processing {len(request.questions)} questions (cost-optimized)")
+        logger.info(f"Processing {len(request.questions)} questions in optimized batch mode")
         
         # Step 1: PDF processing
         pdf_start = datetime.now()
@@ -137,23 +137,25 @@ async def process_questions(
             logger.error("Vector storage timeout")
             raise HTTPException(status_code=408, detail="Vector storage timeout")
         
-        # Step 3: Process questions with detailed logging
-        answers = []
-        for i, question in enumerate(request.questions, 1):
+        # Step 3: Process questions in parallel batches
+        answers = [None] * len(request.questions)  # Pre-allocate answers list
+        
+        # Process questions in batches with parallel execution
+        async def process_question(idx, question):
             question_start = datetime.now()
-            execution_logger.info(f"QUESTION_START|{session_id}|Q{i}|{question}")
+            execution_logger.info(f"QUESTION_START|{session_id}|Q{idx+1}|{question}")
             
             try:
-                # Get optimal number of chunks (cost control)
+                # Get optimal number of chunks
                 chunks_start = datetime.now()
                 chunks = await asyncio.wait_for(
-                    vector_store.search_similar(question, document_id, top_k=8),
+                    vector_store.search_similar(question, document_id, top_k=settings.vector_top_k),
                     timeout=5.0
                 )
                 chunks_time = (datetime.now() - chunks_start).total_seconds()
-                execution_logger.info(f"CHUNKS_RETRIEVED|{session_id}|Q{i}|Time:{chunks_time:.2f}s|Count:{len(chunks)}")
+                execution_logger.info(f"CHUNKS_RETRIEVED|{session_id}|Q{idx+1}|Time:{chunks_time:.2f}s|Count:{len(chunks)}")
                 
-                # Generate cost-effective answer
+                # Generate answer
                 answer_start = datetime.now()
                 answer = await asyncio.wait_for(
                     qa_engine.generate_answer(question, chunks),
@@ -162,24 +164,30 @@ async def process_questions(
                 answer_time = (datetime.now() - answer_start).total_seconds()
                 question_total_time = (datetime.now() - question_start).total_seconds()
                 
-                answers.append(answer)
+                answers[idx] = answer
                 
                 # Log successful answer generation
-                execution_logger.info(f"ANSWER_GENERATED|{session_id}|Q{i}|Time:{answer_time:.2f}s|Total:{question_total_time:.2f}s|Length:{len(answer)}")
-                execution_logger.info(f"ANSWER_CONTENT|{session_id}|Q{i}|{answer[:200]}{'...' if len(answer) > 200 else ''}")
+                execution_logger.info(f"ANSWER_GENERATED|{session_id}|Q{idx+1}|Time:{answer_time:.2f}s|Total:{question_total_time:.2f}s|Length:{len(answer)}")
+                execution_logger.info(f"ANSWER_CONTENT|{session_id}|Q{idx+1}|{answer[:200]}{'...' if len(answer) > 200 else ''}")
                 
             except asyncio.TimeoutError:
                 timeout_answer = "Processing timeout - please try a simpler question"
-                answers.append(timeout_answer)
-                execution_logger.error(f"QUESTION_TIMEOUT|{session_id}|Q{i}|{PER_QUESTION_TIMEOUT}s")
+                answers[idx] = timeout_answer
+                execution_logger.error(f"QUESTION_TIMEOUT|{session_id}|Q{idx+1}|{PER_QUESTION_TIMEOUT}s")
             except Exception as e:
                 error_answer = "Error processing question - please try again"
-                answers.append(error_answer)
-                execution_logger.error(f"QUESTION_ERROR|{session_id}|Q{i}|{str(e)}")
+                answers[idx] = error_answer
+                execution_logger.error(f"QUESTION_ERROR|{session_id}|Q{idx+1}|{str(e)}")
+        
+        # Process questions in batches with parallel execution
+        batch_size = settings.parallel_questions
+        for i in range(0, len(request.questions), batch_size):
+            batch = request.questions[i:i+batch_size]
+            batch_tasks = [process_question(i+j, question) for j, question in enumerate(batch)]
+            await asyncio.gather(*batch_tasks)
         
         processing_time = (datetime.now() - start_time).total_seconds()
         
-        # Log session completion
         # Log session completion
         execution_logger.info(f"SESSION_COMPLETE|{session_id}|Total_time:{processing_time:.2f}s|Timeout_occurred:{any('timeout' in ans.lower() for ans in answers)}|Processing_time:{processing_time:.5f}|Success_rate:{len([a for a in answers if 'timeout' not in a.lower() and 'error' not in a.lower()])}/{len(answers)}")
         

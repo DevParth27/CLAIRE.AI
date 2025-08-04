@@ -100,26 +100,55 @@ class LightweightVectorStore:
             if term in self.term_importance:
                 self.term_importance[term] *= 1.5  # Boost policy-specific terms
     
-    async def search_similar(self, query: str, document_id: str, top_k: int = 8) -> List[str]:
+    async def search_similar(self, query: str, document_id: str, top_k: int = 12) -> List[str]:
         """Enhanced similarity search with more results"""
         if document_id not in self.documents:
             return []
             
         try:
-            query_vector = self.vectorizer.transform([query])
-        except:
-            return [chunk["text"] for chunk in self.documents[document_id][:top_k]]
-        
-        # Calculate similarities
-        similarities = cosine_similarity(query_vector, self.document_vectors[document_id])
-        
-        # Get top results with higher threshold
-        similarity_scores = similarities[0]
-        top_indices = similarity_scores.argsort()[-top_k:][::-1]
-        
-        # Return full chunks without truncation
-        return [self.documents[document_id][idx]["text"] for idx in top_indices]
-        
+            # Preprocess the query for better matching
+            processed_query = self._preprocess_text(query)
+            query_vector = self.vectorizer.transform([processed_query])
+            
+            # Get document vectors
+            if document_id not in self.document_vectors:
+                logger.warning(f"Document vectors for {document_id} not found")
+                return [chunk["text"] for chunk in self.documents[document_id][:top_k]]
+            
+            # Multi-strategy ranking
+            ranked_chunks = self._multi_strategy_ranking(query, processed_query, query_vector, document_id)
+            
+            # Get top results with lower threshold for more comprehensive retrieval
+            results = []
+            used_texts = set()
+            
+            for idx, score in ranked_chunks:
+                if score >= settings.similarity_threshold:
+                    chunk_text = self.documents[document_id][idx]["text"]
+                    if chunk_text not in used_texts:
+                        results.append(chunk_text)
+                        used_texts.add(chunk_text)
+                        if len(results) >= settings.vector_top_k:
+                            break
+            
+            # Ensure minimum context
+            if len(results) < 5:
+                for idx, _ in ranked_chunks:
+                    chunk_text = self.documents[document_id][idx]["text"]
+                    if chunk_text not in used_texts:
+                        results.append(chunk_text)
+                        used_texts.add(chunk_text)
+                        if len(results) >= 5:
+                            break
+            
+            logger.info(f"Found {len(results)} relevant chunks for query: {query}")
+            return results
+            
+        except Exception as e:
+            logger.error(f"Error in search_similar: {str(e)}")
+            # Fallback to basic retrieval
+            return [chunk["text"] for chunk in self.documents[document_id][:min(top_k, len(self.documents[document_id]))]]  
+    
     def _multi_strategy_ranking(self, original_query: str, processed_query: str, query_vector, document_id: str) -> List[Tuple[int, float]]:
         """Advanced multi-strategy ranking combining multiple signals"""
         chunks = self.documents[document_id]
