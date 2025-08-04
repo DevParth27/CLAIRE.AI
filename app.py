@@ -58,8 +58,6 @@ class QuestionRequest(BaseModel):
 
 class QuestionResponse(BaseModel):
     answers: List[str]
-    processing_time: float
-    timeout_occurred: bool = False
 
 # Initialize services
 pdf_processor = PDFProcessor()
@@ -182,12 +180,11 @@ async def process_questions(
         processing_time = (datetime.now() - start_time).total_seconds()
         
         # Log session completion
-        execution_logger.info(f"SESSION_COMPLETE|{session_id}|Total_time:{processing_time:.2f}s|Success_rate:{len([a for a in answers if 'timeout' not in a.lower() and 'error' not in a.lower()])}/{len(answers)}")
+        # Log session completion
+        execution_logger.info(f"SESSION_COMPLETE|{session_id}|Total_time:{processing_time:.2f}s|Timeout_occurred:{any('timeout' in ans.lower() for ans in answers)}|Processing_time:{processing_time:.5f}|Success_rate:{len([a for a in answers if 'timeout' not in a.lower() and 'error' not in a.lower()])}/{len(answers)}")
         
         return QuestionResponse(
             answers=answers,
-            processing_time=processing_time,
-            timeout_occurred=any("timeout" in ans.lower() for ans in answers)
         )
         
     except Exception as e:
