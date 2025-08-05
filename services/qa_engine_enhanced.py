@@ -20,10 +20,10 @@ class EnhancedQAEngine:
         self.model = genai.GenerativeModel(
             model_name=settings.gemini_model,
             generation_config=genai.types.GenerationConfig(
-                temperature=0.01,  # Reduced for higher accuracy (from 0.05)
-                max_output_tokens=settings.max_tokens,  # Use config value
-                top_p=0.98,  # Increased for better coverage (from 0.95)
-                top_k=50    # Increased for better coverage (from 40)
+                temperature=settings.temperature,  # Use from config
+                max_output_tokens=4000,  # Increased for more comprehensive answers
+                top_p=settings.top_p,    # Use from config
+                top_k=settings.top_k     # Use from config
             )
         )
         self.max_retries = 3
@@ -37,7 +37,7 @@ class EnhancedQAEngine:
         
         # Load training data for few-shot examples
         self.training_manager = TrainingDataManager()
-        logger.info("Enhanced QA Engine initialized with training examples")
+        logger.info(f"Enhanced QA Engine initialized with {settings.gemini_model}")
 
     def count_tokens(self, text: str) -> int:
         """Accurate token counting"""
@@ -47,8 +47,8 @@ class EnhancedQAEngine:
             # Fallback estimation
             return int(len(text.split()) * 1.3)
 
-    def organize_context(self, chunks: List[str], max_tokens: int = 8000) -> str:
-        """Organize context chunks within token limit with better prioritization"""
+    def organize_context(self, chunks: List[str], max_tokens: int = 12000) -> str:
+        """Organize context chunks within token limit with better prioritization for any document type"""
         if not chunks:
             return ""
         
@@ -65,23 +65,24 @@ class EnhancedQAEngine:
         current_tokens = 0
         
         # First pass: Include highest-scoring chunks
-        for score, idx, chunk in scored_chunks[:5]:  # Always include top 5
+        for score, idx, chunk in scored_chunks[:10]:  # Include more top chunks
             chunk_tokens = self.count_tokens(chunk)
-            if current_tokens + chunk_tokens > max_tokens * 0.5:  # Use only half for top chunks
+            if current_tokens + chunk_tokens > max_tokens * 0.6:  # Use more space for top chunks
                 break
             context_parts.append(f"[SECTION {idx+1}]:\n{chunk}")
             current_tokens += chunk_tokens
         
-        # Second pass: Include chunks with numerical data
+        # Second pass: Include chunks with numerical data or key information
         for score, idx, chunk in scored_chunks:
             if f"[SECTION {idx+1}]" not in ''.join(context_parts):  # Skip already included
-                if re.search(r'\d+%|\d+ days|\d+ months|\d+ years|Rs\.?\s*\d+|\$\s*\d+', chunk):
+                # Enhanced regex for general information patterns
+                if re.search(r'\d+%|\d+ days|\d+ months|\d+ years|\$\s*\d+|definition|defined as|refers to|means', chunk, re.IGNORECASE):
                     chunk_tokens = self.count_tokens(chunk)
-                    if current_tokens + chunk_tokens > max_tokens * 0.8:  # Reserve some space
+                    if current_tokens + chunk_tokens > max_tokens * 0.85:  # Reserve less space
                         break
                     context_parts.append(f"[SECTION {idx+1}]:\n{chunk}")
                     current_tokens += chunk_tokens
-                    if len(context_parts) >= 12:  # Limit to reasonable number
+                    if len(context_parts) >= 15:  # Increase chunk limit
                         break
         
         # Third pass: Fill remaining space with other chunks
@@ -94,7 +95,7 @@ class EnhancedQAEngine:
                         continue
                     context_parts.append(f"[SECTION {idx+1}]:\n{chunk}")
                     remaining_tokens -= chunk_tokens
-                    if remaining_tokens < 1000 or len(context_parts) >= 15:  # Hard limit
+                    if remaining_tokens < 1000 or len(context_parts) >= 20:  # Increased hard limit
                         break
         
         context = "\n\n".join(context_parts)
@@ -102,23 +103,60 @@ class EnhancedQAEngine:
         return context
     
     def _calculate_chunk_relevance(self, chunk: str) -> float:
-        """Calculate relevance score for chunk prioritization"""
+        """Calculate relevance score for chunk prioritization for any document type"""
         score = 0.5  # Base score
         
-        # Higher score for chunks with structured information
+        # Higher score for chunks with definitional information
         if any(pattern in chunk.lower() for pattern in [
-            'coverage', 'premium', 'deductible', 'limit', 'benefit',
-            'exclusion', 'waiting period', 'policy', 'claim'
+            'definition', 'defined as', 'refers to', 'means', 'is a', 'are the',
+            'consists of', 'comprises', 'includes', 'excludes', 'limitations',
+            'requirements', 'conditions', 'terms', 'specifications', 'guidelines'
         ]):
             score += 0.3
         
         # Higher score for numerical data
-        if re.search(r'\d+%|\$\d+|\d+ days|\d+ years', chunk):
+        if re.search(r'\d+%|\$\d+|\d+ days|\d+ years|\d+ months|\d+\.\d+', chunk):
+            score += 0.2
+        
+        # Higher score for document sections/headers
+        if re.search(r'section \d+|article \d+|clause \d+|chapter \d+|part \d+|paragraph \d+', chunk.lower()):
+            score += 0.1
+        
+        # Higher score for question-answer patterns
+        if re.search(r'\?|what is|how to|when|where|why|who|which|can|does|will', chunk.lower()):
+            score += 0.15
+        
+        # Higher score for lists and enumerations
+        if re.search(r'\d+\)|\d+\.|•|-\s|\*\s|\([a-z]\)|[ivxlcdm]+\)', chunk.lower()):
+            score += 0.15
+        
+        return min(score, 1.0)
+        """Calculate relevance score for chunk prioritization optimized for insurance policies"""
+        score = 0.5  # Base score
+        
+        # Higher score for chunks with insurance-specific information
+        if any(pattern in chunk.lower() for pattern in [
+            'coverage', 'premium', 'deductible', 'limit', 'benefit',
+            'exclusion', 'waiting period', 'policy', 'claim', 'grace period',
+            'maternity', 'organ donor', 'ayush', 'room rent', 'icu', 'pre-existing'
+        ]):
+            score += 0.3
+        
+        # Higher score for numerical data relevant to insurance
+        if re.search(r'\d+%|\$\d+|\d+ days|\d+ years|\d+ months|Rs\.?\s*\d+', chunk):
             score += 0.2
         
         # Higher score for policy sections/headers
-        if re.search(r'section \d+|article \d+|clause \d+', chunk.lower()):
+        if re.search(r'section \d+|article \d+|clause \d+|table of benefits', chunk.lower()):
             score += 0.1
+        
+        # Higher score for specific question-related terms
+        if any(term in chunk.lower() for term in [
+            'grace period', 'pre-existing disease', 'ped', 'maternity', 
+            'cataract', 'organ donor', 'no claim discount', 'ncd', 
+            'health check', 'hospital', 'ayush', 'room rent', 'icu'
+        ]):
+            score += 0.4
         
         return min(score, 1.0)
     
@@ -168,7 +206,34 @@ Answer: Based on the policy document, [specific answer with exact details from d
         question_hash = str(hash(question))[-6:]  # Longer hash for better tracking
         qa_logger.info(f"QA_START|Hash:{question_hash}|Question:{question[:100]}...")
         
+        # Check if this is a simple math question
+        if self._is_math_question(question):
+            try:
+                # For simple math, we can bypass the context and directly query the model
+                prompt = f"""You are a helpful AI assistant that can perform calculations accurately.
+
+<question>
+{question}
+</question>
+
+Provide a direct and accurate answer to this calculation question."""
+                
+                qa_logger.info(f"MATH_QUESTION_DETECTED|Hash:{question_hash}")
+                
+                response = await asyncio.to_thread(
+                    self.model.generate_content,
+                    prompt
+                )
+                
+                answer = response.text.strip()
+                return answer
+                
+            except Exception as e:
+                qa_logger.error(f"Error processing math question: {e}")
+                # Fall back to normal processing if math-specific handling fails
+        
         try:
+            # Regular document-based question processing
             # Organize context with better token management
             context = self.organize_context(context_chunks, max_tokens=10000)
             
@@ -220,47 +285,54 @@ Answer: Based on the policy document, [specific answer with exact details from d
             return "I encountered an error while processing your question. Please try rephrasing your question or check if it relates to the uploaded document."
     
     def _build_enhanced_prompt(self, question: str, context: str, few_shot_examples: str) -> str:
-        """Build enhanced prompt with better structure"""
-        return f"""You are a highly skilled document analyst specializing in extracting precise information from policy documents, legal texts, and technical manuals.
+        """Build enhanced prompt optimized for Gemini-2.5-flash for general-purpose QA"""
+        
+        # Detect if the question is a simple calculation
+        if re.search(r'\d+\s*[+\-*/]\s*\d+', question.lower()):
+            return f"""You are a helpful AI assistant that can perform calculations and answer questions accurately.
 
-ANALYSIS METHODOLOGY:
-1. Read the entire context carefully before answering
-2. Identify specific sections that directly address the question
-3. Extract exact numerical values, percentages, time periods, and conditions
-4. Cross-reference information across different context sections
-5. Distinguish between general statements and specific policy provisions
-6. Analyze the document structure to understand hierarchical relationships
-7. Identify and interpret domain-specific terminology
+<question>
+{question}
+</question>
 
-RESPONSE REQUIREMENTS:
-✓ ONLY use information explicitly stated in the provided context
-✓ Quote exact values (percentages, amounts, time periods) with section references
-✓ For yes/no questions, provide definitive answers with supporting evidence
-✓ If information is incomplete, specify what details are missing
-✓ Use bullet points for multiple related details
-✓ Include relevant policy terms and conditions
-✓ Cite specific document sections when available
-✓ Maintain the exact terminology used in the document
-✓ NEVER make assumptions or inferences beyond what is explicitly stated
-✓ If the answer cannot be found in the context, clearly state "This information is not mentioned in the provided document"
+Provide a direct and accurate answer to this calculation question."""
+        
+        # For document-based questions
+        return f"""You are a highly specialized document analysis AI with exceptional precision in extracting and interpreting information from any type of document.
 
-ACCURACY STANDARDS:
-- Exact numerical precision (don't round or approximate)
-- Specific terminology from the document
-- Clear distinction between covered and excluded items
-- Accurate representation of conditions and requirements
-- Precise citation of relevant sections
-- Avoid vague language like "may", "might", "could" unless directly quoted
+<context>
+{context}
+</context>
+
+<question>
+{question}
+</question>
+
+<instructions>
+1. ONLY use information explicitly stated in the provided context
+2. Extract exact numerical values, percentages, time periods, and conditions when relevant
+3. For specific details, quote exact values from the document
+4. If information is not in the context, clearly state "This information is not mentioned in the provided document"
+5. For yes/no questions, provide definitive answers based on the context
+6. Include specific terms, conditions, and numerical values when available
+7. Structure answers clearly with bullet points for multiple details
+8. Be precise about inclusions and exclusions
+9. Always refer to the correct terminology mentioned in the document
+10. Maintain the exact terminology used in the document
+11. NEVER make assumptions or inferences beyond what is explicitly stated
+</instructions>
 
 {few_shot_examples}
 
-DOCUMENT CONTEXT:
-{context}
+<answer_format>
+- Start with a direct answer to the question
+- Include specific section references when available
+- Use bullet points for multiple related details
+- Quote exact values and terminology from the document
+- Maintain factual accuracy without assumptions
+</answer_format>
 
-QUESTION: {question}
-
-ANALYSIS AND ANSWER:
-Based on my analysis of the provided document context, here is the precise answer:"""
+Provide your precise answer based ONLY on the information in the context:"""
 
     def _format_answer(self, answer: str, question: str) -> str:
         """Enhanced answer formatting with quality checks"""
@@ -338,3 +410,21 @@ Based on my analysis of the provided document context, here is the precise answe
                 score -= 0.3  # Heavy penalty for likely incorrect "not mentioned" response
         
         return min(max(score, 0.0), 1.0)
+
+    def _is_math_question(self, question: str) -> bool:
+        """Detect if the question is a simple math calculation"""
+        # Check for basic arithmetic patterns
+        if re.search(r'\d+\s*[+\-*/]\s*\d+', question.lower()):
+            return True
+            
+        # Check for common math question phrases
+        math_phrases = [
+            'calculate', 'compute', 'what is the sum of', 'what is the product of',
+            'what is the difference between', 'what is the result of', 'what is the value of',
+            'solve for', 'evaluate'
+        ]
+        
+        if any(phrase in question.lower() for phrase in math_phrases) and re.search(r'\d+', question):
+            return True
+            
+        return False
