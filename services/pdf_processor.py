@@ -73,11 +73,17 @@ class PDFProcessor:
         
         # Preserve and enhance important policy structure markers
         text = re.sub(r'\b(SECTION|CLAUSE|ARTICLE|CHAPTER|PART)\s*(\d+)', r'\n\n\1 \2', text, flags=re.IGNORECASE)
-        text = re.sub(r'\b(\d+\.\d*|\d+)\s*(WAITING PERIOD|GRACE PERIOD|COVERAGE|BENEFIT)', r'\n\1 \2', text, flags=re.IGNORECASE)
+        text = re.sub(r'\b(\d+\.\d*|\d+)\s*(WAITING PERIOD|GRACE PERIOD|COVERAGE|BENEFIT|EXCLUSION|LIMIT)', r'\n\1 \2', text, flags=re.IGNORECASE)
         
-        # Normalize insurance-specific terms
+        # Normalize insurance-specific terms for better matching
         text = re.sub(r'\bpre-existing\s+disease', 'pre-existing disease', text, flags=re.IGNORECASE)
         text = re.sub(r'\bno\s+claim\s+discount', 'no claim discount', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bwaiting\s+period', 'waiting period', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bgrace\s+period', 'grace period', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bpremium\s+payment', 'premium payment', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bmaternity\s+benefit', 'maternity benefit', text, flags=re.IGNORECASE)
+        text = re.sub(r'\broom\s+rent', 'room rent', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bICU\s+charges', 'ICU charges', text, flags=re.IGNORECASE)
         
         return text.strip()
     

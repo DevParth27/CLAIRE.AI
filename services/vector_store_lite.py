@@ -118,27 +118,38 @@ class LightweightVectorStore:
             # Multi-strategy ranking
             ranked_chunks = self._multi_strategy_ranking(query, processed_query, query_vector, document_id)
             
-            # Get top results with lower threshold for more comprehensive retrieval
+            # Get top results with MUCH lower threshold for more comprehensive retrieval
             results = []
             used_texts = set()
             
+            # First pass: Get high-confidence chunks
             for idx, score in ranked_chunks:
-                if score >= settings.similarity_threshold:
+                if score >= 0.05:  # Significantly lowered threshold
                     chunk_text = self.documents[document_id][idx]["text"]
                     if chunk_text not in used_texts:
                         results.append(chunk_text)
                         used_texts.add(chunk_text)
-                        if len(results) >= settings.vector_top_k:
+                        if len(results) >= 20:  # Increased from 12
                             break
             
-            # Ensure minimum context
-            if len(results) < 5:
+            # Second pass: Ensure we have enough context by adding more chunks
+            if len(results) < 8:
                 for idx, _ in ranked_chunks:
                     chunk_text = self.documents[document_id][idx]["text"]
                     if chunk_text not in used_texts:
                         results.append(chunk_text)
                         used_texts.add(chunk_text)
-                        if len(results) >= 5:
+                        if len(results) >= 8:
+                            break
+            
+            # Third pass: Add chunks with numerical data for questions about specifics
+            if any(term in query.lower() for term in ['how many', 'how much', 'period', 'days', 'months', 'years', 'percentage', 'amount']):
+                for idx, _ in ranked_chunks:
+                    chunk_text = self.documents[document_id][idx]["text"]
+                    if chunk_text not in used_texts and re.search(r'\d+', chunk_text):
+                        results.append(chunk_text)
+                        used_texts.add(chunk_text)
+                        if len(results) >= 25:  # Increased limit for numerical questions
                             break
             
             logger.info(f"Found {len(results)} relevant chunks for query: {query}")
