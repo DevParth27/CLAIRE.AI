@@ -11,16 +11,19 @@ class Settings(BaseSettings):
     database_url: str = os.getenv("DATABASE_URL", "sqlite:///./hackrx_db.db")
     
     # Enhanced processing settings for accuracy
-    max_chunk_size: int = 2500             # Increased for better context
-    chunk_overlap: int = 500               # Better overlap for continuity
-    max_tokens: int = 8000                 # Significantly increased for more detailed answers
-    max_context_chunks: int = 30           # Substantially more context for accuracy
-    batch_size: int = 10                   # Support for batch processing
-    parallel_questions: int = 5            # Number of questions to process in parallel
-    
-    # Vector search settings
-    vector_top_k: int = 30                 # Significantly increased for better context retrieval
-    similarity_threshold: float = 0.03     # Even lower threshold for more comprehensive retrieval
+# Dynamic Document Parsing RAG Configuration - Maximum Accuracy
+
+# Chunking settings - optimized for document structure preservation
+    max_chunk_size: int = 1024             # Optimal for preserving document context
+    chunk_overlap: int = 256               # 25% overlap for document continuity
+    max_tokens: int = 32000               # Maximum context for complete document understanding
+    max_context_chunks: int = 100         # Very high for variable document complexity
+    batch_size: int = 32                  # Dynamic batch processing capability
+    parallel_questions: int = 16          # High parallelization for variable question loads
+
+# Vector search settings - maximum precision for document parsing
+    vector_top_k: int = 200               # High retrieval for comprehensive coverage
+    similarity_threshold: float = 0.005   # Very low threshold to capture all relevant content
     
     # Security
     bearer_token: str = os.getenv("BEARER_TOKEN", "")

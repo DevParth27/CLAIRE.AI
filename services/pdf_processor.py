@@ -4,38 +4,92 @@ import io
 import logging
 import re
 from typing import List, Dict
+import pandas as pd
+import os
+from config import settings
 
 logger = logging.getLogger(__name__)
 
 class PDFProcessor:
     def __init__(self):
-        self.max_chunk_size = 600  # Optimized for better coherence
-        self.chunk_overlap = 100   # Increased overlap for context preservation
-        self.min_chunk_size = 80   # Minimum viable chunk size
+        self.max_chunk_size = settings.max_chunk_size  # Updated from hardcoded 600
+        self.chunk_overlap = settings.chunk_overlap    # Updated from hardcoded 100
+        self.min_chunk_size = int(settings.max_chunk_size * 0.08)  # 8% of max_chunk_size instead of hardcoded 80
     
     async def process_pdf_from_url(self, pdf_url: str) -> List[Dict[str, str]]:
-        """Download PDF from URL and extract text content with enhanced processing"""
+        """Download document from URL and extract text content with enhanced processing"""
         try:
-            # Download PDF
+            # Download file
             async with aiohttp.ClientSession() as session:
                 async with session.get(pdf_url) as response:
                     if response.status != 200:
-                        raise Exception(f"Failed to download PDF: HTTP {response.status}")
+                        raise Exception(f"Failed to download document: HTTP {response.status}")
                     
-                    pdf_content = await response.read()
+                    file_content = await response.read()
             
-            # Extract text with enhanced formatting
-            text_content = await self._extract_text_from_pdf(pdf_content)
+            # Determine file type and extract text accordingly
+            file_extension = self._get_file_extension(pdf_url)
+            
+            if file_extension.lower() in [".xlsx", ".xls"]:
+                # Process Excel file
+                text_content = await self._extract_text_from_excel(file_content)
+            elif file_extension.lower() in [".csv"]:
+                # Process CSV file
+                text_content = await self._extract_text_from_csv(file_content)
+            elif file_extension.lower() in [".png", ".jpg", ".jpeg"]:
+                # For image files, create a simple text representation
+                text_content = f"Image file: {os.path.basename(pdf_url)}\n\nThis is an image file and text extraction is limited."
+            else:
+                # Default to PDF processing
+                text_content = await self._extract_text_from_pdf(file_content)
             
             # Smart chunking with context preservation
             chunks = self._smart_chunk_text(text_content)
             
-            logger.info(f"Successfully processed PDF with {len(chunks)} optimized chunks")
+            logger.info(f"Successfully processed document with {len(chunks)} optimized chunks")
             return chunks
             
         except Exception as e:
-            logger.error(f"Error processing PDF from URL {pdf_url}: {str(e)}")
+            logger.error(f"Error processing document from URL {pdf_url}: {str(e)}")
             raise
+    
+    def _get_file_extension(self, url: str) -> str:
+        """Extract file extension from URL"""
+        # Handle URL parameters
+        base_url = url.split('?')[0] if '?' in url else url
+        # Get the file extension
+        _, ext = os.path.splitext(base_url)
+        return ext
+    
+    async def _extract_text_from_excel(self, file_content: bytes) -> str:
+        """Extract text from Excel file content"""
+        try:
+            with io.BytesIO(file_content) as excel_file:
+                # Read all sheets
+                df_dict = pd.read_excel(excel_file, sheet_name=None)
+                
+                text = ""
+                # Process each sheet
+                for sheet_name, df in df_dict.items():
+                    text += f"\n\n=== SHEET: {sheet_name} ===\n"
+                    # Convert dataframe to string representation
+                    text += df.to_string(index=True)
+            
+            return text
+        except Exception as e:
+            logger.error(f"Excel extraction failed: {str(e)}")
+            raise Exception("Failed to extract text from Excel file")
+    
+    async def _extract_text_from_csv(self, file_content: bytes) -> str:
+        """Extract text from CSV file content"""
+        try:
+            with io.BytesIO(file_content) as csv_file:
+                df = pd.read_csv(csv_file)
+                text = "=== CSV DATA ===\n" + df.to_string(index=True)
+            return text
+        except Exception as e:
+            logger.error(f"CSV extraction failed: {str(e)}")
+            raise Exception("Failed to extract text from CSV file")
     
     async def _extract_text_from_pdf(self, pdf_content: bytes) -> str:
         """Extract text from PDF content with enhanced formatting preservation"""

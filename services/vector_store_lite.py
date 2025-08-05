@@ -100,8 +100,11 @@ class LightweightVectorStore:
             if term in self.term_importance:
                 self.term_importance[term] *= 1.5  # Boost policy-specific terms
     
-    async def search_similar(self, query: str, document_id: str, top_k: int = 12) -> List[str]:
+    async def search_similar(self, query: str, document_id: str, top_k: int = None) -> List[str]:
         """Enhanced similarity search with more results"""
+        if top_k is None:
+            top_k = settings.vector_top_k  # Use the value from config
+            
         if document_id not in self.documents:
             return []
             
@@ -124,12 +127,12 @@ class LightweightVectorStore:
             
             # First pass: Get high-confidence chunks
             for idx, score in ranked_chunks:
-                if score >= 0.05:  # Significantly lowered threshold
+                if score >= settings.similarity_threshold:  # Use threshold from config
                     chunk_text = self.documents[document_id][idx]["text"]
                     if chunk_text not in used_texts:
                         results.append(chunk_text)
                         used_texts.add(chunk_text)
-                        if len(results) >= 20:  # Increased from 12
+                        if len(results) >= top_k:  # Use top_k from config
                             break
             
             # Second pass: Ensure we have enough context by adding more chunks

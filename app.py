@@ -179,8 +179,11 @@ async def process_questions(
                 answers[idx] = error_answer
                 execution_logger.error(f"QUESTION_ERROR|{session_id}|Q{idx+1}|{str(e)}")
         
-        # Process questions in batches with parallel execution
-        batch_size = settings.parallel_questions
+        # Process questions in batches with the configured batch size
+        batch_size = settings.batch_size  # Use batch_size from config
+        
+        # Process questions in parallel with the configured number of parallel questions
+        semaphore = asyncio.Semaphore(settings.parallel_questions)  # Use parallel_questions from config
         for i in range(0, len(request.questions), batch_size):
             batch = request.questions[i:i+batch_size]
             batch_tasks = [process_question(i+j, question) for j, question in enumerate(batch)]
