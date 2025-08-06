@@ -63,7 +63,7 @@ class QuestionResponse(BaseModel):
 pdf_processor = PDFProcessor()
 vector_store = LightweightVectorStore()
 #qa_engine = QAEngine()
-qa_engine = EnhancedQAEngine()
+qa_engine = QAEngine()
 
 # Authentication
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):

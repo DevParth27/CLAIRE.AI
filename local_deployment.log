@@ -1,0 +1,146 @@
+2025-08-06 12:08:15,487 - pyngrok.ngrok - INFO - Opening tunnel named: http-8000-75bf4d97-3bb8-4ec4-ac26-1d016109f17f
+2025-08-06 12:08:48,285 - __main__ - ERROR - Error starting server: An error occurred while downloading ngrok from https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip: The read operation timed out
+2025-08-06 12:10:29,229 - __main__ - INFO - Configured ngrok with extended timeout
+2025-08-06 12:10:29,229 - __main__ - INFO - Starting ngrok tunnel for port 8000...
+2025-08-06 12:10:29,229 - pyngrok.ngrok - INFO - Opening tunnel named: http-8000-f7210b5a-2ff8-4e37-bb84-7dbfb1cf7fdb
+2025-08-06 12:14:50,840 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:14:50+0530 lvl=info msg="no configuration paths supplied"
+2025-08-06 12:14:50,851 - pyngrok.process.ngrok - WARNING - t=2025-08-06T12:14:50+0530 lvl=warn msg="ngrok config file found at legacy location, move to XDG location" xdg_path=C:\\Users\\HP\\AppData\\Local/ngrok/ngrok.yml legacy_path=C:\\Users\\HP\\.ngrok2\\ngrok.yml
+2025-08-06 12:14:50,851 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:14:50+0530 lvl=info msg="using configuration at default config path" path=C:\\Users\\HP\\.ngrok2\\ngrok.yml
+2025-08-06 12:14:50,851 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:14:50+0530 lvl=info msg="open config file" path=C:\\Users\\HP\\.ngrok2\\ngrok.yml err=nil
+2025-08-06 12:14:50,864 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:14:50+0530 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+2025-08-06 12:14:55,080 - pyngrok.process.ngrok - ERROR - t=2025-08-06T12:14:55+0530 lvl=eror msg="failed to reconnect session" obj=tunnels.session err="authentication failed: Usage of ngrok requires a verified account and authtoken.\n\nSign up for an account: https://dashboard.ngrok.com/signup\nInstall your authtoken: https://dashboard.ngrok.com/get-started/your-authtoken\r\n\r\nERR_NGROK_4018\r\n"
+2025-08-06 12:14:55,082 - pyngrok.process.ngrok - ERROR - t=2025-08-06T12:14:55+0530 lvl=eror msg="session closing" obj=tunnels.session err="authentication failed: Usage of ngrok requires a verified account and authtoken.\n\nSign up for an account: https://dashboard.ngrok.com/signup\nInstall your authtoken: https://dashboard.ngrok.com/get-started/your-authtoken\r\n\r\nERR_NGROK_4018\r\n"
+2025-08-06 12:14:55,082 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:14:55+0530 lvl=info msg="received stop request" obj=app stopReq="{err:{Remote:true Inner:{Inner:0xc0003ee8e0}} restart:false}"
+2025-08-06 12:14:55,082 - pyngrok.process.ngrok - ERROR - t=2025-08-06T12:14:55+0530 lvl=eror msg="terminating with error" obj=app err="authentication failed: Usage of ngrok requires a verified account and authtoken.\n\nSign up for an account: https://dashboard.ngrok.com/signup\nInstall your authtoken: https://dashboard.ngrok.com/get-started/your-authtoken\r\n\r\nERR_NGROK_4018\r\n"
+2025-08-06 12:14:55,082 - pyngrok.process.ngrok - CRITICAL - t=2025-08-06T12:14:55+0530 lvl=crit msg="command failed" err="authentication failed: Usage of ngrok requires a verified account and authtoken.\n\nSign up for an account: https://dashboard.ngrok.com/signup\nInstall your authtoken: https://dashboard.ngrok.com/get-started/your-authtoken\r\n\r\nERR_NGROK_4018\r\n"
+2025-08-06 12:14:55,082 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:14:55+0530 lvl=info msg="no more state changes" obj=tunnels.session
+2025-08-06 12:14:55,089 - __main__ - WARNING - ngrok connection attempt 1 failed: The ngrok process errored on start: authentication failed: Usage of ngrok requires a verified account and authtoken.\n\nSign up for an account: https://dashboard.ngrok.com/signup\nInstall your authtoken: https://dashboard.ngrok.com/get-started/your-authtoken\r\n\r\nERR_NGROK_4018\r\n.
+2025-08-06 12:14:55,089 - __main__ - INFO - Retrying in 5 seconds...
+2025-08-06 12:15:00,093 - pyngrok.ngrok - INFO - Opening tunnel named: http-8000-2c95c73a-20de-4a4a-8972-886d0ce7628d
+2025-08-06 12:15:00,291 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:15:00+0530 lvl=info msg="no configuration paths supplied"
+2025-08-06 12:15:00,292 - pyngrok.process.ngrok - WARNING - t=2025-08-06T12:15:00+0530 lvl=warn msg="ngrok config file found at legacy location, move to XDG location" xdg_path=C:\\Users\\HP\\AppData\\Local/ngrok/ngrok.yml legacy_path=C:\\Users\\HP\\.ngrok2\\ngrok.yml
+2025-08-06 12:15:00,292 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:15:00+0530 lvl=info msg="using configuration at default config path" path=C:\\Users\\HP\\.ngrok2\\ngrok.yml
+2025-08-06 12:15:00,292 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:15:00+0530 lvl=info msg="open config file" path=C:\\Users\\HP\\.ngrok2\\ngrok.yml err=nil
+2025-08-06 12:15:00,318 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:15:00+0530 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+2025-08-06 12:15:01,971 - pyngrok.process.ngrok - ERROR - t=2025-08-06T12:15:01+0530 lvl=eror msg="failed to reconnect session" obj=tunnels.session err="authentication failed: Usage of ngrok requires a verified account and authtoken.\n\nSign up for an account: https://dashboard.ngrok.com/signup\nInstall your authtoken: https://dashboard.ngrok.com/get-started/your-authtoken\r\n\r\nERR_NGROK_4018\r\n"
+2025-08-06 12:15:01,972 - pyngrok.process.ngrok - ERROR - t=2025-08-06T12:15:01+0530 lvl=eror msg="session closing" obj=tunnels.session err="authentication failed: Usage of ngrok requires a verified account and authtoken.\n\nSign up for an account: https://dashboard.ngrok.com/signup\nInstall your authtoken: https://dashboard.ngrok.com/get-started/your-authtoken\r\n\r\nERR_NGROK_4018\r\n"
+2025-08-06 12:15:01,973 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:15:01+0530 lvl=info msg="received stop request" obj=app stopReq="{err:{Remote:true Inner:{Inner:0xc000186260}} restart:false}"
+2025-08-06 12:15:01,973 - pyngrok.process.ngrok - ERROR - t=2025-08-06T12:15:01+0530 lvl=eror msg="terminating with error" obj=app err="authentication failed: Usage of ngrok requires a verified account and authtoken.\n\nSign up for an account: https://dashboard.ngrok.com/signup\nInstall your authtoken: https://dashboard.ngrok.com/get-started/your-authtoken\r\n\r\nERR_NGROK_4018\r\n"
+2025-08-06 12:15:01,974 - pyngrok.process.ngrok - WARNING - t=2025-08-06T12:15:01+0530 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.equinox.io/check\": context canceled"
+2025-08-06 12:15:01,975 - pyngrok.process.ngrok - CRITICAL - t=2025-08-06T12:15:01+0530 lvl=crit msg="command failed" err="authentication failed: Usage of ngrok requires a verified account and authtoken.\n\nSign up for an account: https://dashboard.ngrok.com/signup\nInstall your authtoken: https://dashboard.ngrok.com/get-started/your-authtoken\r\n\r\nERR_NGROK_4018\r\n"
+2025-08-06 12:15:01,975 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:15:01+0530 lvl=info msg="no more state changes" obj=tunnels.session
+2025-08-06 12:15:01,979 - __main__ - WARNING - ngrok connection attempt 2 failed: The ngrok process errored on start: authentication failed: Usage of ngrok requires a verified account and authtoken.\n\nSign up for an account: https://dashboard.ngrok.com/signup\nInstall your authtoken: https://dashboard.ngrok.com/get-started/your-authtoken\r\n\r\nERR_NGROK_4018\r\n.
+2025-08-06 12:15:01,979 - __main__ - INFO - Retrying in 5 seconds...
+2025-08-06 12:15:06,989 - pyngrok.ngrok - INFO - Opening tunnel named: http-8000-25592401-b979-4bb4-ba26-1d0a99a95896
+2025-08-06 12:15:07,209 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:15:07+0530 lvl=info msg="no configuration paths supplied"
+2025-08-06 12:15:07,209 - pyngrok.process.ngrok - WARNING - t=2025-08-06T12:15:07+0530 lvl=warn msg="ngrok config file found at legacy location, move to XDG location" xdg_path=C:\\Users\\HP\\AppData\\Local/ngrok/ngrok.yml legacy_path=C:\\Users\\HP\\.ngrok2\\ngrok.yml
+2025-08-06 12:15:07,209 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:15:07+0530 lvl=info msg="using configuration at default config path" path=C:\\Users\\HP\\.ngrok2\\ngrok.yml
+2025-08-06 12:15:07,209 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:15:07+0530 lvl=info msg="open config file" path=C:\\Users\\HP\\.ngrok2\\ngrok.yml err=nil
+2025-08-06 12:15:07,234 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:15:07+0530 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+2025-08-06 12:15:10,240 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:15:10+0530 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+2025-08-06 12:15:10,243 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:15:10+0530 lvl=info msg="session closing" obj=tunnels.session err=nil
+2025-08-06 12:45:30,623 - __main__ - WARNING - NGROK_AUTHTOKEN not found in environment variables. Authentication may fail.
+2025-08-06 12:45:30,624 - __main__ - INFO - Configured ngrok with extended timeout
+2025-08-06 12:45:30,624 - __main__ - INFO - Starting ngrok tunnel for port 8000...
+2025-08-06 12:45:30,625 - pyngrok.ngrok - INFO - Opening tunnel named: http-8000-025e6776-8ab1-4fd9-8902-f89c36ec623a
+2025-08-06 12:45:30,845 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:45:30+0530 lvl=info msg="no configuration paths supplied"
+2025-08-06 12:45:30,845 - pyngrok.process.ngrok - WARNING - t=2025-08-06T12:45:30+0530 lvl=warn msg="ngrok config file found at legacy location, move to XDG location" xdg_path=C:\\Users\\HP\\AppData\\Local/ngrok/ngrok.yml legacy_path=C:\\Users\\HP\\.ngrok2\\ngrok.yml
+2025-08-06 12:45:30,845 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:45:30+0530 lvl=info msg="using configuration at default config path" path=C:\\Users\\HP\\.ngrok2\\ngrok.yml
+2025-08-06 12:45:30,845 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:45:30+0530 lvl=info msg="open config file" path=C:\\Users\\HP\\.ngrok2\\ngrok.yml err=nil
+2025-08-06 12:45:30,873 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:45:30+0530 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+2025-08-06 12:45:31,718 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:45:31+0530 lvl=info msg="client session established" obj=tunnels.session
+2025-08-06 12:45:31,718 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:45:31+0530 lvl=info msg="tunnel session started" obj=tunnels.session
+2025-08-06 12:45:31,721 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:45:31+0530 lvl=info msg=start pg=/api/tunnels id=4bb72035cb706414
+2025-08-06 12:45:31,722 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:45:31+0530 lvl=info msg=end pg=/api/tunnels id=4bb72035cb706414 status=200 dur=0s
+2025-08-06 12:45:31,723 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:45:31+0530 lvl=info msg=start pg=/api/tunnels id=8a3e5dc37060956e
+2025-08-06 12:45:31,723 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:45:31+0530 lvl=info msg=end pg=/api/tunnels id=8a3e5dc37060956e status=200 dur=0s
+2025-08-06 12:45:31,724 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:45:31+0530 lvl=info msg=start pg=/api/tunnels id=9f0b1f416229dcf2
+2025-08-06 12:45:31,966 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:45:31+0530 lvl=info msg="started tunnel" obj=tunnels name=http-8000-025e6776-8ab1-4fd9-8902-f89c36ec623a addr=http://localhost:8000 url=https://f9c27f734dbb.ngrok-free.app
+2025-08-06 12:45:31,966 - __main__ - INFO - ngrok tunnel established at: https://f9c27f734dbb.ngrok-free.app
+2025-08-06 12:45:31,966 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:45:31+0530 lvl=info msg=end pg=/api/tunnels id=9f0b1f416229dcf2 status=201 dur=240.761ms
+2025-08-06 12:45:36,184 - services.qa_engine - INFO - Enhanced QA Engine initialized with gemini-2.5-flash
+2025-08-06 12:45:36,189 - app - INFO - Application started successfully
+2025-08-06 12:45:36,192 - pyngrok.process - INFO - Killing ngrok process: 45100
+2025-08-06 12:46:55,861 - __main__ - WARNING - NGROK_AUTHTOKEN not found in environment variables. Authentication may fail.
+2025-08-06 12:46:55,861 - __main__ - INFO - Configured ngrok with extended timeout
+2025-08-06 12:46:55,862 - __main__ - INFO - Starting ngrok tunnel for port 8001...
+2025-08-06 12:46:55,862 - pyngrok.ngrok - INFO - Opening tunnel named: http-8001-507f9c83-c9c0-48c5-8b9b-04ed113f9245
+2025-08-06 12:46:56,067 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:46:56+0530 lvl=info msg="no configuration paths supplied"
+2025-08-06 12:46:56,068 - pyngrok.process.ngrok - WARNING - t=2025-08-06T12:46:56+0530 lvl=warn msg="ngrok config file found at legacy location, move to XDG location" xdg_path=C:\\Users\\HP\\AppData\\Local/ngrok/ngrok.yml legacy_path=C:\\Users\\HP\\.ngrok2\\ngrok.yml
+2025-08-06 12:46:56,068 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:46:56+0530 lvl=info msg="using configuration at default config path" path=C:\\Users\\HP\\.ngrok2\\ngrok.yml
+2025-08-06 12:46:56,068 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:46:56+0530 lvl=info msg="open config file" path=C:\\Users\\HP\\.ngrok2\\ngrok.yml err=nil
+2025-08-06 12:46:56,094 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:46:56+0530 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+2025-08-06 12:46:56,952 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:46:56+0530 lvl=info msg="client session established" obj=tunnels.session
+2025-08-06 12:46:56,953 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:46:56+0530 lvl=info msg="tunnel session started" obj=tunnels.session
+2025-08-06 12:46:56,960 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:46:56+0530 lvl=info msg=start pg=/api/tunnels id=08a7a9856692d15f
+2025-08-06 12:46:56,961 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:46:56+0530 lvl=info msg=end pg=/api/tunnels id=08a7a9856692d15f status=200 dur=785.4µs
+2025-08-06 12:46:56,962 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:46:56+0530 lvl=info msg=start pg=/api/tunnels id=e4018101428c749f
+2025-08-06 12:46:56,963 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:46:56+0530 lvl=info msg=end pg=/api/tunnels id=e4018101428c749f status=200 dur=0s
+2025-08-06 12:46:56,964 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:46:56+0530 lvl=info msg=start pg=/api/tunnels id=a0cac03dda2dbd37
+2025-08-06 12:46:57,212 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:46:57+0530 lvl=info msg="started tunnel" obj=tunnels name=http-8001-507f9c83-c9c0-48c5-8b9b-04ed113f9245 addr=http://localhost:8001 url=https://e1e3f69ce8a1.ngrok-free.app
+2025-08-06 12:46:57,212 - __main__ - INFO - ngrok tunnel established at: https://e1e3f69ce8a1.ngrok-free.app
+2025-08-06 12:46:57,213 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:46:57+0530 lvl=info msg=end pg=/api/tunnels id=a0cac03dda2dbd37 status=201 dur=247.3746ms
+2025-08-06 12:47:01,174 - services.qa_engine - INFO - Enhanced QA Engine initialized with gemini-2.5-flash
+2025-08-06 12:47:01,179 - app - INFO - Application started successfully
+2025-08-06 12:49:21,270 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:21+0530 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+2025-08-06 12:49:21,270 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:21+0530 lvl=info msg="session closing" obj=tunnels.session err=nil
+2025-08-06 12:49:21,271 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:21+0530 lvl=info msg="accept failed" obj=tunnels.session obj=csess id=1bcc06fff21b err="reconnecting session closed"
+2025-08-06 12:49:21,272 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:21+0530 lvl=info msg="no more state changes" obj=tunnels.session
+2025-08-06 12:49:21,272 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:21+0530 lvl=info msg="failed to accept connection: Listener closed" obj=tunnels.session clientid=5d0707c1b757c5637dd0a76e0cb20fa2
+2025-08-06 12:49:21,272 - pyngrok.process.ngrok - WARNING - t=2025-08-06T12:49:21+0530 lvl=warn msg="Stopping forwarder" name=http-8001-507f9c83-c9c0-48c5-8b9b-04ed113f9245 acceptErr="failed to accept connection: Listener closed"
+2025-08-06 12:49:21,272 - pyngrok.process.ngrok - WARNING - t=2025-08-06T12:49:21+0530 lvl=warn msg="Error restarting forwarder" name=http-8001-507f9c83-c9c0-48c5-8b9b-04ed113f9245 err="failed to start tunnel: session closed"
+2025-08-06 12:49:28,036 - __main__ - WARNING - NGROK_AUTHTOKEN not found in environment variables. Authentication may fail.
+2025-08-06 12:49:28,037 - __main__ - INFO - Configured ngrok with extended timeout
+2025-08-06 12:49:28,038 - __main__ - INFO - Starting ngrok tunnel for port 8001...
+2025-08-06 12:49:28,038 - pyngrok.ngrok - INFO - Opening tunnel named: http-8001-05007a29-d12d-4bbf-80db-b220de4711f5
+2025-08-06 12:49:28,267 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:28+0530 lvl=info msg="no configuration paths supplied"
+2025-08-06 12:49:28,267 - pyngrok.process.ngrok - WARNING - t=2025-08-06T12:49:28+0530 lvl=warn msg="ngrok config file found at legacy location, move to XDG location" xdg_path=C:\\Users\\HP\\AppData\\Local/ngrok/ngrok.yml legacy_path=C:\\Users\\HP\\.ngrok2\\ngrok.yml
+2025-08-06 12:49:28,267 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:28+0530 lvl=info msg="using configuration at default config path" path=C:\\Users\\HP\\.ngrok2\\ngrok.yml
+2025-08-06 12:49:28,268 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:28+0530 lvl=info msg="open config file" path=C:\\Users\\HP\\.ngrok2\\ngrok.yml err=nil
+2025-08-06 12:49:28,293 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:28+0530 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+2025-08-06 12:49:29,170 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:29+0530 lvl=info msg="client session established" obj=tunnels.session
+2025-08-06 12:49:29,171 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:29+0530 lvl=info msg="tunnel session started" obj=tunnels.session
+2025-08-06 12:49:29,174 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:29+0530 lvl=info msg=start pg=/api/tunnels id=2e06d72d0130235a
+2025-08-06 12:49:29,175 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:29+0530 lvl=info msg=end pg=/api/tunnels id=2e06d72d0130235a status=200 dur=0s
+2025-08-06 12:49:29,175 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:29+0530 lvl=info msg=start pg=/api/tunnels id=e05e57978bfc2c6c
+2025-08-06 12:49:29,176 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:29+0530 lvl=info msg=end pg=/api/tunnels id=e05e57978bfc2c6c status=200 dur=0s
+2025-08-06 12:49:29,197 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:29+0530 lvl=info msg=start pg=/api/tunnels id=c2d3c9fe092983af
+2025-08-06 12:49:29,458 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:29+0530 lvl=info msg="started tunnel" obj=tunnels name=http-8001-05007a29-d12d-4bbf-80db-b220de4711f5 addr=http://localhost:8001 url=https://ebce2e9d740b.ngrok-free.app
+2025-08-06 12:49:29,459 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:49:29+0530 lvl=info msg=end pg=/api/tunnels id=c2d3c9fe092983af status=201 dur=261.2783ms
+2025-08-06 12:49:29,459 - __main__ - INFO - ngrok tunnel established at: https://ebce2e9d740b.ngrok-free.app
+2025-08-06 12:49:33,018 - services.qa_engine - INFO - Enhanced QA Engine initialized with gemini-2.5-flash
+2025-08-06 12:49:33,023 - app - INFO - Application started successfully
+2025-08-06 12:53:58,788 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:53:58+0530 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+2025-08-06 12:53:58,789 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:53:58+0530 lvl=info msg="session closing" obj=tunnels.session err=nil
+2025-08-06 12:53:58,791 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:53:58+0530 lvl=info msg="accept failed" obj=tunnels.session obj=csess id=03161bcc7c3e err="reconnecting session closed"
+2025-08-06 12:53:58,792 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:53:58+0530 lvl=info msg="failed to accept connection: Listener closed" obj=tunnels.session clientid=0659d29e9376f839e60e2da80cdc1f7e
+2025-08-06 12:53:58,792 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:53:58+0530 lvl=info msg="no more state changes" obj=tunnels.session
+2025-08-06 12:53:58,792 - pyngrok.process.ngrok - WARNING - t=2025-08-06T12:53:58+0530 lvl=warn msg="Stopping forwarder" name=http-8001-05007a29-d12d-4bbf-80db-b220de4711f5 acceptErr="failed to accept connection: Listener closed"
+2025-08-06 12:53:58,792 - pyngrok.process.ngrok - WARNING - t=2025-08-06T12:53:58+0530 lvl=warn msg="Error restarting forwarder" name=http-8001-05007a29-d12d-4bbf-80db-b220de4711f5 err="failed to start tunnel: session closed"
+2025-08-06 12:54:03,632 - __main__ - WARNING - NGROK_AUTHTOKEN not found in environment variables. Authentication may fail.
+2025-08-06 12:54:03,633 - __main__ - INFO - Configured ngrok with extended timeout
+2025-08-06 12:54:03,633 - __main__ - INFO - Starting ngrok tunnel for port 8001...
+2025-08-06 12:54:03,633 - pyngrok.ngrok - INFO - Opening tunnel named: http-8001-c365736b-1a78-4ea8-adbc-2616f3ea56cc
+2025-08-06 12:54:03,853 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:54:03+0530 lvl=info msg="no configuration paths supplied"
+2025-08-06 12:54:03,855 - pyngrok.process.ngrok - WARNING - t=2025-08-06T12:54:03+0530 lvl=warn msg="ngrok config file found at legacy location, move to XDG location" xdg_path=C:\\Users\\HP\\AppData\\Local/ngrok/ngrok.yml legacy_path=C:\\Users\\HP\\.ngrok2\\ngrok.yml
+2025-08-06 12:54:03,856 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:54:03+0530 lvl=info msg="using configuration at default config path" path=C:\\Users\\HP\\.ngrok2\\ngrok.yml
+2025-08-06 12:54:03,856 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:54:03+0530 lvl=info msg="open config file" path=C:\\Users\\HP\\.ngrok2\\ngrok.yml err=nil
+2025-08-06 12:54:03,882 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:54:03+0530 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+2025-08-06 12:54:04,713 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:54:04+0530 lvl=info msg="client session established" obj=tunnels.session
+2025-08-06 12:54:04,714 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:54:04+0530 lvl=info msg="tunnel session started" obj=tunnels.session
+2025-08-06 12:54:04,717 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:54:04+0530 lvl=info msg=start pg=/api/tunnels id=e88767d70801c25c
+2025-08-06 12:54:04,718 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:54:04+0530 lvl=info msg=end pg=/api/tunnels id=e88767d70801c25c status=200 dur=515.7µs
+2025-08-06 12:54:04,718 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:54:04+0530 lvl=info msg=start pg=/api/tunnels id=485dbc115a8edc92
+2025-08-06 12:54:04,719 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:54:04+0530 lvl=info msg=end pg=/api/tunnels id=485dbc115a8edc92 status=200 dur=0s
+2025-08-06 12:54:04,720 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:54:04+0530 lvl=info msg=start pg=/api/tunnels id=393c23107229cc8a
+2025-08-06 12:54:04,971 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:54:04+0530 lvl=info msg="started tunnel" obj=tunnels name=http-8001-c365736b-1a78-4ea8-adbc-2616f3ea56cc addr=http://localhost:8001 url=https://1767f5579695.ngrok-free.app
+2025-08-06 12:54:04,971 - __main__ - INFO - ngrok tunnel established at: https://1767f5579695.ngrok-free.app
+2025-08-06 12:54:04,972 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:54:04+0530 lvl=info msg=end pg=/api/tunnels id=393c23107229cc8a status=201 dur=252.0228ms
+2025-08-06 12:54:08,844 - services.qa_engine - INFO - Enhanced QA Engine initialized with gemini-2.5-flash
+2025-08-06 12:54:08,848 - app - INFO - Application started successfully
+2025-08-06 12:54:08,883 - pyngrok.process.ngrok - WARNING - t=2025-08-06T12:54:08+0530 lvl=warn msg="failed to check for update" obj=updater err="Post \"https://update.equinox.io/check\": context deadline exceeded"
+2025-08-06 12:57:28,359 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:57:28+0530 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+2025-08-06 12:57:28,361 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:57:28+0530 lvl=info msg="session closing" obj=tunnels.session err=nil
+2025-08-06 12:57:28,361 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:57:28+0530 lvl=info msg="accept failed" obj=tunnels.session obj=csess id=4416cc21419a err="reconnecting session closed"
+2025-08-06 12:57:28,361 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:57:28+0530 lvl=info msg="no more state changes" obj=tunnels.session
+2025-08-06 12:57:28,362 - pyngrok.process.ngrok - INFO - t=2025-08-06T12:57:28+0530 lvl=info msg="failed to accept connection: Listener closed" obj=tunnels.session clientid=217d149951c583fb688ff606efbe16c9

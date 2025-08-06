@@ -894,3 +894,184 @@ The conditions for Maternity coverage (Section 3.1.14) are:
 *   **Coverage:**
     *   The Company shall indemnify Maternity Expenses for any female Insure...
 2025-08-05 23:41:23,057 - execution_tracker - INFO - SESSION_COMPLETE|29502a32|Total_time:10.23s|Timeout_occurred:False|Processing_time:10.22570|Success_rate:10/10
+2025-08-06 12:25:02,719 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-06 12:25:03,307 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
+2025-08-06 12:25:03,307 - services.vector_store - INFO - Initialized in-memory vector store (Pinecone alternative)
+2025-08-06 12:25:03,610 - services.qa_engine - INFO - Enhanced QA Engine initialized with gemini-2.5-flash
+2025-08-06 12:25:03,624 - services.qa_engine - INFO - Vector store connected to QA Engine
+2025-08-06 12:25:03,624 - app - INFO - Application started successfully with enhanced QA Engine
+2025-08-06 12:32:21,138 - services.qa_engine - INFO - Enhanced QA Engine initialized with gemini-2.5-flash
+2025-08-06 12:32:21,143 - app - INFO - Application started successfully
+2025-08-06 12:32:38,216 - execution_tracker - INFO - SESSION_START|c08c1a36|2025-08-06T12:32:38.216286|Questions:10|Document:g=N4a9OU0w0QXO6AOIBiu4bpl7AXvEZogeT%2FjUHNO7HzQ%3D
+2025-08-06 12:32:38,216 - execution_tracker - INFO - QUESTION_RECEIVED|c08c1a36|Q1|What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?
+2025-08-06 12:32:38,216 - execution_tracker - INFO - QUESTION_RECEIVED|c08c1a36|Q2|What is the waiting period for pre-existing diseases (PED) to be covered?
+2025-08-06 12:32:38,217 - execution_tracker - INFO - QUESTION_RECEIVED|c08c1a36|Q3|Does this policy cover maternity expenses, and what are the conditions?
+2025-08-06 12:32:38,217 - execution_tracker - INFO - QUESTION_RECEIVED|c08c1a36|Q4|What is the waiting period for cataract surgery?
+2025-08-06 12:32:38,217 - execution_tracker - INFO - QUESTION_RECEIVED|c08c1a36|Q5|Are the medical expenses for an organ donor covered under this policy?
+2025-08-06 12:32:38,218 - execution_tracker - INFO - QUESTION_RECEIVED|c08c1a36|Q6|What is the No Claim Discount (NCD) offered in this policy?
+2025-08-06 12:32:38,219 - execution_tracker - INFO - QUESTION_RECEIVED|c08c1a36|Q7|Is there a benefit for preventive health check-ups?
+2025-08-06 12:32:38,219 - execution_tracker - INFO - QUESTION_RECEIVED|c08c1a36|Q8|How does the policy define a 'Hospital'?
+2025-08-06 12:32:38,221 - execution_tracker - INFO - QUESTION_RECEIVED|c08c1a36|Q9|What is the extent of coverage for AYUSH treatments?
+2025-08-06 12:32:38,222 - execution_tracker - INFO - QUESTION_RECEIVED|c08c1a36|Q10|Are there any sub-limits on room rent and ICU charges for Plan A?
+2025-08-06 12:32:38,225 - app - INFO - Processing 10 questions in optimized batch mode
+2025-08-06 12:32:42,618 - services.pdf_processor - INFO - Created 25 smart chunks with preserved context
+2025-08-06 12:32:42,619 - services.pdf_processor - INFO - Successfully processed document with 25 optimized chunks
+2025-08-06 12:32:42,621 - execution_tracker - INFO - PDF_PROCESSED|c08c1a36|Time:4.39s|Content_length:25
+2025-08-06 12:32:42,786 - services.vector_store_lite - INFO - Stored 25 chunks with enhanced semantic vectors and metadata
+2025-08-06 12:32:42,787 - execution_tracker - INFO - VECTOR_STORED|c08c1a36|Time:0.17s|Doc_ID:6635d94cf9023c83521982b3043ec70c
+2025-08-06 12:32:42,788 - execution_tracker - INFO - QUESTION_START|c08c1a36|Q1|What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?
+2025-08-06 12:32:42,789 - execution_tracker - INFO - QUESTION_START|c08c1a36|Q2|What is the waiting period for pre-existing diseases (PED) to be covered?
+2025-08-06 12:32:42,789 - execution_tracker - INFO - QUESTION_START|c08c1a36|Q3|Does this policy cover maternity expenses, and what are the conditions?
+2025-08-06 12:32:42,789 - execution_tracker - INFO - QUESTION_START|c08c1a36|Q4|What is the waiting period for cataract surgery?
+2025-08-06 12:32:42,801 - execution_tracker - INFO - QUESTION_START|c08c1a36|Q5|Are the medical expenses for an organ donor covered under this policy?
+2025-08-06 12:32:42,801 - execution_tracker - INFO - QUESTION_START|c08c1a36|Q6|What is the No Claim Discount (NCD) offered in this policy?
+2025-08-06 12:32:42,801 - execution_tracker - INFO - QUESTION_START|c08c1a36|Q7|Is there a benefit for preventive health check-ups?
+2025-08-06 12:32:42,801 - execution_tracker - INFO - QUESTION_START|c08c1a36|Q8|How does the policy define a 'Hospital'?
+2025-08-06 12:32:42,802 - execution_tracker - INFO - QUESTION_START|c08c1a36|Q9|What is the extent of coverage for AYUSH treatments?
+2025-08-06 12:32:42,802 - execution_tracker - INFO - QUESTION_START|c08c1a36|Q10|Are there any sub-limits on room rent and ICU charges for Plan A?
+2025-08-06 12:32:42,840 - services.vector_store_lite - ERROR - Error in search_similar: name 'settings' is not defined
+2025-08-06 12:32:42,860 - services.vector_store_lite - ERROR - Error in search_similar: name 'settings' is not defined
+2025-08-06 12:32:42,878 - services.vector_store_lite - ERROR - Error in search_similar: name 'settings' is not defined
+2025-08-06 12:32:42,900 - services.vector_store_lite - ERROR - Error in search_similar: name 'settings' is not defined
+2025-08-06 12:32:42,921 - services.vector_store_lite - ERROR - Error in search_similar: name 'settings' is not defined
+2025-08-06 12:32:42,941 - services.vector_store_lite - ERROR - Error in search_similar: name 'settings' is not defined
+2025-08-06 12:32:42,958 - services.vector_store_lite - ERROR - Error in search_similar: name 'settings' is not defined
+2025-08-06 12:32:42,985 - services.vector_store_lite - ERROR - Error in search_similar: name 'settings' is not defined
+2025-08-06 12:32:43,009 - services.vector_store_lite - ERROR - Error in search_similar: name 'settings' is not defined
+2025-08-06 12:32:43,036 - services.vector_store_lite - ERROR - Error in search_similar: name 'settings' is not defined
+2025-08-06 12:32:43,037 - execution_tracker - INFO - CHUNKS_RETRIEVED|c08c1a36|Q1|Time:0.25s|Count:25
+2025-08-06 12:32:43,038 - execution_tracker - INFO - CHUNKS_RETRIEVED|c08c1a36|Q2|Time:0.25s|Count:25
+2025-08-06 12:32:43,039 - execution_tracker - INFO - CHUNKS_RETRIEVED|c08c1a36|Q3|Time:0.25s|Count:25
+2025-08-06 12:32:43,040 - execution_tracker - INFO - CHUNKS_RETRIEVED|c08c1a36|Q4|Time:0.24s|Count:25
+2025-08-06 12:32:43,040 - execution_tracker - INFO - CHUNKS_RETRIEVED|c08c1a36|Q5|Time:0.24s|Count:25
+2025-08-06 12:32:43,041 - execution_tracker - INFO - CHUNKS_RETRIEVED|c08c1a36|Q6|Time:0.24s|Count:25
+2025-08-06 12:32:43,051 - execution_tracker - INFO - CHUNKS_RETRIEVED|c08c1a36|Q7|Time:0.25s|Count:25
+2025-08-06 12:32:43,052 - execution_tracker - INFO - CHUNKS_RETRIEVED|c08c1a36|Q8|Time:0.25s|Count:25
+2025-08-06 12:32:43,052 - execution_tracker - INFO - CHUNKS_RETRIEVED|c08c1a36|Q9|Time:0.25s|Count:25
+2025-08-06 12:32:43,053 - execution_tracker - INFO - CHUNKS_RETRIEVED|c08c1a36|Q10|Time:0.25s|Count:25
+2025-08-06 12:32:43,054 - qa_execution - INFO - QA_START|Hash:8411|Question:What is the grace period for premium payment under...
+2025-08-06 12:32:43,119 - services.qa_engine - INFO - Organized 25 chunks within 27046 tokens
+2025-08-06 12:32:43,161 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:8411|Tokens:27056
+2025-08-06 12:32:43,163 - qa_execution - INFO - QUESTION_CATEGORY|Hash:8411|Category:policy_specific
+2025-08-06 12:32:43,163 - qa_execution - INFO - API_CALL_START|Hash:8411|Attempt:1|Model:gemini-2.5-flash
+2025-08-06 12:32:43,164 - qa_execution - INFO - QA_START|Hash:3480|Question:What is the waiting period for pre-existing diseas...
+2025-08-06 12:32:43,248 - services.qa_engine - INFO - Organized 25 chunks within 27046 tokens
+2025-08-06 12:32:43,309 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:3480|Tokens:27056
+2025-08-06 12:32:43,310 - qa_execution - INFO - QUESTION_CATEGORY|Hash:3480|Category:time_related
+2025-08-06 12:32:43,310 - qa_execution - INFO - API_CALL_START|Hash:3480|Attempt:1|Model:gemini-2.5-flash
+2025-08-06 12:32:43,316 - qa_execution - INFO - QA_START|Hash:2567|Question:Does this policy cover maternity expenses, and wha...
+2025-08-06 12:32:43,376 - services.qa_engine - INFO - Organized 25 chunks within 27046 tokens
+2025-08-06 12:32:43,421 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:2567|Tokens:27056
+2025-08-06 12:32:43,421 - qa_execution - INFO - QUESTION_CATEGORY|Hash:2567|Category:policy_specific
+2025-08-06 12:32:43,421 - qa_execution - INFO - API_CALL_START|Hash:2567|Attempt:1|Model:gemini-2.5-flash
+2025-08-06 12:32:43,425 - qa_execution - INFO - QA_START|Hash:8619|Question:What is the waiting period for cataract surgery?...
+2025-08-06 12:32:43,543 - services.qa_engine - INFO - Organized 25 chunks within 27046 tokens
+2025-08-06 12:32:43,616 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:8619|Tokens:27056
+2025-08-06 12:32:43,617 - qa_execution - INFO - QUESTION_CATEGORY|Hash:8619|Category:time_related
+2025-08-06 12:32:43,617 - qa_execution - INFO - API_CALL_START|Hash:8619|Attempt:1|Model:gemini-2.5-flash
+2025-08-06 12:32:43,620 - qa_execution - INFO - QA_START|Hash:0720|Question:Are the medical expenses for an organ donor covere...
+2025-08-06 12:32:43,673 - services.qa_engine - INFO - Organized 25 chunks within 27046 tokens
+2025-08-06 12:32:43,725 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:0720|Tokens:27056
+2025-08-06 12:32:43,725 - qa_execution - INFO - QUESTION_CATEGORY|Hash:0720|Category:policy_specific
+2025-08-06 12:32:43,726 - qa_execution - INFO - API_CALL_START|Hash:0720|Attempt:1|Model:gemini-2.5-flash
+2025-08-06 12:32:43,730 - qa_execution - INFO - QA_START|Hash:1390|Question:What is the No Claim Discount (NCD) offered in thi...
+2025-08-06 12:32:43,796 - services.qa_engine - INFO - Organized 25 chunks within 27046 tokens
+2025-08-06 12:32:43,848 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:1390|Tokens:27056
+2025-08-06 12:32:43,848 - qa_execution - INFO - QUESTION_CATEGORY|Hash:1390|Category:policy_specific
+2025-08-06 12:32:43,849 - qa_execution - INFO - API_CALL_START|Hash:1390|Attempt:1|Model:gemini-2.5-flash
+2025-08-06 12:32:43,855 - qa_execution - INFO - QA_START|Hash:7644|Question:Is there a benefit for preventive health check-ups...
+2025-08-06 12:32:43,919 - services.qa_engine - INFO - Organized 25 chunks within 27046 tokens
+2025-08-06 12:32:43,963 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:7644|Tokens:27056
+2025-08-06 12:32:43,967 - qa_execution - INFO - QUESTION_CATEGORY|Hash:7644|Category:policy_specific
+2025-08-06 12:32:43,967 - qa_execution - INFO - API_CALL_START|Hash:7644|Attempt:1|Model:gemini-2.5-flash
+2025-08-06 12:32:43,970 - qa_execution - INFO - QA_START|Hash:8503|Question:How does the policy define a 'Hospital'?...
+2025-08-06 12:32:44,030 - services.qa_engine - INFO - Organized 25 chunks within 27046 tokens
+2025-08-06 12:32:44,090 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:8503|Tokens:27056
+2025-08-06 12:32:44,091 - qa_execution - INFO - QUESTION_CATEGORY|Hash:8503|Category:policy_specific
+2025-08-06 12:32:44,091 - qa_execution - INFO - API_CALL_START|Hash:8503|Attempt:1|Model:gemini-2.5-flash
+2025-08-06 12:32:44,096 - qa_execution - INFO - QA_START|Hash:0901|Question:What is the extent of coverage for AYUSH treatment...
+2025-08-06 12:32:44,185 - services.qa_engine - INFO - Organized 25 chunks within 27046 tokens
+2025-08-06 12:32:44,229 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:0901|Tokens:27056
+2025-08-06 12:32:44,229 - qa_execution - INFO - QUESTION_CATEGORY|Hash:0901|Category:policy_specific
+2025-08-06 12:32:44,231 - qa_execution - INFO - API_CALL_START|Hash:0901|Attempt:1|Model:gemini-2.5-flash
+2025-08-06 12:32:44,234 - qa_execution - INFO - QA_START|Hash:0930|Question:Are there any sub-limits on room rent and ICU char...
+2025-08-06 12:32:44,295 - services.qa_engine - INFO - Organized 25 chunks within 27046 tokens
+2025-08-06 12:32:44,343 - qa_execution - INFO - CONTEXT_ORGANIZED|Hash:0930|Tokens:27056
+2025-08-06 12:32:44,344 - qa_execution - INFO - QUESTION_CATEGORY|Hash:0930|Category:financial
+2025-08-06 12:32:44,345 - qa_execution - INFO - API_CALL_START|Hash:0930|Attempt:1|Model:gemini-2.5-flash
+2025-08-06 12:32:47,723 - qa_execution - INFO - API_SUCCESS|Hash:8411|Attempt:1|Time:4.56s|Response_length:873
+2025-08-06 12:32:47,724 - qa_execution - INFO - QA_COMPLETE|Hash:8411|Final_length:873|Quality:0.90
+2025-08-06 12:32:47,724 - execution_tracker - INFO - ANSWER_GENERATED|c08c1a36|Q1|Time:4.69s|Total:4.94s|Length:873
+2025-08-06 12:32:47,724 - execution_tracker - INFO - ANSWER_CONTENT|c08c1a36|Q1|Based on the provided policy document for the National Parivar Mediclaim Plus Policy:
+
+*   **Grace Period Definition:** "grace period means the specified period of time, immediately following the prem...
+2025-08-06 12:32:48,019 - qa_execution - INFO - API_SUCCESS|Hash:3480|Attempt:1|Time:4.70s|Response_length:895
+2025-08-06 12:32:48,020 - qa_execution - INFO - QA_COMPLETE|Hash:3480|Final_length:895|Quality:0.72
+2025-08-06 12:32:48,021 - execution_tracker - INFO - ANSWER_GENERATED|c08c1a36|Q2|Time:4.98s|Total:5.23s|Length:895
+2025-08-06 12:32:48,021 - execution_tracker - INFO - ANSWER_CONTENT|c08c1a36|Q2|Based on the "National Parivar Mediclaim Plus Policy" document:
+
+The waiting period for pre-existing diseases (PED) to be covered is:
+
+*   **Thirty-six (36) months** of continuous coverage after the d...
+2025-08-06 12:32:48,218 - qa_execution - INFO - API_SUCCESS|Hash:8503|Attempt:1|Time:4.12s|Response_length:976
+2025-08-06 12:32:48,219 - qa_execution - INFO - QA_COMPLETE|Hash:8503|Final_length:976|Quality:0.66
+2025-08-06 12:32:48,219 - execution_tracker - INFO - ANSWER_GENERATED|c08c1a36|Q8|Time:5.17s|Total:5.42s|Length:976
+2025-08-06 12:32:48,219 - execution_tracker - INFO - ANSWER_CONTENT|c08c1a36|Q8|The policy document, "National Parivar Mediclaim Plus Policy," defines 'Hospital' as follows:
+
+**2.22 Hospital** means any institution established for in-patient care and day care treatment of disease...
+2025-08-06 12:32:48,607 - qa_execution - INFO - API_SUCCESS|Hash:1390|Attempt:1|Time:4.77s|Response_length:707
+2025-08-06 12:32:48,608 - qa_execution - INFO - QA_COMPLETE|Hash:1390|Final_length:707|Quality:0.79
+2025-08-06 12:32:48,608 - execution_tracker - INFO - ANSWER_GENERATED|c08c1a36|Q6|Time:5.56s|Total:5.81s|Length:707
+2025-08-06 12:32:48,608 - execution_tracker - INFO - ANSWER_CONTENT|c08c1a36|Q6|Based on the National Parivar Mediclaim Plus Policy document, the No Claim Discount (NCD) is as follows:
+
+*   **For policies with a term of one year**: A flat 5% NCD shall be allowed on the base premi...
+2025-08-06 12:32:49,235 - qa_execution - INFO - API_SUCCESS|Hash:7644|Attempt:1|Time:5.27s|Response_length:930
+2025-08-06 12:32:49,235 - qa_execution - INFO - QA_COMPLETE|Hash:7644|Final_length:930|Quality:0.82
+2025-08-06 12:32:49,235 - execution_tracker - INFO - ANSWER_GENERATED|c08c1a36|Q7|Time:6.18s|Total:6.43s|Length:930
+2025-08-06 12:32:49,236 - execution_tracker - INFO - ANSWER_CONTENT|c08c1a36|Q7|Yes, there is a benefit for preventive health check-ups under the "National Parivar Mediclaim Plus Policy".
+
+Here are the specific details:
+*   **Benefit Name:** Health Check Up (Section 3.2.2)
+*   **...
+2025-08-06 12:32:49,490 - qa_execution - INFO - API_SUCCESS|Hash:0930|Attempt:1|Time:5.14s|Response_length:569
+2025-08-06 12:32:49,491 - qa_execution - INFO - QA_COMPLETE|Hash:0930|Final_length:569|Quality:0.79
+2025-08-06 12:32:49,491 - execution_tracker - INFO - ANSWER_GENERATED|c08c1a36|Q10|Time:6.44s|Total:6.69s|Length:569
+2025-08-06 12:32:49,491 - execution_tracker - INFO - ANSWER_CONTENT|c08c1a36|Q10|Yes, there are sub-limits on room rent and ICU charges for Plan A under the National Parivar Mediclaim Plus Policy.
+
+Based on the "Table of Benefits" (Page 22) and Section 3.1.1.1, the limits are:
+*  ...
+2025-08-06 12:32:49,669 - qa_execution - INFO - API_SUCCESS|Hash:0901|Attempt:1|Time:5.44s|Response_length:779
+2025-08-06 12:32:49,671 - qa_execution - INFO - QA_COMPLETE|Hash:0901|Final_length:779|Quality:0.72
+2025-08-06 12:32:49,671 - execution_tracker - INFO - ANSWER_GENERATED|c08c1a36|Q9|Time:6.62s|Total:6.87s|Length:779
+2025-08-06 12:32:49,671 - execution_tracker - INFO - ANSWER_CONTENT|c08c1a36|Q9|Based on the provided policy document, the extent of coverage for AYUSH treatments under the "National Parivar Mediclaim Plus Policy" is as follows:
+
+*   **Coverage Scope**: The Company shall indemnif...
+2025-08-06 12:32:50,142 - qa_execution - INFO - API_SUCCESS|Hash:0720|Attempt:1|Time:6.42s|Response_length:1575
+2025-08-06 12:32:50,143 - qa_execution - INFO - QA_COMPLETE|Hash:0720|Final_length:1500|Quality:0.72
+2025-08-06 12:32:50,143 - execution_tracker - INFO - ANSWER_GENERATED|c08c1a36|Q5|Time:7.10s|Total:7.34s|Length:1500
+2025-08-06 12:32:50,143 - execution_tracker - INFO - ANSWER_CONTENT|c08c1a36|Q5|Yes, the medical expenses for an organ donor are covered under the "National Parivar Mediclaim Plus Policy" under Section 3.1.7 "Organ Donor’s Medical Expenses".
+
+**Coverage Details:**
+
+*   The Compan...
+2025-08-06 12:32:51,612 - qa_execution - INFO - API_SUCCESS|Hash:8619|Attempt:1|Time:8.00s|Response_length:1678
+2025-08-06 12:32:51,614 - qa_execution - INFO - QA_COMPLETE|Hash:8619|Final_length:1500|Quality:0.82
+2025-08-06 12:32:51,614 - execution_tracker - INFO - ANSWER_GENERATED|c08c1a36|Q4|Time:8.57s|Total:8.82s|Length:1500
+2025-08-06 12:32:51,615 - execution_tracker - INFO - ANSWER_CONTENT|c08c1a36|Q4|Based on the National Parivar Mediclaim Plus Policy document:
+
+The waiting period for cataract surgery is **two (02) years**.
+
+Specific details and conditions:
+*   **Waiting Period**: Expenses related...
+2025-08-06 12:32:51,628 - qa_execution - INFO - API_SUCCESS|Hash:2567|Attempt:1|Time:8.20s|Response_length:293
+2025-08-06 12:32:51,628 - qa_execution - INFO - QA_COMPLETE|Hash:2567|Final_length:293|Quality:0.69
+2025-08-06 12:32:51,628 - execution_tracker - INFO - ANSWER_GENERATED|c08c1a36|Q3|Time:8.59s|Total:8.84s|Length:293
+2025-08-06 12:32:51,628 - execution_tracker - INFO - ANSWER_CONTENT|c08c1a36|Q3|Yes, the "National Parivar Mediclaim Plus Policy" covers maternity expenses.
+
+Here are the conditions and details:
+
+*   **Coverage Scope**:
+    *   The Company indemnifies Maternity Expenses for any f...
+2025-08-06 12:32:51,629 - execution_tracker - INFO - SESSION_COMPLETE|c08c1a36|Total_time:13.41s|Timeout_occurred:False|Processing_time:13.41347|Success_rate:10/10
+2025-08-06 12:42:35,053 - services.qa_engine - INFO - Enhanced QA Engine initialized with gemini-2.5-flash
+2025-08-06 12:42:35,057 - app - INFO - Application started successfully
