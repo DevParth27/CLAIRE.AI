@@ -51,7 +51,7 @@ async def main():
     
     # Set up ngrok tunnel
     try:
-        port = int(os.environ.get("PORT", 8001))
+        port = int(os.environ.get("PORT", 8000))
         logger.info(f"Starting ngrok tunnel for port {port}...")
         
         # Try to connect with retry logic
@@ -61,8 +61,16 @@ async def main():
         while retry_count < max_retries:
             try:
                 # Specify http protocol instead of default https
-                # Change this line in your main() function
-                public_url = ngrok.connect(port, "http", bind_tls=True).public_url
+                # Add ngrok-skip-browser-warning header
+                http_tunnel = ngrok.connect(
+                    port, 
+                    "http", 
+                    bind_tls=True,
+                    options={
+                        "request_header_add": ["ngrok-skip-browser-warning: 1"]
+                    }
+                )
+                public_url = http_tunnel.public_url
                 logger.info(f"ngrok tunnel established at: {public_url}")
                 
                 # Set environment variable for app.py to use
