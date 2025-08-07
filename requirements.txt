@@ -9,9 +9,13 @@ aiohttp==3.9.1
 aiofiles==23.2.1
 python-multipart==0.0.6
 
-# PDF processing
+# Document processing
 PyPDF2==3.0.1
 pdfplumber==0.10.3
+python-docx>=0.8.11    # For Word documents
+python-pptx>=0.6.21    # For PowerPoint documents
+docx2txt>=0.8          # Alternative Word processor
+python-magic==0.4.27
 
 # AI/ML - Full suite for local deployment
 openai>=1.12.0
@@ -23,12 +27,13 @@ transformers==4.35.2
 sentence-transformers==2.2.2
 langchain==0.0.350
 pinecone-client==2.2.4
-python-magic==0.4.27
 google-generativeai>=0.3.0
+
 # Database
 sqlalchemy==2.0.23
 pandas==2.0.3
 openpyxl==3.1.2
 tiktoken==0.5.1
+
 # Production server (optional for local deployment)
 pyngrok==6.0.0  # Added for ngrok integration

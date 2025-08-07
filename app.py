@@ -13,7 +13,7 @@ import json
 import uuid
 from dotenv import load_dotenv
 # Import our custom modules
-from services.pdf_processor import PDFProcessor
+from services.pdf_processor import DocumentProcessor  # Changed from PDFProcessor
 from services.vector_store_lite import LightweightVectorStore
 from services.qa_engine import QAEngine
 from database.models import init_db
@@ -60,9 +60,8 @@ class QuestionResponse(BaseModel):
     answers: List[str]
 
 # Initialize services
-pdf_processor = PDFProcessor()
+document_processor = DocumentProcessor()  # Changed from pdf_processor
 vector_store = LightweightVectorStore()
-#qa_engine = QAEngine()
 qa_engine = QAEngine()
 
 # Authentication
@@ -109,25 +108,25 @@ async def process_questions(
         
         logger.info(f"Processing {len(request.questions)} questions in optimized batch mode")
         
-        # Step 1: PDF processing
-        pdf_start = datetime.now()
+        # Step 1: Document processing (changed from PDF processing)
+        doc_start = datetime.now()
         try:
-            pdf_content = await asyncio.wait_for(
-                pdf_processor.process_pdf_from_url(str(request.documents)),
+            doc_content = await asyncio.wait_for(
+                document_processor.process_document_from_url(str(request.documents)),  # Changed method name
                 timeout=PDF_TIMEOUT
             )
-            pdf_time = (datetime.now() - pdf_start).total_seconds()
-            execution_logger.info(f"PDF_PROCESSED|{session_id}|Time:{pdf_time:.2f}s|Content_length:{len(pdf_content)}")
+            doc_time = (datetime.now() - doc_start).total_seconds()
+            execution_logger.info(f"DOCUMENT_PROCESSED|{session_id}|Time:{doc_time:.2f}s|Content_length:{len(doc_content)}")
         except asyncio.TimeoutError:
-            execution_logger.error(f"PDF_TIMEOUT|{session_id}|{PDF_TIMEOUT}s")
-            logger.error("PDF processing timeout")
-            raise HTTPException(status_code=408, detail="PDF processing timeout")
+            execution_logger.error(f"DOCUMENT_TIMEOUT|{session_id}|{PDF_TIMEOUT}s")
+            logger.error("Document processing timeout")
+            raise HTTPException(status_code=408, detail="Document processing timeout")
         
         # Step 2: Vector storage
         vector_start = datetime.now()
         try:
             document_id = await asyncio.wait_for(
-                vector_store.store_document(pdf_content, str(request.documents)),
+                vector_store.store_document(doc_content, str(request.documents)),
                 timeout=VECTOR_TIMEOUT
             )
             vector_time = (datetime.now() - vector_start).total_seconds()
