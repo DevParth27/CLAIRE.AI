@@ -5,7 +5,7 @@ from typing import Optional
 class Settings(BaseSettings):
     # API Keys - Switched to Gemini
     gemini_api_key: str = os.getenv("GEMINI_API_KEY", "")
-    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")  # Changed from gemini-2.5-pro
     
     # Database
     database_url: str = os.getenv("DATABASE_URL", "sqlite:///./hackrx_db.db")
@@ -14,15 +14,17 @@ class Settings(BaseSettings):
     # Dynamic Document Parsing RAG Configuration - Maximum Accuracy
 
     # Chunking settings - optimized for Gemini-2.5-flash context window
-    max_chunk_size: int = 1536             # Increased for better context preservation
-    chunk_overlap: int = 384               # 25% overlap maintained for continuity
-    max_tokens: int = 128000              # Increased for Gemini-2.5-flash's larger context window
-    max_context_chunks: int = 120         # Increased for more comprehensive document analysis
-    batch_size: int = 48                  # Increased for better throughput
-    parallel_questions: int = 24          # Increased parallelization for better performance
-
-    # Vector search settings - precision-optimized for Gemini-2.5-flash
-    vector_top_k: int = 250               # Increased retrieval for comprehensive coverage
+    # Reduce token usage by adjusting these parameters
+    # Further reduce these values
+    max_chunk_size: int = 768             # Reduced from 1024
+    chunk_overlap: int = 128              # Reduced from 256
+    max_tokens: int = 64000               # Reduced from 128000
+    max_context_chunks: int = 60          # Reduced from 120
+    batch_size: int = 24                  # Reduced from 48
+    parallel_questions: int = 12          # Reduced from 24
+    
+    # Vector search settings
+    vector_top_k: int = 100               # Reduced from 250
     similarity_threshold: float = 0.003   # Lower threshold to capture more relevant content
     
     # Gemini-2.5-flash specific settings

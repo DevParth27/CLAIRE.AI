@@ -18,7 +18,7 @@ class QAEngine:
             model_name=settings.gemini_model,
             generation_config=genai.types.GenerationConfig(
                 temperature=settings.temperature,
-                max_output_tokens=1000,
+                max_output_tokens=800,  # Reduced from 1000
                 top_p=settings.top_p,
                 top_k=settings.top_k
             )
@@ -37,8 +37,9 @@ class QAEngine:
         """Count tokens accurately using tiktoken"""
         return len(self.tokenizer.encode(text))
 
-    def organize_context(self, chunks: List[str], max_tokens: int = 6000) -> str:
+    def organize_context(self, chunks: List[str], max_tokens: int = 4000) -> str:
         """Organize context chunks within token limit with prioritization"""
+        # Reduced from 6000 to 4000 max tokens
         if not chunks:
             return ""
             

@@ -77,8 +77,8 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
     return credentials.credentials
 
 # Cost-optimized timeout settings
-API_TIMEOUT = 120   # 2 minutes total for larger batches
-PER_QUESTION_TIMEOUT = 25  # Increased from 20 to 25 seconds
+API_TIMEOUT = 240   # 4 minutes total for larger batches
+PER_QUESTION_TIMEOUT = 60  # Increased from 40 seconds
 PDF_TIMEOUT = 20   # Increased from 15 to 20 seconds
 VECTOR_TIMEOUT = 10  # Increased from 5 to 10 seconds
 
