@@ -134,50 +134,23 @@ class QAEngine:
             # Build enhanced prompt
             prompt = self._build_enhanced_prompt(question, context, question_category)
             
-            async def generate_answer(self, question: str, context: str, attempt: int = 1) -> str:
-                """Generate answer using Gemini API with rate limiting"""
-                try:
-                    # Log the API call attempt
-                    qa_logger.info(f"API_CALL_START|Hash:{hash(question) % 10000}|Attempt:{attempt}|Model:{settings.gemini_model}")
-                    
-                    # Create the prompt
-                    prompt = f"""Answer the following question based on the provided context. If the answer cannot be found in the context, say 'I don't have information about that in the provided documents.'\n\nContext:\n{context}\n\nQuestion: {question}\n\nAnswer:"""
-                    
-                    # Call the Gemini API
-                    response = await self.model.generate_content_async(prompt)
-                    answer = response.text
-                    
-                    # Log successful API call
-                    qa_logger.info(f"API_CALL_SUCCESS|Hash:{hash(question) % 10000}|Length:{len(answer)}")
-                    return answer
-                    
-                except Exception as e:
-                    error_message = str(e)
-                    qa_logger.warning(f"Gemini API call attempt {attempt} failed: {error_message}")
-                    
-                    # Check if this is a rate limit error
-                    if "429" in error_message and "quota" in error_message.lower() and attempt <= self.max_retries:
-                        # Extract retry delay if available
-                        retry_delay = 60  # Default to 60 seconds
-                        if "retry_delay" in error_message:
-                            match = re.search(r'retry_delay.+?seconds: (\d+)', error_message)
-                            if match:
-                                retry_delay = int(match.group(1))
-                        
-                        qa_logger.info(f"Rate limit exceeded. Waiting for {retry_delay} seconds before retry.")
-                        await asyncio.sleep(retry_delay)
-                        return await self.generate_answer(question, context, attempt + 1)
-                    
-                    # If max retries exceeded or not a rate limit error
-                    if attempt >= self.max_retries:
-                        qa_logger.error(f"Error generating answer: {error_message}")
-                        return "I encountered an error while processing your question. Please try again."
-                    
-                    # For other errors, retry with exponential backoff
-                    backoff_time = 2 ** attempt
-                    qa_logger.info(f"Retrying in {backoff_time} seconds...")
-                    await asyncio.sleep(backoff_time)
-                    return await self.generate_answer(question, context, attempt + 1)
+            # Generate answer using Gemini API
+            try:
+                # Log the API call attempt
+                qa_logger.info(f"API_CALL_START|Hash:{hash(question) % 10000}|Attempt:1|Model:{settings.gemini_model}")
+                
+                # Call the Gemini API
+                response = await asyncio.to_thread(self.model.generate_content, prompt)
+                answer = response.text
+                
+                # Log successful API call
+                qa_logger.info(f"API_CALL_SUCCESS|Hash:{hash(question) % 10000}|Length:{len(answer)}")
+                return self._format_answer(answer)
+                
+            except Exception as e:
+                error_message = str(e)
+                qa_logger.warning(f"Gemini API call failed: {error_message}")
+                return "I encountered an error while processing your question. Please try again."
             
         except Exception as e:
             qa_logger.error(f"Error generating answer: {e}")

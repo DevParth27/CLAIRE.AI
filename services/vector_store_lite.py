@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from collections import defaultdict
+from config import settings  # Add this import
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +46,12 @@ class LightweightVectorStore:
         # Preprocess and create enhanced vectors
         processed_texts = [self._preprocess_text(chunk["text"]) for chunk in chunks]
         if processed_texts:
-            vectors = self.vectorizer.fit_transform(processed_texts)
+            # First fit the vectorizer if it hasn't been fit yet
+            if not hasattr(self.vectorizer, 'vocabulary_') or self.vectorizer.vocabulary_ is None:
+                self.vectorizer.fit(processed_texts)
+            
+            # Then transform the texts using the fitted vectorizer
+            vectors = self.vectorizer.transform(processed_texts)
             self.document_vectors[document_id] = vectors
             
             # Build term importance mapping

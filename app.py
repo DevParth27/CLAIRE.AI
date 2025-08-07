@@ -14,7 +14,7 @@ import uuid
 from dotenv import load_dotenv
 # Import our custom modules
 from services.pdf_processor import DocumentProcessor  # Changed from PDFProcessor
-from services.vector_store_lite import LightweightVectorStore
+from services.vector_store import VectorStore  # Changed from vector_store_lite import LightweightVectorStore
 from services.qa_engine import QAEngine
 from database.models import init_db
 from config import settings
@@ -60,8 +60,9 @@ class QuestionResponse(BaseModel):
     answers: List[str]
 
 # Initialize services
+# Initialize services
 document_processor = DocumentProcessor()  # Changed from pdf_processor
-vector_store = LightweightVectorStore()
+vector_store = VectorStore()  # Changed from LightweightVectorStore()
 qa_engine = QAEngine()
 
 # Authentication

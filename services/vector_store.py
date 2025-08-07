@@ -1,6 +1,7 @@
 import hashlib
 import logging
-from typing import List, Dict
+import re
+from typing import List, Dict, Tuple
 from sentence_transformers import SentenceTransformer
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
@@ -17,15 +18,42 @@ class VectorStore:
         # In-memory storage for development
         self.vectors = {}  # {vector_id: {"embedding": [...], "metadata": {...}}}
         self.documents = {}  # {document_id: [vector_ids]}
+        self.chunk_metadata = {}  # Enhanced metadata storage
         
-        logger.info("Initialized in-memory vector store (Pinecone alternative)")
+        logger.info("Initialized optimized in-memory vector store")
 
     def _ensure_index_exists(self):
         """Mock method - no index creation needed for in-memory storage"""
         logger.info("Using in-memory vector storage")
     
+    def _preprocess_text(self, text: str) -> str:
+        """Advanced preprocessing for insurance policy documents"""
+        # Normalize insurance-specific terms
+        text = re.sub(r'\b(waiting|grace)\s+period', 'WAITING_PERIOD', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bpre-?existing\s+disease', 'PREEXISTING_DISEASE', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bno\s+claim\s+discount', 'NO_CLAIM_DISCOUNT', text, flags=re.IGNORECASE)
+        text = re.sub(r'\broom\s+rent', 'ROOM_RENT', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bicu\s+charges', 'ICU_CHARGES', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bmaternity\s+(expenses?|benefits?)', 'MATERNITY_COVERAGE', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bhealth\s+check-?up', 'HEALTH_CHECKUP', text, flags=re.IGNORECASE)
+        text = re.sub(r'\borgan\s+donor', 'ORGAN_DONOR', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bcataract\s+surgery', 'CATARACT_SURGERY', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bayush\s+treatment', 'AYUSH_TREATMENT', text, flags=re.IGNORECASE)
+        
+        # Normalize numerical patterns
+        text = re.sub(r'\b\d+\s*%', 'PERCENTAGE_VALUE', text)
+        text = re.sub(r'\b\d+\s*(days?)', 'DAYS_PERIOD', text, flags=re.IGNORECASE)
+        text = re.sub(r'\b\d+\s*(months?)', 'MONTHS_PERIOD', text, flags=re.IGNORECASE)
+        text = re.sub(r'\b\d+\s*(years?)', 'YEARS_PERIOD', text, flags=re.IGNORECASE)
+        text = re.sub(r'\b\d+\s*(rupees?|rs\.?|inr)', 'AMOUNT_VALUE', text, flags=re.IGNORECASE)
+        
+        # Preserve important policy structure
+        text = re.sub(r'\b(section|clause|article)\s+(\d+)', r'\1_\2', text, flags=re.IGNORECASE)
+        
+        return text
+    
     async def store_document(self, chunks: List[Dict[str, str]], document_url: str) -> str:
-        """Store document chunks in in-memory vector database"""
+        """Store document chunks in in-memory vector database with enhanced metadata"""
         try:
             # Generate document ID
             document_id = hashlib.md5(document_url.encode()).hexdigest()
@@ -33,9 +61,15 @@ class VectorStore:
             # Store vectors
             vector_ids = []
             
+            # Store chunks with enhanced metadata
+            self.chunk_metadata[document_id] = {}
+            
             for chunk in chunks:
+                # Preprocess text for better embedding
+                processed_text = self._preprocess_text(chunk["text"])
+                
                 # Generate embedding
-                embedding = self.embedding_model.encode(chunk["text"])
+                embedding = self.embedding_model.encode(processed_text)
                 
                 # Create vector ID
                 vector_id = f"{document_id}_{chunk['chunk_id']}"
@@ -46,8 +80,14 @@ class VectorStore:
                     "document_url": document_url,
                     "chunk_id": chunk["chunk_id"],
                     "text": chunk["text"],
-                    "start_word": chunk["start_word"],
-                    "end_word": chunk["end_word"]
+                    "start_word": chunk.get("start_word", 0),
+                    "end_word": chunk.get("end_word", 0),
+                    "section_id": chunk.get("section_id", 0),
+                    "word_count": len(chunk["text"].split()),
+                    "chunk_type": chunk.get("chunk_type", "unknown"),
+                    "has_numbers": bool(re.search(r'\d+', chunk["text"])),
+                    "has_percentages": bool(re.search(r'\d+%', chunk["text"])),
+                    "has_time_periods": bool(re.search(r'\d+\s*(day|month|year)', chunk["text"], re.IGNORECASE))
                 }
                 
                 # Store in memory
@@ -56,27 +96,70 @@ class VectorStore:
                     "metadata": metadata
                 }
                 vector_ids.append(vector_id)
+                
+                # Store enhanced metadata for faster access
+                self.chunk_metadata[document_id][chunk['chunk_id']] = {
+                    "section_id": metadata["section_id"],
+                    "word_count": metadata["word_count"],
+                    "chunk_type": metadata["chunk_type"],
+                    "text_preview": chunk["text"][:150] + '...' if len(chunk["text"]) > 150 else chunk["text"],
+                    "has_numbers": metadata["has_numbers"],
+                    "has_percentages": metadata["has_percentages"],
+                    "has_time_periods": metadata["has_time_periods"]
+                }
             
             # Track document vectors
             self.documents[document_id] = vector_ids
             
-            logger.info(f"Stored {len(chunks)} chunks for document {document_id} in memory")
+            logger.info(f"Stored {len(chunks)} chunks for document {document_id} in memory with enhanced metadata")
             return document_id
             
         except Exception as e:
             logger.error(f"Error storing document: {str(e)}")
             raise
 
-    async def search_similar(self, query: str, document_id: str, top_k: int = 20) -> List[str]:
+    def _extract_phrases(self, query: str) -> List[str]:
+        """Extract meaningful phrases from query"""
+        phrases = []
+        
+        # Extract quoted phrases
+        quoted_phrases = re.findall(r'"([^"]+)"', query)
+        phrases.extend(quoted_phrases)
+        
+        # Extract common insurance phrases
+        insurance_phrases = [
+            "waiting period", "grace period", "pre-existing disease", "no claim discount",
+            "room rent", "icu charges", "maternity expenses", "health check-up",
+            "organ donor", "cataract surgery", "ayush treatment"
+        ]
+        
+        query_lower = query.lower()
+        for phrase in insurance_phrases:
+            if phrase in query_lower:
+                phrases.append(phrase)
+        
+        # Extract numerical phrases
+        numerical_phrases = re.findall(r'\d+\s*(?:days?|months?|years?|%|percent)', query_lower)
+        phrases.extend(numerical_phrases)
+        
+        return list(set(phrases))  # Remove duplicates
+
+    async def search_similar(self, query: str, document_id: str, top_k: int = None) -> List[str]:
         """Comprehensive search with multiple strategies to find ALL relevant information"""
         try:
-            # Generate query embedding
-            query_embedding = self.embedding_model.encode(query)
-            
+            if top_k is None:
+                top_k = settings.vector_top_k  # Use the value from config
+                
             # Get document vectors
             if document_id not in self.documents:
                 logger.warning(f"Document {document_id} not found")
                 return []
+            
+            # Preprocess the query for better matching
+            processed_query = self._preprocess_text(query)
+            
+            # Generate query embedding
+            query_embedding = self.embedding_model.encode(processed_query)
             
             # Calculate similarities
             similarities = []
@@ -88,8 +171,36 @@ class VectorStore:
                         [vector_data["embedding"]]
                     )[0][0]
                     
+                    chunk_id = vector_data["metadata"]["chunk_id"]
+                    
+                    # Apply metadata-based scoring adjustments
+                    metadata_score = 0
+                    if document_id in self.chunk_metadata and chunk_id in self.chunk_metadata[document_id]:
+                        metadata = self.chunk_metadata[document_id][chunk_id]
+                        
+                        # Boost chunks with numbers if query contains numerical terms
+                        query_lower = query.lower()
+                        if any(term in query_lower for term in ['period', 'days', 'months', 'years', '%', 'percent']):
+                            if metadata['has_numbers'] or metadata['has_percentages'] or metadata['has_time_periods']:
+                                metadata_score += 0.05
+                        
+                        # Boost complete sections over split sections
+                        if metadata['chunk_type'] == 'complete_section':
+                            metadata_score += 0.02
+                    
+                    # Apply phrase matching bonus
+                    phrase_bonus = 0
+                    query_phrases = self._extract_phrases(query)
+                    text_lower = vector_data["metadata"]["text"].lower()
+                    phrase_matches = sum(1 for phrase in query_phrases if phrase.lower() in text_lower)
+                    if phrase_matches > 0:
+                        phrase_bonus = (phrase_matches / max(len(query_phrases), 1)) * 0.1
+                    
+                    # Combine scores
+                    adjusted_score = similarity + metadata_score + phrase_bonus
+                    
                     similarities.append({
-                        "score": similarity,
+                        "score": adjusted_score,
                         "metadata": vector_data["metadata"],
                         "text": vector_data["metadata"]["text"]
                     })
@@ -101,9 +212,9 @@ class VectorStore:
             relevant_chunks = []
             used_texts = set()
             
-            # Strategy 1: Semantic similarity (very permissive)
+            # Strategy 1: Semantic similarity with adjusted threshold from settings
             for item in similarities[:top_k]:
-                if item["score"] > 0.05:  # Extremely low threshold
+                if item["score"] > settings.similarity_threshold:  # Use threshold from config
                     if item["text"] not in used_texts:
                         relevant_chunks.append(item["text"])
                         used_texts.add(item["text"])

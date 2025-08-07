@@ -249,6 +249,14 @@ class DocumentProcessor:
         self.chunk_overlap = settings.chunk_overlap
         self.min_chunk_size = int(settings.max_chunk_size * 0.08)
     
+    def _get_file_extension(self, url: str) -> str:
+        """Extract file extension from URL"""
+        # Handle URL parameters
+        base_url = url.split('?')[0] if '?' in url else url
+        # Get the file extension
+        _, ext = os.path.splitext(base_url)
+        return ext
+    
     async def process_document_from_url(self, document_url: str) -> List[Dict[str, str]]:
         """Download document from URL and extract text content with enhanced processing"""
         try:
@@ -544,5 +552,8 @@ class DocumentProcessor:
         return sentences
 
 
-# Alias for backward compatibility
-process_pdf_from_url = process_document_from_url
+# Function alias for backward compatibility
+async def process_pdf_from_url(document_url: str) -> List[Dict[str, str]]:
+    """Backward compatibility function that calls DocumentProcessor.process_document_from_url"""
+    processor = DocumentProcessor()
+    return await processor.process_document_from_url(document_url)
