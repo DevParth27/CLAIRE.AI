@@ -5,29 +5,28 @@ from typing import Optional
 class Settings(BaseSettings):
     # API Keys - Switched to Gemini
     gemini_api_key: str = os.getenv("GEMINI_API_KEY", "")
-    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")  # Changed from gemini-2.5-pro
+    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")  # Changed to flash-lite
     
     # Database
     database_url: str = os.getenv("DATABASE_URL", "sqlite:///./hackrx_db.db")
     
-    # Enhanced processing settings for Gemini-2.5-flash
+    # Enhanced processing settings for Gemini-2.5-flash-lite
     # Dynamic Document Parsing RAG Configuration - Maximum Accuracy
 
-    # Chunking settings - optimized for Gemini-2.5-flash context window
+    # Chunking settings - optimized for Gemini-2.5-flash-lite context window
     # Reduce token usage by adjusting these parameters
-    # Further reduce these values
     max_chunk_size: int = 768             # Reduced from 1024
     chunk_overlap: int = 128              # Reduced from 256
     max_tokens: int = 64000               # Reduced from 128000
     max_context_chunks: int = 60          # Reduced from 120
     batch_size: int = 24                  # Reduced from 48
-    parallel_questions: int = 12          # Reduced from 24
+    parallel_questions: int = 6           # Reduced from 12
     
     # Vector search settings
     vector_top_k: int = 100               # Reduced from 250
     similarity_threshold: float = 0.003   # Lower threshold to capture more relevant content
     
-    # Gemini-2.5-flash specific settings
+    # Gemini-2.5-flash-lite specific settings
     temperature: float = 0.01             # Very low temperature for factual responses
     top_p: float = 0.97                   # Slightly increased for better coverage
     top_k: int = 60                       # Increased for better token selection
