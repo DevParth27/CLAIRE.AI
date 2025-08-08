@@ -56,11 +56,17 @@ from typing import Optional, List
 class Settings(BaseSettings):
     # API Keys - Using Gemini 2.5 Flash
     gemini_api_key: str = os.getenv("GEMINI_API_KEY", "")
-    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-pro")
+    
+    # Comment out OpenAI settings since we're using Gemini
+    # OpenAI API settings
+    # openai_api_key: str = os.getenv("OPENAI_API_KEY", "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")
+    # openai_model: str = os.getenv("OPENAI_MODEL", "openai/gpt-5-chat")
     
     # Embedding model configuration
     # Options: "intfloat/e5-large-v2", "jinaai/jina-embeddings-v2-base-en", "all-MiniLM-L6-v2"
-    embedding_model: str = os.getenv("EMBEDDING_MODEL", "intfloat/e5-large-v2")
+    embedding_model: str = os.getenv("EMBEDDING_MODEL", "jinaai/jina-embeddings-v2-base-en")
+    embedding_cache_folder: str = os.getenv("EMBEDDING_CACHE_FOLDER", "./model_cache")
     
     # Database
     database_url: str = os.getenv("DATABASE_URL", "sqlite:///./hackrx_db.db")

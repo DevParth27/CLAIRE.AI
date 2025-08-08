@@ -1,4 +1,6 @@
+# Fix imports - use Gemini instead of OpenAI
 import google.generativeai as genai
+# Remove the openai import completely
 import logging
 import asyncio
 import random
@@ -20,10 +22,10 @@ class EnhancedQAEngine:
         self.model = genai.GenerativeModel(
             model_name=settings.gemini_model,
             generation_config=genai.types.GenerationConfig(
-                temperature=settings.temperature,  # Use from config
-                max_output_tokens=4000,  # Increased for more comprehensive answers
-                top_p=settings.top_p,    # Use from config
-                top_k=settings.top_k     # Use from config
+                temperature=settings.temperature,
+                max_output_tokens=settings.max_output_tokens,
+                top_p=settings.top_p,
+                top_k=settings.top_k,
             )
         )
         self.max_retries = 3
@@ -414,7 +416,7 @@ Provide your precise answer based ONLY on the information in the context:"""
             score += 0.1
         
         # Check for policy-specific terms
-        policy_terms = ['coverage', 'premium', 'deductible', 'policy', 'claim', 'benefit', 'waiting period', 'grace period']
+        policy_terms = ['coverage', 'premium', 'deductible', 'policy', 'claim', 'waiting period', 'grace period']
         if any(term in answer.lower() for term in policy_terms):
             score += 0.1
         
@@ -439,12 +441,7 @@ Provide your precise answer based ONLY on the information in the context:"""
         return min(max(score, 0.0), 1.0)
 
     def _is_math_question(self, question: str) -> bool:
-        """Detect if the question is a simple math calculation"""
-        # Check for basic arithmetic patterns
-        if re.search(r'\d+\s*[+\-*/]\s*\d+', question.lower()):
-            return True
-            
-        # Check for common math question phrases
+        """Check if the question is a simple math calculation"""
         math_phrases = [
             'calculate', 'compute', 'what is the sum of', 'what is the product of',
             'what is the difference between', 'what is the result of', 'what is the value of',

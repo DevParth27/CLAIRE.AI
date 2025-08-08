@@ -17,12 +17,12 @@ class EmbeddingManager:
     def _initialize_model(self) -> Any:
         """Initialize the appropriate embedding model"""
         try:
-            # For Sentence Transformers models
-            return SentenceTransformer(self.model_name)
+            # For Sentence Transformers models with cache folder
+            return SentenceTransformer(self.model_name, cache_folder=settings.embedding_cache_folder)
         except Exception as e:
             logger.error(f"Error initializing embedding model: {str(e)}")
             logger.warning("Falling back to default embedding model")
-            return SentenceTransformer('all-MiniLM-L6-v2')
+            return SentenceTransformer('all-MiniLM-L6-v2', cache_folder=settings.embedding_cache_folder)
     
     def _get_dimension(self) -> int:
         """Get the dimension of the embedding model"""

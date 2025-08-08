@@ -35,12 +35,12 @@ class VectorStore:
     def _initialize_embedding_model(self):
         """Initialize the appropriate embedding model based on configuration"""
         try:
-            # For Sentence Transformers models
-            return SentenceTransformer(self.embedding_model_name)
+            # For Sentence Transformers models with cache folder
+            return SentenceTransformer(self.embedding_model_name, cache_folder=settings.embedding_cache_folder)
         except Exception as e:
             logger.error(f"Error initializing embedding model: {str(e)}")
             logger.warning("Falling back to default embedding model")
-            return SentenceTransformer('all-MiniLM-L6-v2')
+            return SentenceTransformer('all-MiniLM-L6-v2', cache_folder=settings.embedding_cache_folder)
     
     def _get_embeddings(self, texts: List[str]) -> List[List[float]]:
         """Get embeddings for a list of texts using the configured model"""
