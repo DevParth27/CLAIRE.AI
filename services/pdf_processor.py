@@ -7,6 +7,8 @@ from typing import List, Dict
 import pandas as pd
 import os
 from config import settings
+import base64
+import chardet
 
 # Import new document processing libraries
 import docx2txt
@@ -264,6 +266,8 @@ class DocumentProcessor:
         self.max_chunk_size = settings.max_chunk_size
         self.chunk_overlap = settings.chunk_overlap
         self.min_chunk_size = int(settings.max_chunk_size * 0.08)
+        # Add supported encodings for multilingual support
+        self.supported_encodings = ['utf-8', 'utf-16', 'utf-32', 'latin-1', 'iso-8859-1', 'cp1252']
     
     def _get_file_extension(self, url: str) -> str:
         """Extract file extension from URL"""
@@ -302,7 +306,10 @@ class DocumentProcessor:
                 text_content = await self._extract_text_from_csv(file_content)
             elif file_extension.lower() in [".txt", ".md", ".json", ".xml", ".html"]:
                 # Process plain text files
-                text_content = file_content.decode('utf-8', errors='replace')
+                text_content = self._decode_text_with_detection(file_content)
+            elif file_extension.lower() in [".bin"]:
+                # Process binary files
+                text_content = await self._extract_text_from_binary(file_content, document_url)
             elif file_extension.lower() in [".png", ".jpg", ".jpeg"]:
                 # For image files, create a simple text representation
                 text_content = f"Image file: {os.path.basename(document_url)}\n\nThis is an image file and text extraction is limited."
@@ -310,9 +317,8 @@ class DocumentProcessor:
                 # Process PDF file
                 text_content = await self._extract_text_from_pdf(file_content)
             else:
-                # Default to PDF processing for unknown types
-                logger.warning(f"Unknown file type: {file_extension}. Attempting PDF processing.")
-                text_content = await self._extract_text_from_pdf(file_content)
+                # Try to detect file type and process accordingly
+                text_content = await self._smart_extract_from_unknown(file_content, document_url)
             
             # Smart chunking with context preservation
             chunks = self._smart_chunk_text(text_content)
@@ -324,112 +330,7 @@ class DocumentProcessor:
             logger.error(f"Error processing document from URL {document_url}: {str(e)}")
             raise
     
-    # New method for Word documents
-    async def _extract_text_from_word(self, file_content: bytes) -> str:
-        """Extract text from Word document content"""
-        try:
-            with io.BytesIO(file_content) as docx_file:
-                # Try using python-docx first (better formatting)
-                if DOCX_AVAILABLE:
-                    doc = docx.Document(docx_file)
-                    full_text = []
-                    
-                    # Extract headers with formatting
-                    for i, paragraph in enumerate(doc.paragraphs):
-                        if paragraph.style.name.startswith('Heading'):
-                            # Add extra formatting for headers
-                            heading_level = paragraph.style.name.replace('Heading', '').strip()
-                            if heading_level.isdigit():
-                                full_text.append(f"\n\n=== HEADING {heading_level}: {paragraph.text} ===\n")
-                        else:
-                            full_text.append(paragraph.text)
-                    
-                    # Extract tables
-                    for i, table in enumerate(doc.tables):
-                        full_text.append(f"\n\n=== TABLE {i+1} ===\n")
-                        for row in table.rows:
-                            row_text = [cell.text for cell in row.cells]
-                            full_text.append(" | ".join(row_text))
-                    
-                    text = "\n".join(full_text)
-                else:
-                    # Fallback to docx2txt
-                    docx_file.seek(0)  # Reset file pointer
-                    text = docx2txt.process(docx_file)
-            
-            return text
-        except Exception as e:
-            logger.error(f"Word document extraction failed: {str(e)}")
-            # Try fallback method if primary method fails
-            try:
-                with io.BytesIO(file_content) as docx_file:
-                    text = docx2txt.process(docx_file)
-                return text
-            except Exception as e2:
-                logger.error(f"Fallback Word extraction also failed: {str(e2)}")
-                raise Exception("Failed to extract text from Word document")
-    
-    # New method for PowerPoint documents
-    async def _extract_text_from_powerpoint(self, file_content: bytes) -> str:
-        """Extract text from PowerPoint document content"""
-        try:
-            if not PPTX_AVAILABLE:
-                raise ImportError("python-pptx library not available")
-                
-            with io.BytesIO(file_content) as pptx_file:
-                presentation = Presentation(pptx_file)
-                full_text = []
-                
-                for i, slide in enumerate(presentation.slides):
-                    full_text.append(f"\n\n=== SLIDE {i+1} ===\n")
-                    
-                    # Extract slide title if available
-                    if slide.shapes.title:
-                        full_text.append(f"TITLE: {slide.shapes.title.text}\n")
-                    
-                    # Extract text from all shapes in the slide
-                    for shape in slide.shapes:
-                        if hasattr(shape, "text") and shape.text.strip():
-                            full_text.append(shape.text)
-                
-                text = "\n".join(full_text)
-            
-            return text
-        except Exception as e:
-            logger.error(f"PowerPoint extraction failed: {str(e)}")
-            return f"PowerPoint document: Unable to extract text content. Error: {str(e)}"
-
-    # Keep existing methods
-    async def _extract_text_from_excel(self, file_content: bytes) -> str:
-        """Extract text from Excel file content"""
-        try:
-            with io.BytesIO(file_content) as excel_file:
-                # Read all sheets
-                df_dict = pd.read_excel(excel_file, sheet_name=None)
-                
-                text = ""
-                # Process each sheet
-                for sheet_name, df in df_dict.items():
-                    text += f"\n\n=== SHEET: {sheet_name} ===\n"
-                    # Convert dataframe to string representation
-                    text += df.to_string(index=True)
-            
-            return text
-        except Exception as e:
-            logger.error(f"Excel extraction failed: {str(e)}")
-            raise Exception("Failed to extract text from Excel file")
-    
-    async def _extract_text_from_csv(self, file_content: bytes) -> str:
-        """Extract text from CSV file content"""
-        try:
-            with io.BytesIO(file_content) as csv_file:
-                df = pd.read_csv(csv_file)
-                text = "=== CSV DATA ===\n" + df.to_string(index=True)
-            return text
-        except Exception as e:
-            logger.error(f"CSV extraction failed: {str(e)}")
-            raise Exception("Failed to extract text from CSV file")
-    
+    # Add the missing PDF extraction method
     async def _extract_text_from_pdf(self, pdf_content: bytes) -> str:
         """Extract text from PDF content with enhanced formatting preservation"""
         text = ""
@@ -582,6 +483,194 @@ class DocumentProcessor:
         sentences = [s.strip() for s in sentences if len(s.strip()) > 10]
         
         return sentences
+    
+    async def _extract_text_from_excel(self, file_content: bytes) -> str:
+        """Extract text from Excel file content"""
+        try:
+            with io.BytesIO(file_content) as excel_file:
+                # Read all sheets
+                df_dict = pd.read_excel(excel_file, sheet_name=None)
+                
+                text = ""
+                # Process each sheet
+                for sheet_name, df in df_dict.items():
+                    text += f"\n\n=== SHEET: {sheet_name} ===\n"
+                    # Convert dataframe to string representation
+                    text += df.to_string(index=True)
+            
+            return text
+        except Exception as e:
+            logger.error(f"Excel extraction failed: {str(e)}")
+            raise Exception("Failed to extract text from Excel file")
+    
+    async def _extract_text_from_csv(self, file_content: bytes) -> str:
+        """Extract text from CSV file content"""
+        try:
+            with io.BytesIO(file_content) as csv_file:
+                df = pd.read_csv(csv_file)
+                text = "=== CSV DATA ===\n" + df.to_string(index=True)
+            return text
+        except Exception as e:
+            logger.error(f"CSV extraction failed: {str(e)}")
+            raise Exception("Failed to extract text from CSV file")
+    
+    # New method for Word documents
+    async def _extract_text_from_word(self, file_content: bytes) -> str:
+        """Extract text from Word document content"""
+        try:
+            with io.BytesIO(file_content) as docx_file:
+                # Try using python-docx first (better formatting)
+                if DOCX_AVAILABLE:
+                    doc = docx.Document(docx_file)
+                    full_text = []
+                    
+                    # Extract headers with formatting
+                    for i, paragraph in enumerate(doc.paragraphs):
+                        if paragraph.style.name.startswith('Heading'):
+                            # Add extra formatting for headers
+                            heading_level = paragraph.style.name.replace('Heading', '').strip()
+                            if heading_level.isdigit():
+                                full_text.append(f"\n\n=== HEADING {heading_level}: {paragraph.text} ===\n")
+                        else:
+                            full_text.append(paragraph.text)
+                    
+                    # Extract tables
+                    for i, table in enumerate(doc.tables):
+                        full_text.append(f"\n\n=== TABLE {i+1} ===\n")
+                        for row in table.rows:
+                            row_text = [cell.text for cell in row.cells]
+                            full_text.append(" | ".join(row_text))
+                    
+                    text = "\n".join(full_text)
+                else:
+                    # Fallback to docx2txt
+                    docx_file.seek(0)  # Reset file pointer
+                    text = docx2txt.process(docx_file)
+            
+            return text
+        except Exception as e:
+            logger.error(f"Word document extraction failed: {str(e)}")
+            # Try fallback method if primary method fails
+            try:
+                with io.BytesIO(file_content) as docx_file:
+                    text = docx2txt.process(docx_file)
+                return text
+            except Exception as e2:
+                logger.error(f"Fallback Word extraction also failed: {str(e2)}")
+                raise Exception("Failed to extract text from Word document")
+    
+    # New method for PowerPoint documents
+    async def _extract_text_from_powerpoint(self, file_content: bytes) -> str:
+        """Extract text from PowerPoint document content"""
+        try:
+            if not PPTX_AVAILABLE:
+                raise ImportError("python-pptx library not available")
+                
+            with io.BytesIO(file_content) as pptx_file:
+                presentation = Presentation(pptx_file)
+                full_text = []
+                
+                for i, slide in enumerate(presentation.slides):
+                    full_text.append(f"\n\n=== SLIDE {i+1} ===\n")
+                    
+                    # Extract slide title if available
+                    if slide.shapes.title:
+                        full_text.append(f"TITLE: {slide.shapes.title.text}\n")
+                    
+                    # Extract text from all shapes in the slide
+                    for shape in slide.shapes:
+                        if hasattr(shape, "text") and shape.text.strip():
+                            full_text.append(shape.text)
+                
+                text = "\n".join(full_text)
+            
+            return text
+        except Exception as e:
+            logger.error(f"PowerPoint extraction failed: {str(e)}")
+            return f"PowerPoint document: Unable to extract text content. Error: {str(e)}"
+
+    # New method for binary files
+    async def _extract_text_from_binary(self, file_content: bytes, file_url: str) -> str:
+        """Extract text from binary file content"""
+        try:
+            # First, try to detect if it's a text-based binary format
+            detected = chardet.detect(file_content)
+            if detected['confidence'] > 0.7:
+                try:
+                    # Try to decode with detected encoding
+                    return file_content.decode(detected['encoding'], errors='replace')
+                except UnicodeDecodeError:
+                    pass
+            
+            # If not text-based, provide a structured representation
+            file_name = os.path.basename(file_url)
+            file_size = len(file_content)
+            
+            # Create a hexdump-like representation for the first 1024 bytes
+            hex_dump = []
+            for i in range(0, min(1024, len(file_content)), 16):
+                chunk = file_content[i:i+16]
+                hex_line = ' '.join(f'{b:02x}' for b in chunk)
+                ascii_line = ''.join(chr(b) if 32 <= b <= 126 else '.' for b in chunk)
+                hex_dump.append(f"{i:08x}  {hex_line.ljust(48)}  |{ascii_line}|")
+            
+            # Create a base64 sample
+            base64_sample = base64.b64encode(file_content[:1024]).decode('ascii')
+            
+            # Construct a structured representation
+            result = f"=== BINARY FILE: {file_name} ===\n"
+            result += f"File Size: {file_size} bytes\n\n"
+            result += "Hex Representation (first 1KB):\n"
+            result += "\n".join(hex_dump)
+            result += "\n\nBase64 Sample (first 1KB):\n"
+            result += base64_sample
+            
+            return result
+        except Exception as e:
+            logger.error(f"Binary file extraction failed: {str(e)}")
+            return f"Binary file: Unable to extract content. Error: {str(e)}"
+    
+    def _decode_text_with_detection(self, file_content: bytes) -> str:
+        """Detect encoding and decode text content"""
+        # First try to detect encoding
+        detected = chardet.detect(file_content)
+        if detected['confidence'] > 0.7:
+            try:
+                return file_content.decode(detected['encoding'])
+            except UnicodeDecodeError:
+                pass
+        
+        # If detection fails or confidence is low, try common encodings
+        for encoding in self.supported_encodings:
+            try:
+                return file_content.decode(encoding)
+            except UnicodeDecodeError:
+                continue
+        
+        # Fallback to utf-8 with error replacement
+        return file_content.decode('utf-8', errors='replace')
+    
+    async def _smart_extract_from_unknown(self, file_content: bytes, file_url: str) -> str:
+        """Intelligently try to extract text from unknown file types"""
+        # Try to detect if it's a text-based format first
+        try:
+            text = self._decode_text_with_detection(file_content)
+            if len(text.strip()) > 0 and not text.strip().startswith('\ufffd'):
+                return text
+        except Exception:
+            pass
+        
+        # Try common binary formats
+        try:
+            # Try as PDF
+            pdf_text = await self._extract_text_from_pdf(file_content)
+            if len(pdf_text.strip()) > 100:  # If we got substantial content
+                return pdf_text
+        except Exception:
+            pass
+        
+        # If all else fails, treat as binary
+        return await self._extract_text_from_binary(file_content, file_url)
 
 
 # Function alias for backward compatibility

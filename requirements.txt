@@ -16,6 +16,7 @@ python-docx>=0.8.11    # For Word documents
 python-pptx>=0.6.21    # For PowerPoint documents
 docx2txt>=0.8          # Alternative Word processor
 python-magic==0.4.27
+chardet>=5.0.0         # For encoding detection
 
 # AI/ML - Full suite for local deployment
 openai>=1.12.0
