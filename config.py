@@ -3,33 +3,32 @@ from pydantic_settings import BaseSettings
 from typing import Optional
 
 class Settings(BaseSettings):
-    # API Keys - Switched to Gemini
+    # API Keys - Using Gemini 2.5 Flash
     gemini_api_key: str = os.getenv("GEMINI_API_KEY", "")
     gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
     
     # Database
     database_url: str = os.getenv("DATABASE_URL", "sqlite:///./hackrx_db.db")
     
-    # Enhanced processing settings for Gemini-1.5-flash
+    # Enhanced processing settings for Gemini-2.5-flash
     # Dynamic Document Parsing RAG Configuration - Maximum Accuracy
 
-    # Chunking settings - optimized for Gemini-1.5-flash context window
-    # Optimized for Gemini-1.5-flash
-    max_chunk_size: int = 512  # Reduced for Flash model
-    chunk_overlap: int = 128   # Reduced for Flash model
-    max_tokens: int = 32768    # Adjusted for Flash model's context window
-    max_context_chunks: int = 60
-    batch_size: int = 30       # Adjusted for Flash model
-    parallel_questions: int = 15
+    # Chunking settings - optimized for Gemini-2.5-flash
+    max_chunk_size: int = 768   # Adjusted for Flash model's context window
+    chunk_overlap: int = 192    # Adjusted for Flash model
+    max_tokens: int = 524288    # Maximum input tokens for Gemini-2.5-flash
+    max_context_chunks: int = 80  # Adjusted for Flash model
+    batch_size: int = 30        # Adjusted for Flash model
+    parallel_questions: int = 15  # Adjusted for Flash model
 
     # Retrieval
-    vector_top_k: int = 200
-    similarity_threshold: float = 0.01  # Adjusted for Flash model
+    vector_top_k: int = 200      # Adjusted for Flash model
+    similarity_threshold: float = 0.005  # Kept the same
 
     # Generation
-    temperature: float = 0.2    # Increased slightly for Flash model
-    top_p: float = 0.9
-    top_k: int = 32
+    temperature: float = 0.2     # Slightly increased for Flash model
+    top_p: float = 0.9           # Adjusted for Flash model
+    top_k: int = 32              # Adjusted for Flash model
     
     # Multilingual support
     default_language: str = "en"  # Default language code
