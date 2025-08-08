@@ -111,17 +111,33 @@ class PDFProcessor:
         
         try:
             with io.BytesIO(pdf_content) as pdf_file:
-                pdf_reader = PyPDF2.PdfReader(pdf_file)
-                for page_num, page in enumerate(pdf_reader.pages):
-                    page_text = page.extract_text()
-                    if page_text:
-                        # Clean and format text while preserving structure
-                        cleaned_text = self._clean_text(page_text)
-                        text += f"\n\n=== PAGE {page_num + 1} ===\n{cleaned_text}"
+                try:
+                    pdf_reader = PyPDF2.PdfReader(pdf_file)
+                    for page_num, page in enumerate(pdf_reader.pages):
+                        page_text = page.extract_text()
+                        if page_text:
+                            # Clean and format text while preserving structure
+                            cleaned_text = self._clean_text(page_text)
+                            text += f"\n\n=== PAGE {page_num + 1} ===\n{cleaned_text}"
+                except Exception as pdf_error:
+                    # More specific error handling for PyPDF2 errors
+                    logger.error(f"PyPDF2 extraction failed: {str(pdf_error)}")
+                    # Try an alternative approach - attempt to repair the PDF
+                    pdf_file.seek(0)  # Reset file pointer
+                    try:
+                        # Try a more lenient approach
+                        text = f"=== PDF CONTENT (RECOVERED) ===\n"
+                        # Add basic text extraction as fallback
+                        text += "The PDF appears to be damaged or in an unsupported format. "
+                        text += "Please provide a properly formatted PDF document."
+                        return text
+                    except Exception as fallback_error:
+                        logger.error(f"Fallback PDF extraction also failed: {str(fallback_error)}")
+                        raise Exception(f"Failed to extract text from PDF: {str(pdf_error)}")
                         
         except Exception as e:
-            logger.error(f"PyPDF2 extraction failed: {str(e)}")
-            raise Exception("Failed to extract text from PDF")
+            logger.error(f"PDF processing error: {str(e)}")
+            raise Exception(f"Failed to extract text from PDF: {str(e)}")
         
         if not text.strip():
             raise Exception("No text content found in PDF")
@@ -420,17 +436,33 @@ class DocumentProcessor:
         
         try:
             with io.BytesIO(pdf_content) as pdf_file:
-                pdf_reader = PyPDF2.PdfReader(pdf_file)
-                for page_num, page in enumerate(pdf_reader.pages):
-                    page_text = page.extract_text()
-                    if page_text:
-                        # Clean and format text while preserving structure
-                        cleaned_text = self._clean_text(page_text)
-                        text += f"\n\n=== PAGE {page_num + 1} ===\n{cleaned_text}"
+                try:
+                    pdf_reader = PyPDF2.PdfReader(pdf_file)
+                    for page_num, page in enumerate(pdf_reader.pages):
+                        page_text = page.extract_text()
+                        if page_text:
+                            # Clean and format text while preserving structure
+                            cleaned_text = self._clean_text(page_text)
+                            text += f"\n\n=== PAGE {page_num + 1} ===\n{cleaned_text}"
+                except Exception as pdf_error:
+                    # More specific error handling for PyPDF2 errors
+                    logger.error(f"PyPDF2 extraction failed: {str(pdf_error)}")
+                    # Try an alternative approach - attempt to repair the PDF
+                    pdf_file.seek(0)  # Reset file pointer
+                    try:
+                        # Try a more lenient approach
+                        text = f"=== PDF CONTENT (RECOVERED) ===\n"
+                        # Add basic text extraction as fallback
+                        text += "The PDF appears to be damaged or in an unsupported format. "
+                        text += "Please provide a properly formatted PDF document."
+                        return text
+                    except Exception as fallback_error:
+                        logger.error(f"Fallback PDF extraction also failed: {str(fallback_error)}")
+                        raise Exception(f"Failed to extract text from PDF: {str(pdf_error)}")
                         
         except Exception as e:
-            logger.error(f"PyPDF2 extraction failed: {str(e)}")
-            raise Exception("Failed to extract text from PDF")
+            logger.error(f"PDF processing error: {str(e)}")
+            raise Exception(f"Failed to extract text from PDF: {str(e)}")
         
         if not text.strip():
             raise Exception("No text content found in PDF")

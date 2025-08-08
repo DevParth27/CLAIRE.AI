@@ -20,15 +20,41 @@ from database.models import init_db
 from config import settings
 load_dotenv()
 # Configure logging
-# Enhanced logging configuration
+# Enhanced logging configuration with proper encoding handling
+import sys
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('hackrx_execution.log'),
-        logging.StreamHandler()
+        logging.FileHandler('hackrx_execution.log', encoding='utf-8'),
+        logging.StreamHandler(stream=sys.stdout)  # Explicitly use stdout with proper encoding
     ]
 )
+
+# Add this function to safely log messages with non-ASCII characters
+def safe_log(logger, level, message):
+    """Safely log messages, handling Unicode characters properly"""
+    try:
+        if level == "INFO":
+            logger.info(message)
+        elif level == "ERROR":
+            logger.error(message)
+        elif level == "WARNING":
+            logger.warning(message)
+        elif level == "DEBUG":
+            logger.debug(message)
+    except UnicodeEncodeError:
+        # Fall back to ASCII with replacement characters if encoding fails
+        ascii_message = message.encode('ascii', 'replace').decode('ascii')
+        if level == "INFO":
+            logger.info(ascii_message)
+        elif level == "ERROR":
+            logger.error(ascii_message)
+        elif level == "WARNING":
+            logger.warning(ascii_message)
+        elif level == "DEBUG":
+            logger.debug(ascii_message)
 logger = logging.getLogger(__name__)
 execution_logger = logging.getLogger('execution_tracker')
 
@@ -105,8 +131,13 @@ async def process_questions(
         
         # Log each question before processing
         for i, question in enumerate(request.questions, 1):
+            # Replace this line:
             execution_logger.info(f"QUESTION_RECEIVED|{session_id}|Q{i}|{question[:100]}{'...' if len(question) > 100 else ''}")
-        
+            
+            # With this:
+            safe_log(execution_logger, "INFO", f"QUESTION_RECEIVED|{session_id}|Q{i}|{question[:100]}{'...' if len(question) > 100 else ''}")
+            
+            # And similarly for other logging calls with potential Unicode content
         logger.info(f"Processing {len(request.questions)} questions in optimized batch mode")
         
         # Step 1: Document processing (changed from PDF processing)
