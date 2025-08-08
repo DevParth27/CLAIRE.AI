@@ -89,7 +89,8 @@ class QuestionResponse(BaseModel):
 # Initialize services
 document_processor = DocumentProcessor()  # Changed from pdf_processor
 vector_store = VectorStore()  # Changed from LightweightVectorStore()
-qa_engine = QAEngine()
+# Replace the regular QA engine with the enhanced version
+qa_engine = EnhancedQAEngine()
 
 # Authentication
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):

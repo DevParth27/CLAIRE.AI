@@ -6,21 +6,50 @@ from sentence_transformers import SentenceTransformer
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from config import settings
+import os
 
 logger = logging.getLogger(__name__)
 
 class VectorStore:
     def __init__(self):
-        # Initialize embedding model
-        self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
-        self.embedding_dimension = 384
+        # Initialize embedding model based on configuration
+        self.embedding_model_name = settings.embedding_model
+        self.embedding_model = self._initialize_embedding_model()
+        
+        # Set embedding dimension based on model
+        if "e5-large-v2" in self.embedding_model_name:
+            self.embedding_dimension = 1024
+        elif "jina-embeddings-v2-base-en" in self.embedding_model_name:
+            self.embedding_dimension = 768
+        else:
+            # Default for all-MiniLM-L6-v2
+            self.embedding_dimension = 384
         
         # In-memory storage for development
         self.vectors = {}  # {vector_id: {"embedding": [...], "metadata": {...}}}
         self.documents = {}  # {document_id: [vector_ids]}
         self.chunk_metadata = {}  # Enhanced metadata storage
         
-        logger.info("Initialized optimized in-memory vector store")
+        logger.info(f"Initialized optimized in-memory vector store with {self.embedding_model_name} embeddings")
+
+    def _initialize_embedding_model(self):
+        """Initialize the appropriate embedding model based on configuration"""
+        try:
+            # For Sentence Transformers models
+            return SentenceTransformer(self.embedding_model_name)
+        except Exception as e:
+            logger.error(f"Error initializing embedding model: {str(e)}")
+            logger.warning("Falling back to default embedding model")
+            return SentenceTransformer('all-MiniLM-L6-v2')
+    
+    def _get_embeddings(self, texts: List[str]) -> List[List[float]]:
+        """Get embeddings for a list of texts using the configured model"""
+        try:
+            # Sentence Transformers
+            return self.embedding_model.encode(texts, convert_to_numpy=True).tolist()
+        except Exception as e:
+            logger.error(f"Error generating embeddings: {str(e)}")
+            raise
 
     def _ensure_index_exists(self):
         """Mock method - no index creation needed for in-memory storage"""
@@ -292,3 +321,30 @@ class VectorStore:
         except Exception as e:
             logger.error(f"Error searching similar chunks: {str(e)}")
             return []
+
+    def add_texts(self, texts: List[str], metadata: List[Dict] = None, document_id: str = None) -> List[str]:
+        """Add texts to the vector store"""
+        if metadata is None:
+            metadata = [{} for _ in texts]
+        
+        # Generate embeddings using the configured model
+        embeddings = self._get_embeddings(texts)
+        
+        # Generate IDs and store vectors
+        vector_ids = []
+        for i, (text, embedding) in enumerate(zip(texts, embeddings)):
+            vector_id = hashlib.md5(f"{text}_{i}".encode()).hexdigest()
+            self.vectors[vector_id] = {
+                "embedding": embedding,
+                "metadata": metadata[i],
+                "text": text
+            }
+            vector_ids.append(vector_id)
+        
+        # Associate with document if provided
+        if document_id:
+            if document_id not in self.documents:
+                self.documents[document_id] = []
+            self.documents[document_id].extend(vector_ids)
+        
+        return vector_ids

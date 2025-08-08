@@ -225,8 +225,20 @@ Provide a direct and accurate answer to this calculation question."""
                     prompt
                 )
                 
-                answer = response.text.strip()
-                return answer
+                # Check for finish_reason=2 (safety filters)
+                if hasattr(response, 'candidates') and response.candidates:
+                    for candidate in response.candidates:
+                        if hasattr(candidate, 'finish_reason') and candidate.finish_reason == 2:
+                            qa_logger.warning(f"SAFETY_FILTER_TRIGGERED|Hash:{question_hash}")
+                            return "I'm unable to provide an answer to this question due to content safety policies. Please try rephrasing your question or asking about a different topic."
+                
+                # Only try to access text if we have valid parts
+                if hasattr(response, 'parts') and response.parts:
+                    answer = response.text.strip()
+                    return answer
+                else:
+                    qa_logger.warning(f"NO_VALID_PARTS|Hash:{question_hash}")
+                    return "I'm unable to generate a response for this question. Please try rephrasing it."
                 
             except Exception as e:
                 qa_logger.error(f"Error processing math question: {e}")
@@ -262,16 +274,31 @@ Provide a direct and accurate answer to this calculation question."""
                     )
                     
                     api_time = asyncio.get_event_loop().time() - start_time
-                    answer = response.text.strip()
                     
-                    qa_logger.info(f"API_SUCCESS|Hash:{question_hash}|Attempt:{attempt+1}|Time:{api_time:.2f}s|Response_length:{len(answer)}")
+                    # Check for finish_reason=2 (safety filters)
+                    if hasattr(response, 'candidates') and response.candidates:
+                        for candidate in response.candidates:
+                            if hasattr(candidate, 'finish_reason') and candidate.finish_reason == 2:
+                                qa_logger.warning(f"SAFETY_FILTER_TRIGGERED|Hash:{question_hash}")
+                                return "I'm unable to provide an answer to this question due to content safety policies. Please try rephrasing your question or asking about a different topic."
                     
-                    formatted_answer = self._format_answer(answer, question)
-                    quality_score = self._assess_answer_quality(formatted_answer, question, context)
-                    
-                    qa_logger.info(f"QA_COMPLETE|Hash:{question_hash}|Quality:{quality_score:.2f}|Final_length:{len(formatted_answer)}")
-                    
-                    return formatted_answer
+                    # Only try to access text if we have valid parts
+                    if hasattr(response, 'parts') and response.parts:
+                        answer = response.text.strip()
+                        
+                        qa_logger.info(f"API_SUCCESS|Hash:{question_hash}|Attempt:{attempt+1}|Time:{api_time:.2f}s|Response_length:{len(answer)}")
+                        
+                        formatted_answer = self._format_answer(answer, question)
+                        quality_score = self._assess_answer_quality(formatted_answer, question, context)
+                        
+                        qa_logger.info(f"QA_COMPLETE|Hash:{question_hash}|Quality:{quality_score:.2f}|Final_length:{len(formatted_answer)}")
+                        
+                        return formatted_answer
+                    else:
+                        qa_logger.warning(f"NO_VALID_PARTS|Hash:{question_hash}")
+                        if attempt == self.max_retries - 1:
+                            return "I'm unable to generate a response for this question. Please try rephrasing it."
+                        # Continue to next retry attempt
                     
                 except Exception as e:
                     wait_time = (2 ** attempt) + random.uniform(0, 1)  # Exponential backoff

@@ -54,34 +54,38 @@ from typing import Optional, List
 
 
 class Settings(BaseSettings):
-    # API Keys - Using Gemini 1.5 Pro
+    # API Keys - Using Gemini 2.5 Flash
     gemini_api_key: str = os.getenv("GEMINI_API_KEY", "")
-    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-1.5-pro")
+    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+    
+    # Embedding model configuration
+    # Options: "intfloat/e5-large-v2", "jinaai/jina-embeddings-v2-base-en", "all-MiniLM-L6-v2"
+    embedding_model: str = os.getenv("EMBEDDING_MODEL", "intfloat/e5-large-v2")
     
     # Database
     database_url: str = os.getenv("DATABASE_URL", "sqlite:///./hackrx_db.db")
     
-    # Enhanced processing settings optimized for Gemini 1.5 Pro
+    # Enhanced processing settings optimized for Gemini 2.5 Flash
     # Dynamic Document Parsing RAG Configuration
     
-    # Chunking settings - optimized for Gemini 1.5 Pro's 2M token context
-    max_chunk_size: int = 1024          # Increased for better context preservation
-    chunk_overlap: int = 256            # Increased to maintain semantic continuity
-    max_tokens: int = 2000000           # Gemini 1.5 Pro's actual context limit (2M tokens)
-    max_context_chunks: int = 150       # Increased to leverage large context window
-    batch_size: int = 50                # Increased for better throughput
-    parallel_questions: int = 25        # Increased for better parallelization
+    # Chunking settings - optimized for Gemini 2.5 Flash's context window
+    max_chunk_size: int = 768          # Optimized for Flash model
+    chunk_overlap: int = 192           # Optimized for Flash model
+    max_tokens: int = 524288           # Maximum input tokens for Gemini 2.5 Flash
+    max_context_chunks: int = 80       # Adjusted for Flash model
+    batch_size: int = 30               # Adjusted for Flash model
+    parallel_questions: int = 15       # Adjusted for Flash model
     
-    # Retrieval settings - optimized for large context window
-    vector_top_k: int = 300             # Increased to retrieve more relevant chunks
-    similarity_threshold: float = 0.001  # Lowered for more inclusive retrieval
-    rerank_top_k: int = 100             # Added reranking for better quality
+    # Retrieval settings - optimized for Flash model
+    vector_top_k: int = 200            # Adjusted for Flash model
+    similarity_threshold: float = 0.005 # Adjusted for Flash model
+    rerank_top_k: int = 50             # Adjusted for Flash model
     
-    # Generation settings - optimized for Gemini 1.5 Pro
-    temperature: float = 0.1            # Lower for more consistent outputs
-    top_p: float = 0.95                 # Slightly higher for better diversity
-    top_k: int = 40                     # Optimal for Gemini models
-    max_output_tokens: int = 8192       # Gemini 1.5 Pro's output limit
+    # Generation settings - optimized for Gemini 2.5 Flash
+    temperature: float = 0.2           # Slightly higher for Flash model
+    top_p: float = 0.9                 # Adjusted for Flash model
+    top_k: int = 32                    # Adjusted for Flash model
+    max_output_tokens: int = 4096      # Flash model's output limit
     
     # Advanced RAG settings
     enable_hybrid_search: bool = True    # Combine dense and sparse retrieval
