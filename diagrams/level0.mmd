@@ -1,0 +1,17 @@
+flowchart LR
+    U[Judge / End User] -- "POST /api/v1/hackrx/run\nQuestions + Document URL + Bearer Token" --> API[FastAPI Service]
+    API -->|Return JSON Answers| U
+
+    %% External services
+    API -->|Fetch document by URL| DOCSRC[External Document Source]
+    API -->|Generate answers| GEM[Google Gemini 2.5 Flash API]
+
+    %% Internal stores
+    API --> DB[(SQLite: hackrx_db.db)]
+    API --> VS[(Vector Store — in‑memory embeddings)]
+    API --> LOGS[(hackrx_execution.log)]
+
+    classDef store fill:#eef7ff,stroke:#4682b4,stroke-width:1px
+    classDef external fill:#fff7e6,stroke:#d48806,stroke-width:1px
+    class DOCSRC,GEM external
+    class DB,VS,LOGS store
