@@ -132,11 +132,10 @@ async def process_questions(
         
         # Log each question before processing
         for i, question in enumerate(request.questions, 1):
-            # Replace this line:
-            execution_logger.info(f"QUESTION_RECEIVED|{session_id}|Q{i}|{question[:100]}{'...' if len(question) > 100 else ''}")
-            
-            # With this:
+            # Remove the duplicate logging - keep only one
             safe_log(execution_logger, "INFO", f"QUESTION_RECEIVED|{session_id}|Q{i}|{question[:100]}{'...' if len(question) > 100 else ''}")
+            # Remove this line that's causing the duplicate:
+            # execution_logger.info(f"QUESTION_RECEIVED|{session_id}|Q{i}|{question[:100]}{'...' if len(question) > 100 else ''}")
             
             # And similarly for other logging calls with potential Unicode content
         logger.info(f"Processing {len(request.questions)} questions in optimized batch mode")

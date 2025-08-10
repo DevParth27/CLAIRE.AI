@@ -1,454 +1,256 @@
-# Fix imports - use Gemini instead of OpenAI
 import google.generativeai as genai
-# Remove the openai import completely
 import logging
 import asyncio
 import random
 from typing import List, Dict, Optional
 from config import settings
-import tiktoken  # Better token counting
 import re
-
-# Import the training data manager
-from training_data import TrainingDataManager
 
 logger = logging.getLogger(__name__)
 qa_logger = logging.getLogger('qa_execution')
 
 class EnhancedQAEngine:
     def __init__(self):
-        # Configure Gemini API
+        # Configure Gemini
         genai.configure(api_key=settings.gemini_api_key)
-        self.model = genai.GenerativeModel(
-            model_name=settings.gemini_model,
-            generation_config=genai.types.GenerationConfig(
-                temperature=settings.temperature,
-                max_output_tokens=settings.max_output_tokens,
-                top_p=settings.top_p,
-                top_k=settings.top_k,
-            )
-        )
+        self.model = genai.GenerativeModel(settings.gemini_model)
+        self.model_name = settings.gemini_model
         self.max_retries = 3
         
-        # Initialize tokenizer for better token counting
-        try:
-            self.tokenizer = tiktoken.get_encoding("cl100k_base")
-        except:
-            self.tokenizer = None
-            logger.warning("tiktoken not available, using fallback token estimation")
-        
-        # Load training data for few-shot examples
-        self.training_manager = TrainingDataManager()
-        logger.info(f"Enhanced QA Engine initialized with {settings.gemini_model}")
-
+        logger.info(f"Enhanced QA Engine initialized with {self.model_name}")
+    
     def count_tokens(self, text: str) -> int:
-        """Accurate token counting"""
-        if self.tokenizer:
-            return len(self.tokenizer.encode(text))
-        else:
-            # Fallback estimation
-            return int(len(text.split()) * 1.3)
-
+        """Count tokens in text using rough estimation"""
+        # Fallback: rough estimation (1 token ≈ 4 characters)
+        return len(text) // 4
+    
     def organize_context(self, chunks: List[str], max_tokens: int = 12000) -> str:
-        """Organize context chunks within token limit with better prioritization for any document type"""
+        """Organize context chunks with better relevance scoring and token management"""
         if not chunks:
             return ""
         
-        # Score chunks by relevance indicators
+        # Calculate relevance scores for each chunk
         scored_chunks = []
-        for i, chunk in enumerate(chunks):
-            score = self._calculate_chunk_relevance(chunk)
-            scored_chunks.append((score, i, chunk))
+        for chunk in chunks:
+            relevance_score = self._calculate_chunk_relevance(chunk)
+            scored_chunks.append((chunk, relevance_score))
         
         # Sort by relevance score (descending)
-        scored_chunks.sort(key=lambda x: x[0], reverse=True)
+        scored_chunks.sort(key=lambda x: x[1], reverse=True)
         
+        # Build context within token limit
         context_parts = []
         current_tokens = 0
         
-        # First pass: Include highest-scoring chunks
-        for score, idx, chunk in scored_chunks[:10]:  # Include more top chunks
+        for chunk, score in scored_chunks:
             chunk_tokens = self.count_tokens(chunk)
-            if current_tokens + chunk_tokens > max_tokens * 0.6:  # Use more space for top chunks
+            if current_tokens + chunk_tokens <= max_tokens:
+                context_parts.append(chunk)
+                current_tokens += chunk_tokens
+            else:
+                # Try to fit partial chunk if there's significant space left
+                remaining_tokens = max_tokens - current_tokens
+                if remaining_tokens > 200:  # Only if substantial space remains
+                    # Truncate chunk to fit
+                    words = chunk.split()
+                    partial_chunk = ""
+                    for word in words:
+                        test_chunk = partial_chunk + " " + word if partial_chunk else word
+                        if self.count_tokens(test_chunk) <= remaining_tokens:
+                            partial_chunk = test_chunk
+                        else:
+                            break
+                    if partial_chunk:
+                        context_parts.append(partial_chunk + "...")
                 break
-            context_parts.append(f"[SECTION {idx+1}]:\n{chunk}")
-            current_tokens += chunk_tokens
         
-        # Second pass: Include chunks with numerical data or key information
-        for score, idx, chunk in scored_chunks:
-            if f"[SECTION {idx+1}]" not in ''.join(context_parts):  # Skip already included
-                # Enhanced regex for general information patterns
-                if re.search(r'\d+%|\d+ days|\d+ months|\d+ years|\$\s*\d+|definition|defined as|refers to|means', chunk, re.IGNORECASE):
-                    chunk_tokens = self.count_tokens(chunk)
-                    if current_tokens + chunk_tokens > max_tokens * 0.85:  # Reserve less space
-                        break
-                    context_parts.append(f"[SECTION {idx+1}]:\n{chunk}")
-                    current_tokens += chunk_tokens
-                    if len(context_parts) >= 15:  # Increase chunk limit
-                        break
+        # Join with clear separators
+        context = "\n\n--- Document Section ---\n".join(context_parts)
         
-        # Third pass: Fill remaining space with other chunks
-        remaining_tokens = max_tokens - current_tokens - 200  # Buffer
-        if remaining_tokens > 1000:
-            for score, idx, chunk in scored_chunks:
-                if f"[SECTION {idx+1}]" not in ''.join(context_parts):  # Skip already included
-                    chunk_tokens = self.count_tokens(chunk)
-                    if chunk_tokens > remaining_tokens:
-                        continue
-                    context_parts.append(f"[SECTION {idx+1}]:\n{chunk}")
-                    remaining_tokens -= chunk_tokens
-                    if remaining_tokens < 1000 or len(context_parts) >= 20:  # Increased hard limit
-                        break
-        
-        context = "\n\n".join(context_parts)
-        logger.info(f"Context organized: {len(context_parts)} chunks, ~{self.count_tokens(context)} tokens")
+        logger.info(f"Organized context: {len(context_parts)} chunks, {current_tokens} tokens")
         return context
     
     def _calculate_chunk_relevance(self, chunk: str) -> float:
-        """Calculate relevance score for chunk prioritization for any document type"""
-        score = 0.5  # Base score
+        """Calculate relevance score for a chunk based on content quality indicators"""
+        score = 0.0
+        chunk_lower = chunk.lower()
         
-        # Higher score for chunks with definitional information
-        if any(pattern in chunk.lower() for pattern in [
-            'definition', 'defined as', 'refers to', 'means', 'is a', 'are the',
-            'consists of', 'comprises', 'includes', 'excludes', 'limitations',
-            'requirements', 'conditions', 'terms', 'specifications', 'guidelines'
-        ]):
-            score += 0.3
-        
-        # Higher score for numerical data
-        if re.search(r'\d+%|\$\d+|\d+ days|\d+ years|\d+ months|\d+\.\d+', chunk):
-            score += 0.2
-        
-        # Higher score for document sections/headers
-        if re.search(r'section \d+|article \d+|clause \d+|chapter \d+|part \d+|paragraph \d+', chunk.lower()):
-            score += 0.1
-        
-        # Higher score for question-answer patterns
-        if re.search(r'\?|what is|how to|when|where|why|who|which|can|does|will', chunk.lower()):
-            score += 0.15
-        
-        # Higher score for lists and enumerations
-        if re.search(r'\d+\)|\d+\.|•|-\s|\*\s|\([a-z]\)|[ivxlcdm]+\)', chunk.lower()):
-            score += 0.15
-        
-        return min(score, 1.0)
-        """Calculate relevance score for chunk prioritization optimized for insurance policies"""
-        score = 0.5  # Base score
-        
-        # Higher score for chunks with insurance-specific information
-        if any(pattern in chunk.lower() for pattern in [
-            'coverage', 'premium', 'deductible', 'limit', 'benefit',
-            'exclusion', 'waiting period', 'policy', 'claim', 'grace period',
-            'maternity', 'organ donor', 'ayush', 'room rent', 'icu', 'pre-existing'
-        ]):
-            score += 0.3
-        
-        # Higher score for numerical data relevant to insurance
-        if re.search(r'\d+%|\$\d+|\d+ days|\d+ years|\d+ months|Rs\.?\s*\d+', chunk):
-            score += 0.2
-        
-        # Higher score for policy sections/headers
-        if re.search(r'section \d+|article \d+|clause \d+|table of benefits', chunk.lower()):
-            score += 0.1
-        
-        # Higher score for specific question-related terms
-        if any(term in chunk.lower() for term in [
-            'grace period', 'pre-existing disease', 'ped', 'maternity', 
-            'cataract', 'organ donor', 'no claim discount', 'ncd', 
-            'health check', 'hospital', 'ayush', 'room rent', 'icu'
-        ]):
-            score += 0.4
-        
-        return min(score, 1.0)
-    
-    def _get_few_shot_examples(self, question: str, count: int = 3) -> str:
-        """Get few-shot examples based on question analysis"""
-        examples = ""
-        
-        # Enhanced question categorization
-        question_lower = question.lower()
-        category = self._categorize_question(question_lower)
-        
-        if category:
-            questions = self.training_manager.get_questions(category)
-            if questions and len(questions) >= count:
-                selected = random.sample(questions, min(count, len(questions)))
-                for i, q in enumerate(selected, 1):
-                    examples += f"""
-Example {i}:
-Question: {q}
-Answer: Based on the policy document, [specific answer with exact details from document sections, including numerical values, waiting periods, and conditions where applicable]
-
-"""
-        
-        return examples
-
-    def _categorize_question(self, question_lower: str) -> Optional[str]:
-        """Enhanced question categorization"""
-        categories = {
-            "policy_specific": ["premium", "claim", "policy", "coverage", "insurance", 
-                              "medical", "health", "benefit", "deductible", "copay"],
-            "constitution_law": ["article", "constitution", "law", "legal", "right", 
-                               "amendment", "judicial", "legislative"],
-            "vehicle_mechanical": ["vehicle", "car", "brake", "tyre", "oil", "engine", 
-                                 "maintenance", "mechanical", "automotive"],
-            "financial": ["cost", "price", "fee", "payment", "billing", "finance", "money"],
-            "procedural": ["how", "process", "procedure", "step", "apply", "submit", "file"]
-        }
-        
-        for category, keywords in categories.items():
-            if any(keyword in question_lower for keyword in keywords):
-                return category
-        
-        return "general"
-
-    async def generate_answer(self, question: str, context_chunks: List[str]) -> str:
-        """Generate comprehensive answer using Gemini API with enhanced prompting"""
-        question_hash = str(hash(question))[-6:]  # Longer hash for better tracking
-        qa_logger.info(f"QA_START|Hash:{question_hash}|Question:{question[:100]}...")
-        
-        # Check if this is a simple math question
-        if self._is_math_question(question):
-            try:
-                # For simple math, we can bypass the context and directly query the model
-                prompt = f"""You are a helpful AI assistant that can perform calculations accurately.
-
-<question>
-{question}
-</question>
-
-Provide a direct and accurate answer to this calculation question."""
-                
-                qa_logger.info(f"MATH_QUESTION_DETECTED|Hash:{question_hash}")
-                
-                response = await asyncio.to_thread(
-                    self.model.generate_content,
-                    prompt
-                )
-                
-                # Check for finish_reason=2 (safety filters)
-                if hasattr(response, 'candidates') and response.candidates:
-                    for candidate in response.candidates:
-                        if hasattr(candidate, 'finish_reason') and candidate.finish_reason == 2:
-                            qa_logger.warning(f"SAFETY_FILTER_TRIGGERED|Hash:{question_hash}")
-                            return "I'm unable to provide an answer to this question due to content safety policies. Please try rephrasing your question or asking about a different topic."
-                
-                # Only try to access text if we have valid parts
-                if hasattr(response, 'parts') and response.parts:
-                    answer = response.text.strip()
-                    return answer
-                else:
-                    qa_logger.warning(f"NO_VALID_PARTS|Hash:{question_hash}")
-                    return "I'm unable to generate a response for this question. Please try rephrasing it."
-                
-            except Exception as e:
-                qa_logger.error(f"Error processing math question: {e}")
-                # Fall back to normal processing if math-specific handling fails
-        
-        try:
-            # Regular document-based question processing
-            # Organize context with better token management
-            context = self.organize_context(context_chunks, max_tokens=10000)
-            
-            if not context:
-                return "I couldn't find relevant information in the document to answer your question. Please ensure your question relates to the uploaded document content."
-            
-            context_tokens = self.count_tokens(context)
-            qa_logger.info(f"CONTEXT_ORGANIZED|Hash:{question_hash}|Tokens:{context_tokens}")
-            
-            # Get few-shot examples
-            few_shot_examples = self._get_few_shot_examples(question)
-            
-            # Enhanced prompt with better structure
-            prompt = self._build_enhanced_prompt(question, context, few_shot_examples)
-            
-            qa_logger.info(f"API_CALL_START|Hash:{question_hash}|Model:{settings.gemini_model}")
-            
-            # Make API call with exponential backoff
-            for attempt in range(self.max_retries):
-                try:
-                    start_time = asyncio.get_event_loop().time()
-                    
-                    response = await asyncio.to_thread(
-                        self.model.generate_content,
-                        prompt
-                    )
-                    
-                    api_time = asyncio.get_event_loop().time() - start_time
-                    
-                    # Check for finish_reason=2 (safety filters)
-                    if hasattr(response, 'candidates') and response.candidates:
-                        for candidate in response.candidates:
-                            if hasattr(candidate, 'finish_reason') and candidate.finish_reason == 2:
-                                qa_logger.warning(f"SAFETY_FILTER_TRIGGERED|Hash:{question_hash}")
-                                return "I'm unable to provide an answer to this question due to content safety policies. Please try rephrasing your question or asking about a different topic."
-                    
-                    # Only try to access text if we have valid parts
-                    if hasattr(response, 'parts') and response.parts:
-                        answer = response.text.strip()
-                        
-                        qa_logger.info(f"API_SUCCESS|Hash:{question_hash}|Attempt:{attempt+1}|Time:{api_time:.2f}s|Response_length:{len(answer)}")
-                        
-                        formatted_answer = self._format_answer(answer, question)
-                        quality_score = self._assess_answer_quality(formatted_answer, question, context)
-                        
-                        qa_logger.info(f"QA_COMPLETE|Hash:{question_hash}|Quality:{quality_score:.2f}|Final_length:{len(formatted_answer)}")
-                        
-                        return formatted_answer
-                    else:
-                        qa_logger.warning(f"NO_VALID_PARTS|Hash:{question_hash}")
-                        if attempt == self.max_retries - 1:
-                            return "I'm unable to generate a response for this question. Please try rephrasing it."
-                        # Continue to next retry attempt
-                    
-                except Exception as e:
-                    wait_time = (2 ** attempt) + random.uniform(0, 1)  # Exponential backoff
-                    qa_logger.warning(f"Gemini API call attempt {attempt + 1} failed: {e}")
-                    if attempt == self.max_retries - 1:
-                        raise e
-                    await asyncio.sleep(wait_time)
-            
-        except Exception as e:
-            qa_logger.error(f"Error generating answer: {e}")
-            return "I encountered an error while processing your question. Please try rephrasing your question or check if it relates to the uploaded document."
-    
-    def _build_enhanced_prompt(self, question: str, context: str, few_shot_examples: str) -> str:
-        """Build enhanced prompt optimized for Gemini-2.5-flash for general-purpose QA"""
-        
-        # Detect if the question is a simple calculation
-        if re.search(r'\d+\s*[+\-*/]\s*\d+', question.lower()):
-            return f"""You are a helpful AI assistant that can perform calculations and answer questions accurately.
-
-<question>
-{question}
-</question>
-
-Provide a direct and accurate answer to this calculation question."""
-        
-        # For document-based questions
-        return f"""You are a highly specialized document analysis AI with exceptional precision in extracting and interpreting information from any type of document.
-
-<context>
-{context}
-</context>
-
-<question>
-{question}
-</question>
-
-<instructions>
-1. ONLY use information explicitly stated in the provided context
-2. Extract exact numerical values, percentages, time periods, and conditions when relevant
-3. For specific details, quote exact values from the document
-4. If information is not in the context, clearly state "This information is not mentioned in the provided document"
-5. For yes/no questions, provide definitive answers based on the context
-6. Include specific terms, conditions, and numerical values when available
-7. Structure answers clearly with bullet points for multiple details
-8. Be precise about inclusions and exclusions
-9. Always refer to the correct terminology mentioned in the document
-10. Maintain the exact terminology used in the document
-11. NEVER make assumptions or inferences beyond what is explicitly stated
-</instructions>
-
-{few_shot_examples}
-
-<answer_format>
-- Start with a direct answer to the question
-- Include specific section references when available
-- Use bullet points for multiple related details
-- Quote exact values and terminology from the document
-- Maintain factual accuracy without assumptions
-</answer_format>
-
-Provide your precise answer based ONLY on the information in the context:"""
-
-    def _format_answer(self, answer: str, question: str) -> str:
-        """Enhanced answer formatting with quality checks"""
-        if not answer:
-            return "I couldn't generate an answer for your question based on the provided document."
-        
-        answer = answer.strip()
-        
-        # Remove redundant phrases
-        redundant_phrases = [
-            "Based on my analysis of the provided document context, here is the precise answer:",
-            "ANALYSIS AND ANSWER:",
-            "Based on the document context provided:",
+        # Content quality indicators
+        quality_indicators = [
+            'policy', 'coverage', 'benefit', 'premium', 'claim', 'deductible',
+            'exclusion', 'waiting period', 'sum insured', 'co-payment',
+            'hospital', 'treatment', 'medical', 'diagnosis', 'procedure',
+            'amount', 'limit', 'condition', 'requirement', 'eligible'
         ]
         
-        for phrase in redundant_phrases:
-            answer = answer.replace(phrase, "").strip()
+        # Score based on quality indicators
+        for indicator in quality_indicators:
+            if indicator in chunk_lower:
+                score += 1.0
         
-        # Ensure answer starts properly
-        if not answer.startswith(("Yes", "No", "The", "According", "Based", "This", "Coverage", "Premium", "Policy")):
-            if "not mentioned" in answer.lower() or "not provided" in answer.lower():
-                answer = "This information is not mentioned in the provided document. " + answer
+        # Bonus for structured content (lists, tables, definitions)
+        if any(marker in chunk for marker in ['•', '-', '1.', '2.', ':', 'Rs.', '%']):
+            score += 2.0
         
-        # Smart truncation at sentence boundaries
-        if len(answer) > settings.max_tokens * 4:  # Rough char to token ratio
-            sentences = answer.split('. ')
-            truncated = []
-            char_count = 0
+        # Bonus for specific numeric information
+        if re.search(r'\d+', chunk):
+            score += 1.0
+        
+        # Penalty for very short chunks (likely incomplete)
+        if len(chunk) < 100:
+            score -= 1.0
+        
+        # Bonus for medium-length chunks (likely complete thoughts)
+        if 200 <= len(chunk) <= 800:
+            score += 1.0
+        
+        # Penalty for very long chunks (might be less focused)
+        if len(chunk) > 1500:
+            score -= 0.5
+        
+        return max(0.0, score)  # Ensure non-negative score
+    
+    async def generate_answer(self, question: str, context_chunks: List[str]) -> str:
+        try:
+            context = self.organize_context(context_chunks)
+            prompt = self._build_enhanced_prompt(question, context)
             
-            for sentence in sentences:
-                if char_count + len(sentence) > settings.max_tokens * 3.5:
-                    break
-                truncated.append(sentence)
-                char_count += len(sentence)
+            # Use Gemini API
+            response = self.model.generate_content(prompt)
+            answer = response.text
             
-            answer = '. '.join(truncated)
-            if not answer.endswith('.'):
-                answer += '.'
+            return self._format_answer(answer, question)
+            
+        except Exception as e:
+            logger.error(f"Error generating answer: {e}")
+            return "I apologize, but I encountered an error while generating an answer. Please try again."
+    
+    def _build_enhanced_prompt(self, question: str, context: str) -> str:
+        """Build an enhanced prompt without few-shot examples"""
+        
+        # Determine if this is a math/calculation question
+        is_math = self._is_math_question(question)
+        
+        if is_math:
+            math_instruction = """
+IMPORTANT: This question requires mathematical calculation. Please:
+1. Extract the relevant numbers and formulas from the context
+2. Show your calculation steps clearly
+3. Provide the final numerical answer
+4. Use the exact values mentioned in the document
+"""
+        else:
+            math_instruction = ""
+        
+        prompt = f"""You are an expert document analyst. Answer the following question based ONLY on the provided context from the document.
+
+CONTEXT FROM DOCUMENT:
+{context}
+
+QUESTION: {question}
+{math_instruction}
+INSTRUCTIONS:
+- Answer based ONLY on the information provided in the context above
+- Be specific and cite relevant details from the document
+- If the information is not available in the context, clearly state that
+- Provide a clear, well-structured answer
+- For policy-related questions, include specific terms, conditions, and amounts when available
+- If multiple scenarios exist, explain each one clearly
+
+ANSWER:"""
+        
+        return prompt
+    
+    def _format_answer(self, answer: str, question: str) -> str:
+        """Format and enhance the answer for better readability"""
+        if not answer or len(answer.strip()) < 10:
+            return "I couldn't find sufficient information in the document to answer your question."
+        
+        # Clean up the answer
+        answer = answer.strip()
+        
+        # Remove any unwanted prefixes
+        prefixes_to_remove = [
+            "Based on the context provided:",
+            "According to the document:",
+            "From the information given:",
+            "Answer:"
+        ]
+        
+        for prefix in prefixes_to_remove:
+            if answer.startswith(prefix):
+                answer = answer[len(prefix):].strip()
+        
+        # Ensure proper sentence structure
+        if answer and not answer[0].isupper():
+            answer = answer[0].upper() + answer[1:]
+        
+        # Ensure proper ending punctuation
+        if answer and answer[-1] not in '.!?':
+            answer += '.'
         
         return answer
     
     def _assess_answer_quality(self, answer: str, question: str, context: str) -> float:
-        """Assess answer quality for monitoring"""
-        score = 0.5  # Base score
+        """Assess the quality of the generated answer"""
+        if not answer or len(answer.strip()) < 10:
+            return 0.0
         
-        # Check for specific details
-        if re.search(r'\d+%|\$\d+|\d+ days|\d+ years|\d+ months', answer):
-            score += 0.2
+        score = 0.0
+        answer_lower = answer.lower()
+        question_lower = question.lower()
         
-        # Check for structured response
-        if any(marker in answer for marker in ['•', '-', '1.', '2.', 'Yes,', 'No,']):
-            score += 0.1
+        # Check if answer addresses the question
+        question_keywords = set(re.findall(r'\b\w+\b', question_lower))
+        answer_keywords = set(re.findall(r'\b\w+\b', answer_lower))
         
-        # Check for policy-specific terms
-        policy_terms = ['coverage', 'premium', 'deductible', 'policy', 'claim', 'waiting period', 'grace period']
-        if any(term in answer.lower() for term in policy_terms):
-            score += 0.1
+        # Remove common stop words
+        stop_words = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'what', 'how', 'when', 'where', 'why'}
+        question_keywords -= stop_words
+        answer_keywords -= stop_words
         
-        # Penalize vague responses
-        vague_phrases = ['may vary', 'depends on', 'generally', 'usually', 'typically', 'might be', 'could be']
-        if any(phrase in answer.lower() for phrase in vague_phrases):
-            score -= 0.2  # Increased penalty
+        # Keyword overlap score
+        if question_keywords:
+            overlap = len(question_keywords.intersection(answer_keywords))
+            keyword_score = overlap / len(question_keywords)
+            score += keyword_score * 30
         
-        # Check for citation of document sections
-        if any(phrase in answer.lower() for phrase in ['section', 'article', 'clause', 'according to', 'as stated in']):
-            score += 0.1
+        # Length appropriateness (not too short, not too long)
+        answer_length = len(answer)
+        if 50 <= answer_length <= 500:
+            score += 20
+        elif answer_length > 500:
+            score += 10
         
-        # Penalize "not mentioned" responses when context likely contains the answer
-        if "not mentioned" in answer.lower() or "not provided" in answer.lower():
-            # Check if key terms from question appear in context
-            question_terms = set(re.findall(r'\b\w{4,}\b', question.lower()))
-            context_lower = context.lower()
-            matching_terms = sum(1 for term in question_terms if term in context_lower)
-            if matching_terms >= 3:  # If several question terms are in context
-                score -= 0.3  # Heavy penalty for likely incorrect "not mentioned" response
+        # Specificity indicators
+        specificity_indicators = ['rs.', 'percent', '%', 'days', 'months', 'years', 'amount', 'limit']
+        for indicator in specificity_indicators:
+            if indicator in answer_lower:
+                score += 5
         
-        return min(max(score, 0.0), 1.0)
-
+        # Structure indicators
+        if any(marker in answer for marker in [':', '-', '•', '1.', '2.']):
+            score += 10
+        
+        # Avoid generic responses
+        generic_phrases = ['i apologize', 'i cannot', 'not available', 'insufficient information']
+        for phrase in generic_phrases:
+            if phrase in answer_lower:
+                score -= 15
+        
+        return min(100.0, max(0.0, score))
+    
     def _is_math_question(self, question: str) -> bool:
-        """Check if the question is a simple math calculation"""
-        math_phrases = [
-            'calculate', 'compute', 'what is the sum of', 'what is the product of',
-            'what is the difference between', 'what is the result of', 'what is the value of',
-            'solve for', 'evaluate'
+        """Determine if a question requires mathematical calculation"""
+        math_keywords = [
+            'calculate', 'computation', 'total', 'sum', 'amount', 'cost',
+            'premium', 'deductible', 'percentage', 'percent', '%',
+            'multiply', 'divide', 'add', 'subtract', 'how much', 'how many'
         ]
         
-        if any(phrase in question.lower() for phrase in math_phrases) and re.search(r'\d+', question):
-            return True
-            
+        question_lower = question.lower()
+        for keyword in math_keywords:
+            if keyword in question_lower:
+                return True
+        
         return False

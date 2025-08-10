@@ -2,3 +2,4 @@
 venv/
 venvv/
 model_cache/
+.env

@@ -56,7 +56,15 @@ from typing import Optional, List
 class Settings(BaseSettings):
     # API Keys - Using Gemini 2.5 Flash
     gemini_api_key: str = os.getenv("GEMINI_API_KEY", "")
-    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-pro")
+    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+    
+    # Comment out OpenAI/DeepSeek settings
+    # openai_api_key: str = os.getenv("OPENAI_API_KEY", "")
+    # openai_model: str = os.getenv("OPENAI_MODEL", "")
+    
+    # Comment out Gemini settings since we're using DeepSeek
+    # gemini_api_key: str = os.getenv("GEMINI_API_KEY", "")
+    # gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
     
     # Comment out OpenAI settings since we're using Gemini
     # OpenAI API settings
