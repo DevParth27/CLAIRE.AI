@@ -3,3 +3,59 @@ venv/
 venvv/
 model_cache/
 .env
+# Environment and secrets
+.env
+.env.*
+!.env.example
+service_account.json
+credentials.*
+token.*
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+*.der
+*.jks
+*.keystore
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+
+# IDE / editor
+.vscode/
+.idea/
+*.code-workspace
+
+# Logs
+*.log
+hackrx_execution.log
+local_deployment.log
+logs/
+
+# Databases / data
+hackrx_db.db
+*.db
+*.sqlite*
+*.db-journal
+
+# Caches / models
+.cache/
+pip-wheel-metadata/
+pip-cache/
+huggingface/
+transformers_cache/
+model_cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build/outputs
+diagrams/*.png
