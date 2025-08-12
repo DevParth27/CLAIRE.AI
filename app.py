@@ -18,6 +18,7 @@ from services.vector_store import VectorStore  # Changed from vector_store_lite 
 from services.qa_engine import QAEngine
 from database.models import init_db
 from config import settings
+from memory_monitor import log_memory_usage, check_memory_limit
 load_dotenv()
 # Configure logging
 # Enhanced logging configuration with proper encoding handling
@@ -104,10 +105,17 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
     return credentials.credentials
 
 # Cost-optimized timeout settings
-API_TIMEOUT = 240   # 4 minutes total for larger batches
-PER_QUESTION_TIMEOUT = 60  # Increased from 40 seconds
-PDF_TIMEOUT = 20   # Increased from 15 to 20 seconds
-VECTOR_TIMEOUT = 10  # Increased from 5 to 10 seconds
+API_TIMEOUT = 180   # Reduce from 240 to 180 seconds
+PER_QUESTION_TIMEOUT = 45  # Reduce from 60 to 45 seconds
+PDF_TIMEOUT = 15   # Reduce from 20 to 15 seconds
+VECTOR_TIMEOUT = 5  # Reduce from 10 to 5 seconds
+
+# Add document cache at the top of the file with other imports
+import hashlib
+document_cache = {}
+
+# Add answer cache at the top of the file with other imports
+answer_cache = {}
 
 @app.post("/api/v1/hackrx/run", response_model=QuestionResponse)
 async def process_questions(
@@ -140,19 +148,29 @@ async def process_questions(
             # And similarly for other logging calls with potential Unicode content
         logger.info(f"Processing {len(request.questions)} questions in optimized batch mode")
         
-        # Step 1: Document processing (changed from PDF processing)
+        # Step 1: Document processing with caching
         doc_start = datetime.now()
-        try:
-            doc_content = await asyncio.wait_for(
-                document_processor.process_document_from_url(str(request.documents)),  # Changed method name
-                timeout=PDF_TIMEOUT
-            )
-            doc_time = (datetime.now() - doc_start).total_seconds()
-            execution_logger.info(f"DOCUMENT_PROCESSED|{session_id}|Time:{doc_time:.2f}s|Content_length:{len(doc_content)}")
-        except asyncio.TimeoutError:
-            execution_logger.error(f"DOCUMENT_TIMEOUT|{session_id}|{PDF_TIMEOUT}s")
-            logger.error("Document processing timeout")
-            raise HTTPException(status_code=408, detail="Document processing timeout")
+        document_hash = hashlib.md5(str(request.documents).encode()).hexdigest()
+        
+        if document_hash in document_cache:
+            # Use cached document
+            doc_content = document_cache[document_hash]
+            doc_time = 0.01  # Minimal time for cache retrieval
+            execution_logger.info(f"DOCUMENT_CACHE_HIT|{session_id}|Time:{doc_time:.2f}s|Content_length:{len(doc_content)}")
+        else:
+            try:
+                doc_content = await asyncio.wait_for(
+                    document_processor.process_document_from_url(str(request.documents)),
+                    timeout=PDF_TIMEOUT
+                )
+                # Cache the document
+                document_cache[document_hash] = doc_content
+                doc_time = (datetime.now() - doc_start).total_seconds()
+                execution_logger.info(f"DOCUMENT_PROCESSED|{session_id}|Time:{doc_time:.2f}s|Content_length:{len(doc_content)}")
+            except asyncio.TimeoutError:
+                execution_logger.error(f"DOCUMENT_TIMEOUT|{session_id}|{PDF_TIMEOUT}s")
+                logger.error("Document processing timeout")
+                raise HTTPException(status_code=408, detail="Document processing timeout")
         
         # Step 2: Vector storage
         vector_start = datetime.now()
@@ -176,6 +194,13 @@ async def process_questions(
             question_start = datetime.now()
             execution_logger.info(f"QUESTION_START|{session_id}|Q{idx+1}|{question}")
             
+            # Check if question is in cache for this document
+            cache_key = f"{document_id}:{question}"
+            if cache_key in answer_cache:
+                answers[idx] = answer_cache[cache_key]
+                execution_logger.info(f"ANSWER_CACHE_HIT|{session_id}|Q{idx+1}|Length:{len(answers[idx])}")
+                return
+                
             try:
                 # Get optimal number of chunks
                 chunks_start = datetime.now()
@@ -196,6 +221,8 @@ async def process_questions(
                 question_total_time = (datetime.now() - question_start).total_seconds()
                 
                 answers[idx] = answer
+                # Cache the answer
+                answer_cache[cache_key] = answer
                 
                 # Log successful answer generation
                 execution_logger.info(f"ANSWER_GENERATED|{session_id}|Q{idx+1}|Time:{answer_time:.2f}s|Total:{question_total_time:.2f}s|Length:{len(answer)}")
@@ -247,6 +274,15 @@ async def root():
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "timestamp": datetime.now()}
+
+@app.post("/api/v1/hackrx/run", response_model=QuestionResponse)
+async def process_questions(request: QuestionRequest, credentials: HTTPAuthorizationCredentials = Depends(verify_token)):
+    # Log memory at start
+    log_memory_usage("API Start")
+    
+    # Log memory before returning
+    log_memory_usage("API End")
+    return {"answers": answers}
 
 if __name__ == "__main__":
     import uvicorn

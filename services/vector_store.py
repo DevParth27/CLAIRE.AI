@@ -45,8 +45,16 @@ class VectorStore:
     def _get_embeddings(self, texts: List[str]) -> List[List[float]]:
         """Get embeddings for a list of texts using the configured model"""
         try:
-            # Sentence Transformers
-            return self.embedding_model.encode(texts, convert_to_numpy=True).tolist()
+            # Process in batches to avoid memory issues
+            batch_size = 32
+            all_embeddings = []
+            
+            for i in range(0, len(texts), batch_size):
+                batch = texts[i:i+batch_size]
+                batch_embeddings = self.embedding_model.encode(batch, convert_to_numpy=True).tolist()
+                all_embeddings.extend(batch_embeddings)
+                
+            return all_embeddings
         except Exception as e:
             logger.error(f"Error generating embeddings: {str(e)}")
             raise

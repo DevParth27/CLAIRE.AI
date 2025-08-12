@@ -24,7 +24,7 @@ class EnhancedQAEngine:
         # Fallback: rough estimation (1 token ≈ 4 characters)
         return len(text) // 4
     
-    def organize_context(self, chunks: List[str], max_tokens: int = 12000) -> str:
+    def organize_context(self, chunks: List[str], max_tokens: int = 6000) -> str:  # Reduce from 8000 to 6000
         """Organize context chunks with better relevance scoring and token management"""
         if not chunks:
             return ""
@@ -254,3 +254,16 @@ ANSWER:"""
                 return True
         
         return False
+    
+    async def generate_answer_batch(self, questions: List[str], contexts: List[str]) -> List[str]:
+        """Generate answers for multiple questions in a single batch"""
+        answers = []
+        tasks = []
+        
+        for question, context in zip(questions, contexts):
+            task = asyncio.create_task(self.generate_answer(question, context))
+            tasks.append(task)
+        
+        # Process all tasks concurrently
+        answers = await asyncio.gather(*tasks)
+        return answers

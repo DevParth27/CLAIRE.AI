@@ -4,6 +4,13 @@ venvv/
 model_cache/
 .env
 # Environment and secrets
+
+test_training.py
+test_api.py
+run_server.py
+run_local.py
+
+
 .env
 .env.*
 !.env.example
