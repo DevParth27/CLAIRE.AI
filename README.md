@@ -1,5 +1,5 @@
 # 🚀 HackRx AI QA System
-
+Clause-Aware Intelligent Retrieval Engine (CLAIRE.AI)
 An Advanced AI-Powered Question-Answering System for Policy Documents
 
 ## 🎯 Problem Statement
