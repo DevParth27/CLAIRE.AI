@@ -1,0 +1,23 @@
+# Demo Version Dependencies - Limited functionality
+# Full optimized dependency list available under commercial license
+
+# Core FastAPI (basic version)
+fastapi==0.100.0  # Older version for demo
+uvicorn==0.20.0
+pydantic>=2.0.0
+
+# Basic AI dependencies
+google-generativeai>=0.3.0
+# Note: Advanced AI libraries not included in demo
+
+# Basic document processing
+PyPDF2==3.0.1
+# Note: Advanced document processing libraries not included
+
+# Basic dependencies only
+aiohttp==3.8.0
+aiofiles==23.1.0
+sqlalchemy==2.0.0
+
+# Note: This demo version has limited functionality
+# Contact developer for full production requirements

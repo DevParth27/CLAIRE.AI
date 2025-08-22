@@ -88,3 +88,63 @@ Built with ❤️ for HackRx Hackathon
 ---
 
 *For contributions, suggestions, or issues, please open an issue or pull request.*
+
+## ⚠️ **IMPORTANT NOTICE - DEMO VERSION**
+
+### 🎯 **This is a Portfolio Demonstration Version**
+
+This repository contains a **limited demonstration version** of the HackRx AI QA System, designed to showcase:
+- ✅ System architecture and design patterns
+- ✅ Code organization and best practices  
+- ✅ API design and documentation
+- ✅ Deployment configuration
+
+### 🔒 **What's NOT Included (Proprietary)**
+
+- 🚫 **Advanced AI Optimizations**: Custom prompt engineering and model fine-tuning
+- 🚫 **Proprietary Algorithms**: Advanced relevance scoring and context optimization
+- 🚫 **Production Features**: Enterprise monitoring, advanced caching, and scaling
+- 🚫 **Custom Embeddings**: Specialized embedding models and techniques
+- 🚫 **Performance Optimizations**: Advanced batching and parallel processing
+
+### 💼 **For Recruiters & Evaluators**
+
+This demo showcases my ability to:
+- Design scalable AI systems architecture
+- Implement clean, maintainable code
+- Work with modern AI/ML technologies
+- Create production-ready APIs and deployment configs
+- Document and present technical solutions
+
+### 🚀 **Getting Started (Limited Demo)**
+
+```bash
+# Clone the repository
+git clone [your-repo-url]
+cd ai-qa-system
+
+# Install dependencies (demo version)
+pip install -r requirements.txt
+
+# Note: You'll need to provide your own API keys
+# Contact developer for guidance on full setup
+```
+
+**⚠️ Demo Limitations:**
+- Basic functionality only
+- Requires manual API key configuration
+- Advanced features return placeholder responses
+- Not suitable for production use
+
+### 📞 **Contact for Full Version**
+
+Interested in the complete implementation?
+- 📧 Email: [your-email@domain.com]
+- 💼 LinkedIn: [your-linkedin-profile]
+- 🌐 Portfolio: [your-portfolio-website]
+
+**Available for:**
+- Commercial licensing
+- Custom development
+- Technical consultation
+- Full-time opportunities

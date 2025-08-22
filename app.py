@@ -15,7 +15,10 @@ from dotenv import load_dotenv
 # Import our custom modules
 from services.pdf_processor import DocumentProcessor  # Changed from PDFProcessor
 from services.vector_store import VectorStore  # Changed from vector_store_lite import LightweightVectorStore
-from services.qa_engine import QAEngine
+# Change imports to use public versions
+from services.qa_engine_public import QAEngine
+from services.qa_engine_enhanced_public import EnhancedQAEngine
+from config_public import settings
 from database.models import init_db
 from config import settings
 from memory_monitor import log_memory_usage, check_memory_limit
