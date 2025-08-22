@@ -139,9 +139,8 @@ pip install -r requirements.txt
 ### 📞 **Contact for Full Version**
 
 Interested in the complete implementation?
-- 📧 Email: [your-email@domain.com]
-- 💼 LinkedIn: [your-linkedin-profile]
-- 🌐 Portfolio: [your-portfolio-website]
+- 📧 Email: parth.upadhye.4@gmail.com
+- 💼 LinkedIn: www.linkedin.com/in/parth-upadhye
 
 **Available for:**
 - Commercial licensing
