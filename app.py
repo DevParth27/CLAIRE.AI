@@ -2,8 +2,6 @@ from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, HttpUrl
-from services.qa_engine import QAEngine
-from services.qa_engine_enhanced import EnhancedQAEngine
 from typing import List
 import os
 import asyncio
@@ -13,14 +11,13 @@ import json
 import uuid
 from dotenv import load_dotenv
 # Import our custom modules
-from services.pdf_processor import DocumentProcessor  # Changed from PDFProcessor
-from services.vector_store import VectorStore  # Changed from vector_store_lite import LightweightVectorStore
-# Change imports to use public versions
-from services.qa_engine_public import QAEngine
-from services.qa_engine_enhanced_public import EnhancedQAEngine
-from config_public import settings
-from database.models import init_db
+from services.pdf_processor import DocumentProcessor
+from services.vector_store import VectorStore
+# Use private versions for local development
+from services.qa_engine_private import QAEngine
+from services.qa_engine_enhanced import EnhancedQAEngine
 from config import settings
+from database.models import init_db
 from memory_monitor import log_memory_usage, check_memory_limit
 load_dotenv()
 # Configure logging
@@ -90,11 +87,10 @@ class QuestionResponse(BaseModel):
     answers: List[str]
 
 # Initialize services
-# Initialize services
-document_processor = DocumentProcessor()  # Changed from pdf_processor
-vector_store = VectorStore()  # Changed from LightweightVectorStore()
-# Replace the regular QA engine with the enhanced version
-qa_engine = EnhancedQAEngine()
+document_processor = DocumentProcessor()
+vector_store = VectorStore()
+# Use the private QA engine for local development
+qa_engine = QAEngine()
 
 # Authentication
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
