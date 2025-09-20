@@ -1,4 +1,4 @@
-# 🚀 HackRx AI QA System
+# 🚀 AI QA System
 Clause-Aware Intelligent Retrieval Engine (CLAIRE.AI)
 An Advanced AI-Powered Question-Answering System for Policy Documents
 
@@ -77,13 +77,9 @@ Navigating complex policy documents, insurance policies, and legal documents is 
 - Mobile app: Native mobile applications
 - Voice interface: Speech-to-text query processing
 
-## 📝 License
-
-This project was developed for the HackRx hackathon and is available for educational and demonstration purposes.
-
 ## 🤝 Team
 
-Built with ❤️ for HackRx Hackathon
+Built with ❤️
 
 ---
 
